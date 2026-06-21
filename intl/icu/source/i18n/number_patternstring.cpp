@@ -15,7 +15,6 @@
 #include "unicode/utf16.h"
 #include "number_utils.h"
 #include "number_roundingutils.h"
-#include "number_mapper.h"
 
 using namespace icu;
 using namespace icu::number;
@@ -50,7 +49,7 @@ PatternParser::parseToExistingProperties(const UnicodeString& pattern, DecimalFo
 char16_t ParsedPatternInfo::charAt(int32_t flags, int32_t index) const {
     const Endpoints& endpoints = getEndpoints(flags);
     if (index < 0 || index >= endpoints.end - endpoints.start) {
-        UPRV_UNREACHABLE_EXIT;
+        U_ASSERT(false);
     }
     return pattern.charAt(endpoints.start + index);
 }
@@ -66,7 +65,7 @@ int32_t ParsedPatternInfo::getLengthFromEndpoints(const Endpoints& endpoints) {
 UnicodeString ParsedPatternInfo::getString(int32_t flags) const {
     const Endpoints& endpoints = getEndpoints(flags);
     if (endpoints.start == endpoints.end) {
-        return {};
+        return UnicodeString();
     }
     // Create a new UnicodeString
     return UnicodeString(pattern, endpoints.start, endpoints.end - endpoints.start);
@@ -115,10 +114,6 @@ bool ParsedPatternInfo::hasBody() const {
     return positive.integerTotal > 0;
 }
 
-bool ParsedPatternInfo::currencyAsDecimal() const {
-    return positive.hasCurrencyDecimal;
-}
-
 /////////////////////////////////////////////////////
 /// BEGIN RECURSIVE DESCENT PARSER IMPLEMENTATION ///
 /////////////////////////////////////////////////////
@@ -131,20 +126,8 @@ UChar32 ParsedPatternInfo::ParserState::peek() {
     }
 }
 
-UChar32 ParsedPatternInfo::ParserState::peek2() {
-    if (offset == pattern.length()) {
-        return -1;
-    }
-    int32_t cp1 = pattern.char32At(offset);
-    int32_t offset2 = offset + U16_LENGTH(cp1);
-    if (offset2 == pattern.length()) {
-        return -1;
-    }
-    return pattern.char32At(offset2);
-}
-
 UChar32 ParsedPatternInfo::ParserState::next() {
-    int32_t codePoint = peek();
+    int codePoint = peek();
     offset += U16_LENGTH(codePoint);
     return codePoint;
 }
@@ -302,35 +285,6 @@ void ParsedPatternInfo::consumeFormat(UErrorCode& status) {
         currentSubpattern->widthExceptAffixes += 1;
         consumeFractionFormat(status);
         if (U_FAILURE(status)) { return; }
-    } else if (state.peek() == u'¤') {
-        // Check if currency is a decimal separator
-        switch (state.peek2()) {
-            case u'#':
-            case u'0':
-            case u'1':
-            case u'2':
-            case u'3':
-            case u'4':
-            case u'5':
-            case u'6':
-            case u'7':
-            case u'8':
-            case u'9':
-                break;
-            default:
-                // Currency symbol followed by a non-numeric character;
-                // treat as a normal affix.
-                return;
-        }
-        // Currency symbol is followed by a numeric character;
-        // treat as a decimal separator.
-        currentSubpattern->hasCurrencySign = true;
-        currentSubpattern->hasCurrencyDecimal = true;
-        currentSubpattern->hasDecimal = true;
-        currentSubpattern->widthExceptAffixes += 1;
-        state.next(); // consume the symbol
-        consumeFractionFormat(status);
-        if (U_FAILURE(status)) { return; }
     }
 }
 
@@ -397,7 +351,7 @@ void ParsedPatternInfo::consumeIntegerFormat(UErrorCode& status) {
                 result.groupingSizes += 1;
                 result.integerNumerals += 1;
                 result.integerTotal += 1;
-                if (!result.rounding.isZeroish() || state.peek() != u'0') {
+                if (!result.rounding.isZero() || state.peek() != u'0') {
                     result.rounding.appendDigit(static_cast<int8_t>(state.peek() - u'0'), 0, true);
                 }
                 break;
@@ -577,7 +531,7 @@ PatternParser::patternInfoToProperties(DecimalFormatProperties& properties, Pars
         properties.roundingIncrement = 0.0;
         properties.minimumSignificantDigits = positive.integerAtSigns;
         properties.maximumSignificantDigits = positive.integerAtSigns + positive.integerTrailingHashSigns;
-    } else if (!positive.rounding.isZeroish()) {
+    } else if (!positive.rounding.isZero()) {
         if (!ignoreRounding) {
             properties.minimumFractionDigits = minFrac;
             properties.maximumFractionDigits = positive.fractionTotal;
@@ -609,9 +563,6 @@ PatternParser::patternInfoToProperties(DecimalFormatProperties& properties, Pars
     } else {
         properties.decimalSeparatorAlwaysShown = false;
     }
-
-    // Persist the currency as decimal separator
-    properties.currencyAsDecimal = positive.hasCurrencyDecimal;
 
     // Scientific notation settings
     if (positive.exponentZeros > 0) {
@@ -692,67 +643,69 @@ PatternParser::patternInfoToProperties(DecimalFormatProperties& properties, Pars
 /// End PatternStringParser.java; begin PatternStringUtils.java ///
 ///////////////////////////////////////////////////////////////////
 
-// Determine whether a given roundingIncrement should be ignored for formatting
-// based on the current maxFrac value (maximum fraction digits). For example a
-// roundingIncrement of 0.01 should be ignored if maxFrac is 1, but not if maxFrac
-// is 2 or more. Note that roundingIncrements are rounded in significance, so
-// a roundingIncrement of 0.006 is treated like 0.01 for this determination, i.e.
-// it should not be ignored if maxFrac is 2 or more (but a roundingIncrement of
-// 0.005 is treated like 0.001 for significance). This is the reason for the
-// initial doubling below.
-// roundIncr must be non-zero.
-bool PatternStringUtils::ignoreRoundingIncrement(double roundIncr, int32_t maxFrac) {
-    if (maxFrac < 0) {
-        return false;
-    }
-    int32_t frac = 0;
-    roundIncr *= 2.0;
-    for (frac = 0; frac <= maxFrac && roundIncr <= 1.0; frac++, roundIncr *= 10.0);
-    return (frac > maxFrac);
-}
-
 UnicodeString PatternStringUtils::propertiesToPatternString(const DecimalFormatProperties& properties,
                                                             UErrorCode& status) {
     UnicodeString sb;
 
     // Convenience references
     // The uprv_min() calls prevent DoS
-    int32_t dosMax = 100;
-    int32_t grouping1 = uprv_max(0, uprv_min(properties.groupingSize, dosMax));
-    int32_t grouping2 = uprv_max(0, uprv_min(properties.secondaryGroupingSize, dosMax));
-    bool useGrouping = properties.groupingUsed;
-    int32_t paddingWidth = uprv_min(properties.formatWidth, dosMax);
+    int dosMax = 100;
+    int groupingSize = uprv_min(properties.secondaryGroupingSize, dosMax);
+    int firstGroupingSize = uprv_min(properties.groupingSize, dosMax);
+    int paddingWidth = uprv_min(properties.formatWidth, dosMax);
     NullableValue<PadPosition> paddingLocation = properties.padPosition;
     UnicodeString paddingString = properties.padString;
-    int32_t minInt = uprv_max(0, uprv_min(properties.minimumIntegerDigits, dosMax));
-    int32_t maxInt = uprv_min(properties.maximumIntegerDigits, dosMax);
-    int32_t minFrac = uprv_max(0, uprv_min(properties.minimumFractionDigits, dosMax));
-    int32_t maxFrac = uprv_min(properties.maximumFractionDigits, dosMax);
-    int32_t minSig = uprv_min(properties.minimumSignificantDigits, dosMax);
-    int32_t maxSig = uprv_min(properties.maximumSignificantDigits, dosMax);
+    int minInt = uprv_max(uprv_min(properties.minimumIntegerDigits, dosMax), 0);
+    int maxInt = uprv_min(properties.maximumIntegerDigits, dosMax);
+    int minFrac = uprv_max(uprv_min(properties.minimumFractionDigits, dosMax), 0);
+    int maxFrac = uprv_min(properties.maximumFractionDigits, dosMax);
+    int minSig = uprv_min(properties.minimumSignificantDigits, dosMax);
+    int maxSig = uprv_min(properties.maximumSignificantDigits, dosMax);
     bool alwaysShowDecimal = properties.decimalSeparatorAlwaysShown;
-    int32_t exponentDigits = uprv_min(properties.minimumExponentDigits, dosMax);
+    int exponentDigits = uprv_min(properties.minimumExponentDigits, dosMax);
     bool exponentShowPlusSign = properties.exponentSignAlwaysShown;
-
-    AutoAffixPatternProvider affixProvider(properties, status);
+    UnicodeString pp = properties.positivePrefix;
+    UnicodeString ppp = properties.positivePrefixPattern;
+    UnicodeString ps = properties.positiveSuffix;
+    UnicodeString psp = properties.positiveSuffixPattern;
+    UnicodeString np = properties.negativePrefix;
+    UnicodeString npp = properties.negativePrefixPattern;
+    UnicodeString ns = properties.negativeSuffix;
+    UnicodeString nsp = properties.negativeSuffixPattern;
 
     // Prefixes
-    sb.append(affixProvider.get().getString(AffixPatternProvider::AFFIX_POS_PREFIX));
-    int32_t afterPrefixPos = sb.length();
+    if (!ppp.isBogus()) {
+        sb.append(ppp);
+    }
+    sb.append(AffixUtils::escape(pp));
+    int afterPrefixPos = sb.length();
 
     // Figure out the grouping sizes.
-    if (!useGrouping) {
+    int grouping1, grouping2, grouping;
+    if (groupingSize != uprv_min(dosMax, -1) && firstGroupingSize != uprv_min(dosMax, -1) &&
+        groupingSize != firstGroupingSize) {
+        grouping = groupingSize;
+        grouping1 = groupingSize;
+        grouping2 = firstGroupingSize;
+    } else if (groupingSize != uprv_min(dosMax, -1)) {
+        grouping = groupingSize;
+        grouping1 = 0;
+        grouping2 = groupingSize;
+    } else if (firstGroupingSize != uprv_min(dosMax, -1)) {
+        grouping = groupingSize;
+        grouping1 = 0;
+        grouping2 = firstGroupingSize;
+    } else {
+        grouping = 0;
         grouping1 = 0;
         grouping2 = 0;
-    } else if (grouping1 == grouping2) {
-        grouping1 = 0;
     }
-    int32_t groupingLength = grouping1 + grouping2 + 1;
+    int groupingLength = grouping1 + grouping2 + 1;
 
     // Figure out the digits we need to put in the pattern.
-    double increment = properties.roundingIncrement;
+    double roundingInterval = properties.roundingIncrement;
     UnicodeString digitsString;
-    int32_t digitsStringScale = 0;
+    int digitsStringScale = 0;
     if (maxSig != uprv_min(dosMax, -1)) {
         // Significant Digits.
         while (digitsString.length() < minSig) {
@@ -761,14 +714,14 @@ UnicodeString PatternStringUtils::propertiesToPatternString(const DecimalFormatP
         while (digitsString.length() < maxSig) {
             digitsString.append(u'#');
         }
-    } else if (increment != 0.0 && !ignoreRoundingIncrement(increment,maxFrac)) {
-        // Rounding Increment.
+    } else if (roundingInterval != 0.0) {
+        // Rounding Interval.
+        digitsStringScale = -roundingutils::doubleFractionLength(roundingInterval);
+        // TODO: Check for DoS here?
         DecimalQuantity incrementQuantity;
-        incrementQuantity.setToDouble(increment);
-        incrementQuantity.roundToInfinity();
-        digitsStringScale = incrementQuantity.getLowerDisplayMagnitude();
+        incrementQuantity.setToDouble(roundingInterval);
         incrementQuantity.adjustMagnitude(-digitsStringScale);
-        incrementQuantity.increaseMinIntegerTo(minInt - digitsStringScale);
+        incrementQuantity.roundToMagnitude(0, kDefaultMode, status);
         UnicodeString str = incrementQuantity.toPlainString();
         if (str.charAt(0) == u'-') {
             // TODO: Unsupported operation exception or fail silently?
@@ -786,34 +739,22 @@ UnicodeString PatternStringUtils::propertiesToPatternString(const DecimalFormatP
     }
 
     // Write the digits to the string builder
-    int32_t m0 = uprv_max(groupingLength, digitsString.length() + digitsStringScale);
+    int m0 = uprv_max(groupingLength, digitsString.length() + digitsStringScale);
     m0 = (maxInt != dosMax) ? uprv_max(maxInt, m0) - 1 : m0 - 1;
-    int32_t mN = (maxFrac != dosMax) ? uprv_min(-maxFrac, digitsStringScale) : digitsStringScale;
-    for (int32_t magnitude = m0; magnitude >= mN; magnitude--) {
-        int32_t di = digitsString.length() + digitsStringScale - magnitude - 1;
+    int mN = (maxFrac != dosMax) ? uprv_min(-maxFrac, digitsStringScale) : digitsStringScale;
+    for (int magnitude = m0; magnitude >= mN; magnitude--) {
+        int di = digitsString.length() + digitsStringScale - magnitude - 1;
         if (di < 0 || di >= digitsString.length()) {
             sb.append(u'#');
         } else {
             sb.append(digitsString.charAt(di));
         }
-        // Decimal separator
-        if (magnitude == 0 && (alwaysShowDecimal || mN < 0)) {
-            if (properties.currencyAsDecimal) {
-                sb.append(u'¤');
-            } else {
-                sb.append(u'.');
-            }
-        }
-        if (!useGrouping) {
-            continue;
-        }
-        // Least-significant grouping separator
-        if (magnitude > 0 && magnitude == grouping1) {
+        if (magnitude > grouping2 && grouping > 0 && (magnitude - grouping2) % grouping == 0) {
             sb.append(u',');
-        }
-        // All other grouping separators
-        if (magnitude > grouping1 && grouping2 > 0 && (magnitude - grouping1) % grouping2 == 0) {
+        } else if (magnitude > 0 && magnitude == grouping2) {
             sb.append(u',');
+        } else if (magnitude == 0 && (alwaysShowDecimal || mN < 0)) {
+            sb.append(u'.');
         }
     }
 
@@ -823,22 +764,25 @@ UnicodeString PatternStringUtils::propertiesToPatternString(const DecimalFormatP
         if (exponentShowPlusSign) {
             sb.append(u'+');
         }
-        for (int32_t i = 0; i < exponentDigits; i++) {
+        for (int i = 0; i < exponentDigits; i++) {
             sb.append(u'0');
         }
     }
 
     // Suffixes
-    int32_t beforeSuffixPos = sb.length();
-    sb.append(affixProvider.get().getString(AffixPatternProvider::AFFIX_POS_SUFFIX));
+    int beforeSuffixPos = sb.length();
+    if (!psp.isBogus()) {
+        sb.append(psp);
+    }
+    sb.append(AffixUtils::escape(ps));
 
     // Resolve Padding
-    if (paddingWidth > 0 && !paddingLocation.isNull()) {
+    if (paddingWidth != -1 && !paddingLocation.isNull()) {
         while (paddingWidth - sb.length() > 0) {
             sb.insert(afterPrefixPos, u'#');
             beforeSuffixPos++;
         }
-        int32_t addedLength;
+        int addedLength;
         switch (paddingLocation.get(status)) {
             case PadPosition::UNUM_PAD_BEFORE_PREFIX:
                 addedLength = escapePaddingString(paddingString, sb, 0, status);
@@ -866,16 +810,23 @@ UnicodeString PatternStringUtils::propertiesToPatternString(const DecimalFormatP
 
     // Negative affixes
     // Ignore if the negative prefix pattern is "-" and the negative suffix is empty
-    if (affixProvider.get().hasNegativeSubpattern()) {
+    if (!np.isBogus() || !ns.isBogus() || (npp.isBogus() && !nsp.isBogus()) ||
+        (!npp.isBogus() && (npp.length() != 1 || npp.charAt(0) != u'-' || nsp.length() != 0))) {
         sb.append(u';');
-        sb.append(affixProvider.get().getString(AffixPatternProvider::AFFIX_NEG_PREFIX));
+        if (!npp.isBogus()) {
+            sb.append(npp);
+        }
+        sb.append(AffixUtils::escape(np));
         // Copy the positive digit format into the negative.
         // This is optional; the pattern is the same as if '#' were appended here instead.
         // NOTE: It is not safe to append the UnicodeString to itself, so we need to copy.
-        // See https://unicode-org.atlassian.net/browse/ICU-13707
+        // See http://bugs.icu-project.org/trac/ticket/13707
         UnicodeString copy(sb);
         sb.append(copy, afterPrefixPos, beforeSuffixPos - afterPrefixPos);
-        sb.append(affixProvider.get().getString(AffixPatternProvider::AFFIX_NEG_SUFFIX));
+        if (!nsp.isBogus()) {
+            sb.append(nsp);
+        }
+        sb.append(AffixUtils::escape(ns));
     }
 
     return sb;
@@ -921,7 +872,6 @@ PatternStringUtils::convertLocalized(const UnicodeString& input, const DecimalFo
     UnicodeString table[LEN][2];
     int standIdx = toLocalized ? 0 : 1;
     int localIdx = toLocalized ? 1 : 0;
-    // TODO: Add approximately sign here?
     table[0][standIdx] = u"%";
     table[0][localIdx] = symbols.getConstSymbol(DecimalFormatSymbols::kPercentSymbol);
     table[1][standIdx] = u"‰";
@@ -968,7 +918,7 @@ PatternStringUtils::convertLocalized(const UnicodeString& input, const DecimalFo
     UnicodeString result;
     int state = 0;
     for (int offset = 0; offset < input.length(); offset++) {
-        char16_t ch = input.charAt(offset);
+        UChar ch = input.charAt(offset);
 
         // Handle a quote character (state shift)
         if (ch == u'\'') {
@@ -1053,22 +1003,22 @@ PatternStringUtils::convertLocalized(const UnicodeString& input, const DecimalFo
 }
 
 void PatternStringUtils::patternInfoToStringBuilder(const AffixPatternProvider& patternInfo, bool isPrefix,
-                                                    PatternSignType patternSignType,
-                                                    bool approximately,
+                                                    int8_t signum, UNumberSignDisplay signDisplay,
                                                     StandardPlural::Form plural,
-                                                    bool perMilleReplacesPercent,
-                                                    bool dropCurrencySymbols,
-                                                    UnicodeString& output) {
+                                                    bool perMilleReplacesPercent, UnicodeString& output) {
 
     // Should the output render '+' where '-' would normally appear in the pattern?
-    bool plusReplacesMinusSign = (patternSignType == PATTERN_SIGN_TYPE_POS_SIGN)
-        && !patternInfo.positiveHasPlusSign();
+    bool plusReplacesMinusSign = signum != -1 && (
+            signDisplay == UNUM_SIGN_ALWAYS || signDisplay == UNUM_SIGN_ACCOUNTING_ALWAYS || (
+                    signum == 1 && (
+                            signDisplay == UNUM_SIGN_EXCEPT_ZERO ||
+                            signDisplay == UNUM_SIGN_ACCOUNTING_EXCEPT_ZERO))) &&
+                                 patternInfo.positiveHasPlusSign() == false;
 
-    // Should we use the affix from the negative subpattern?
-    // (If not, we will use the positive subpattern.)
-    bool useNegativeAffixPattern = patternInfo.hasNegativeSubpattern()
-        && (patternSignType == PATTERN_SIGN_TYPE_NEG
-            || (patternInfo.negativeHasMinusSign() && (plusReplacesMinusSign || approximately)));
+    // Should we use the affix from the negative subpattern? (If not, we will use the positive
+    // subpattern.)
+    bool useNegativeAffixPattern = patternInfo.hasNegativeSubpattern() && (
+            signum == -1 || (patternInfo.negativeHasMinusSign() && plusReplacesMinusSign));
 
     // Resolve the flags for the affix pattern.
     int flags = 0;
@@ -1087,27 +1037,13 @@ void PatternStringUtils::patternInfoToStringBuilder(const AffixPatternProvider& 
     bool prependSign;
     if (!isPrefix || useNegativeAffixPattern) {
         prependSign = false;
-    } else if (patternSignType == PATTERN_SIGN_TYPE_NEG) {
-        prependSign = true;
+    } else if (signum == -1) {
+        prependSign = signDisplay != UNUM_SIGN_NEVER;
     } else {
-        prependSign = plusReplacesMinusSign || approximately;
+        prependSign = plusReplacesMinusSign;
     }
 
-    // What symbols should take the place of the sign placeholder?
-    const char16_t* signSymbols = u"-";
-    if (approximately) {
-        if (plusReplacesMinusSign) {
-            signSymbols = u"~+";
-        } else if (patternSignType == PATTERN_SIGN_TYPE_NEG) {
-            signSymbols = u"~-";
-        } else {
-            signSymbols = u"~";
-        }
-    } else if (plusReplacesMinusSign) {
-        signSymbols = u"+";
-    }
-
-    // Compute the number of tokens in the affix pattern (signSymbols is considered one token).
+    // Compute the length of the affix pattern.
     int length = patternInfo.length(flags) + (prependSign ? 1 : 0);
 
     // Finally, set the result into the StringBuilder.
@@ -1121,92 +1057,14 @@ void PatternStringUtils::patternInfoToStringBuilder(const AffixPatternProvider& 
         } else {
             candidate = patternInfo.charAt(flags, index);
         }
-        if (candidate == u'-') {
-            if (u_strlen(signSymbols) == 1) {
-                candidate = signSymbols[0];
-            } else {
-                output.append(signSymbols[0]);
-                candidate = signSymbols[1];
-            }
+        if (plusReplacesMinusSign && candidate == u'-') {
+            candidate = u'+';
         }
         if (perMilleReplacesPercent && candidate == u'%') {
             candidate = u'‰';
         }
-        if (dropCurrencySymbols && candidate == u'\u00A4') {
-            continue;
-        }
         output.append(candidate);
     }
-}
-
-PatternSignType PatternStringUtils::resolveSignDisplay(UNumberSignDisplay signDisplay, Signum signum) {
-    switch (signDisplay) {
-        case UNUM_SIGN_AUTO:
-        case UNUM_SIGN_ACCOUNTING:
-            switch (signum) {
-                case SIGNUM_NEG:
-                case SIGNUM_NEG_ZERO:
-                    return PATTERN_SIGN_TYPE_NEG;
-                case SIGNUM_POS_ZERO:
-                case SIGNUM_POS:
-                    return PATTERN_SIGN_TYPE_POS;
-                default:
-                    break;
-            }
-            break;
-
-        case UNUM_SIGN_ALWAYS:
-        case UNUM_SIGN_ACCOUNTING_ALWAYS:
-            switch (signum) {
-                case SIGNUM_NEG:
-                case SIGNUM_NEG_ZERO:
-                    return PATTERN_SIGN_TYPE_NEG;
-                case SIGNUM_POS_ZERO:
-                case SIGNUM_POS:
-                    return PATTERN_SIGN_TYPE_POS_SIGN;
-                default:
-                    break;
-            }
-            break;
-
-        case UNUM_SIGN_EXCEPT_ZERO:
-        case UNUM_SIGN_ACCOUNTING_EXCEPT_ZERO:
-            switch (signum) {
-                case SIGNUM_NEG:
-                    return PATTERN_SIGN_TYPE_NEG;
-                case SIGNUM_NEG_ZERO:
-                case SIGNUM_POS_ZERO:
-                    return PATTERN_SIGN_TYPE_POS;
-                case SIGNUM_POS:
-                    return PATTERN_SIGN_TYPE_POS_SIGN;
-                default:
-                    break;
-            }
-            break;
-
-        case UNUM_SIGN_NEGATIVE:
-        case UNUM_SIGN_ACCOUNTING_NEGATIVE:
-            switch (signum) {
-                case SIGNUM_NEG:
-                    return PATTERN_SIGN_TYPE_NEG;
-                case SIGNUM_NEG_ZERO:
-                case SIGNUM_POS_ZERO:
-                case SIGNUM_POS:
-                    return PATTERN_SIGN_TYPE_POS;
-                default:
-                    break;
-            }
-            break;
-
-        case UNUM_SIGN_NEVER:
-            return PATTERN_SIGN_TYPE_POS;
-
-        default:
-            break;
-    }
-
-    UPRV_UNREACHABLE_EXIT;
-    return PATTERN_SIGN_TYPE_POS;
 }
 
 #endif /* #if !UCONFIG_NO_FORMATTING */

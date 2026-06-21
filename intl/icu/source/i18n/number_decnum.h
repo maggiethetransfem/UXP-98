@@ -9,19 +9,26 @@
 
 #include "decNumber.h"
 #include "charstr.h"
-#include "bytesinkutil.h"
 
 U_NAMESPACE_BEGIN
 
 #define DECNUM_INITIAL_CAPACITY 34
 
-namespace number::impl {
+// Export an explicit template instantiation of the MaybeStackHeaderAndArray that is used as a data member of DecNum.
+// When building DLLs for Windows this is required even though no direct access to the MaybeStackHeaderAndArray leaks out of the i18n library.
+// (See digitlst.h, pluralaffix.h, datefmt.h, and others for similar examples.)
+#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN
+template class U_I18N_API MaybeStackHeaderAndArray<decNumber, char, DECNUM_INITIAL_CAPACITY>;
+#endif
+
+namespace number {
+namespace impl {
 
 /** A very thin C++ wrapper around decNumber.h */
-// Exported as U_I18N_API_CLASS for tests
-class U_I18N_API_CLASS DecNum : public UMemory {
+// Exported as U_I18N_API for tests
+class U_I18N_API DecNum : public UMemory {
   public:
-    U_I18N_API DecNum();  // leaves object in valid but undefined state
+    DecNum();  // leaves object in valid but undefined state
 
     // Copy-like constructor; use the default move operators.
     DecNum(const DecNum& other, UErrorCode& status);
@@ -48,22 +55,6 @@ class U_I18N_API_CLASS DecNum : public UMemory {
 
     bool isZero() const;
 
-    /** Is infinity or NaN */
-    bool isSpecial() const;
-
-    bool isInfinity() const;
-
-    bool isNaN() const;
-
-    void toString(ByteSink& output, UErrorCode& status) const;
-
-    inline CharString toCharString(UErrorCode& status) const {
-      CharString cstr;
-      CharStringByteSink sink(&cstr);
-      toString(sink, status);
-      return cstr;
-    }
-
     inline const decNumber* getRawDecNumber() const {
         return fData.getAlias();
     }
@@ -76,7 +67,8 @@ class U_I18N_API_CLASS DecNum : public UMemory {
     void _setTo(const char* str, int32_t maxDigits, UErrorCode& status);
 };
 
-} // namespace number::impl
+} // namespace impl
+} // namespace number
 
 U_NAMESPACE_END
 

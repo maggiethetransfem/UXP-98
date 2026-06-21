@@ -1,24 +1,28 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ce{
     ExemplarCharacters{
-        "[а {аь} б в г {гӏ} д её ж з и {ий} й к {кк} {ккх} {кх} {кь} {кӏ} л м н о {ов"
-        "} {оь} п {пп} {пӏ} р {рхӏ} с {сс} т {тт} {тӏ} у {ув} {уь} {уьй} ф х {хь} {хӏ"
-        "} ц {цӏ} ч {чӏ} ш щ ъ ы ь э ю {юь} я {яь}]"
+        "[а {аь} б в г {гӏ} д е ё ж з и {ий} й к {кк} {ккх} {кх} {кь} {кӏ} л м н о {о"
+        "в} {оь} п {пп} {пӏ} р {рхӏ} с {сс} т {тт} {тӏ} у {ув} {уь} {уьй} ф х {хь} {х"
+        "ӏ} ц {цӏ} ч {чӏ} ш щ ъ ы ь э ю {юь} я {яь}]"
     }
-    ExemplarCharactersIndex{"[А Б В Г Д ЕЁ Ж З И К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я]"}
+    ExemplarCharactersIndex{"[А Б В Г Д Е Ё Ж З И К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я]"}
+    ExemplarCharactersNumbers{"[\\- , . % ‰ + 0 1 2 3 4 5 6 7 8 9]"}
     ExemplarCharactersPunctuation{
-        "[\\- ‐‑ – — , ; \\: ! ? . … '‘‚ \u0022“„ « » ( ) \\[ \\] \\{ \\} § @ * / \\&"
-        " #]"
+        "[\\- ‐ – — , ; \\: ! ? . … ' ‘ ‚ \u0022 “ „ « » ( ) \\[ \\] \\{ \\} § @ * / "
+        "\\& #]"
     }
     NumberElements{
         latn{
+            miscPatterns{
+                range{"{0}–{1}"}
+            }
             patterns{
-                accountingFormat%alphaNextToNumber{"#,##0.00 ¤"}
+                accountingFormat{"#,##0.00 ¤"}
                 currencyFormat{"#,##0.00 ¤"}
-                currencyFormat%alphaNextToNumber{"#,##0.00 ¤"}
+                decimalFormat{"#,##0.###"}
                 percentFormat{"#,##0 %"}
+                scientificFormat{"#E0"}
             }
             patternsLong{
                 decimalFormat{
@@ -175,11 +179,42 @@ ce{
                 }
             }
             symbols{
+                decimal{"."}
+                exponential{"E"}
+                group{","}
+                minusSign{"-"}
                 nan{"Терхьаш дац"}
+                perMille{"‰"}
+                percentSign{"%"}
+                plusSign{"+"}
+                superscriptingExponent{"×"}
+                timeSeparator{":"}
             }
         }
+        minimumGroupingDigits{"1"}
     }
+    Version{"2.1.41.34"}
     calendar{
+        generic{
+            DateTimePatterns{
+                "HH:mm:ss zzzz",
+                "HH:mm:ss z",
+                "HH:mm:ss",
+                "HH:mm",
+                "G y MMMM d, EEEE",
+                "G y MMMM d",
+                "G y MMM d",
+                "GGGGG y-MM-dd",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+            availableFormats{
+                d{"d"}
+            }
+        }
         gregorian{
             dayNames{
                 format{
@@ -201,6 +236,15 @@ ce{
                         "пӀе",
                         "шуо",
                     }
+                    short{
+                        "кӀи",
+                        "ор",
+                        "ши",
+                        "кха",
+                        "еа",
+                        "пӀе",
+                        "шуо",
+                    }
                     wide{
                         "кӀира",
                         "оршот",
@@ -212,6 +256,15 @@ ce{
                     }
                 }
                 stand-alone{
+                    abbreviated{
+                        "кӀи",
+                        "ор",
+                        "ши",
+                        "кха",
+                        "еа",
+                        "пӀе",
+                        "шуо",
+                    }
                     narrow{
                         "кӀ",
                         "о",
@@ -221,23 +274,42 @@ ce{
                         "пӀ",
                         "ш",
                     }
+                    short{
+                        "кӀи",
+                        "ор",
+                        "ши",
+                        "кха",
+                        "еа",
+                        "пӀе",
+                        "шуо",
+                    }
+                    wide{
+                        "кӀира",
+                        "оршот",
+                        "шинара",
+                        "кхаара",
+                        "еара",
+                        "пӀераска",
+                        "шуот",
+                    }
                 }
             }
             eras{
                 abbreviated{
-                    0{"в. э. тӀ. я"}
-                    1{"в. э"}
+                    "в. э. тӀ. я",
+                    "в. э",
                 }
                 abbreviated%variant{
-                    0{"МАССО"}
+                    "МАССО",
+                    "CE",
                 }
                 wide{
-                    0{"Ӏийса пайхамар вина де кхачале"}
-                    1{"Ӏийса пайхамар вина дийнахь дуьйна"}
+                    "Ӏийса пайхамар вина де кхачале",
+                    "Ӏийса пайхамар вина дийнахь дуьйна",
                 }
                 wide%variant{
-                    0{"вайн эра тӀеяле"}
-                    1{"вайн эрехь"}
+                    "вайн эра тӀеяле",
+                    "вайн эрехь",
                 }
             }
             monthNames{
@@ -255,6 +327,20 @@ ce{
                         "окт",
                         "ноя",
                         "дек",
+                    }
+                    narrow{
+                        "Я",
+                        "Ф",
+                        "М",
+                        "А",
+                        "М",
+                        "И",
+                        "И",
+                        "А",
+                        "С",
+                        "О",
+                        "Н",
+                        "Д",
                     }
                     wide{
                         "январь",
@@ -286,6 +372,20 @@ ce{
                         "Н",
                         "Д",
                     }
+                    wide{
+                        "январь",
+                        "февраль",
+                        "март",
+                        "апрель",
+                        "май",
+                        "июнь",
+                        "июль",
+                        "август",
+                        "сентябрь",
+                        "октябрь",
+                        "ноябрь",
+                        "декабрь",
+                    }
                 }
             }
             quarters{
@@ -295,6 +395,32 @@ ce{
                         "2-гӀа кв.",
                         "3-гӀа кв.",
                         "4-гӀа кв.",
+                    }
+                    narrow{
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                    }
+                    wide{
+                        "1-гӀа квартал",
+                        "2-гӀа квартал",
+                        "3-гӀа квартал",
+                        "4-гӀа квартал",
+                    }
+                }
+                stand-alone{
+                    abbreviated{
+                        "1-гӀа кв.",
+                        "2-гӀа кв.",
+                        "3-гӀа кв.",
+                        "4-гӀа кв.",
+                    }
+                    narrow{
+                        "1",
+                        "2",
+                        "3",
+                        "4",
                     }
                     wide{
                         "1-гӀа квартал",
@@ -326,7 +452,12 @@ ce{
             }
         }
         day-narrow{
+            dn{"де"}
             relativeTime{
+                future{
+                    one{"{0} д. даьлча"}
+                    other{"{0} д. даьлча"}
+                }
                 past{
                     one{"де хьалха"}
                     other{"{0} де хьалха"}
@@ -334,6 +465,7 @@ ce{
             }
         }
         day-short{
+            dn{"де"}
             relativeTime{
                 future{
                     one{"{0} д. даьлча"}
@@ -346,6 +478,12 @@ ce{
             }
         }
         dayOfYear{
+            dn{"шеран де"}
+        }
+        dayOfYear-narrow{
+            dn{"шеран де"}
+        }
+        dayOfYear-short{
             dn{"шеран де"}
         }
         dayperiod{
@@ -371,11 +509,30 @@ ce{
                 }
             }
         }
+        fri-narrow{
+            relative{
+                "-1"{"даханчу пӀераскан д."}
+                "0"{"карарчу пӀераскан д."}
+                "1"{"рогӀерчу пӀераскан д."}
+            }
+            relativeTime{
+                past{
+                    one{"-{0} ПӀерасканденошкахь"}
+                    other{"-{0} ПӀерасканденошкахь"}
+                }
+            }
+        }
         fri-short{
             relative{
                 "-1"{"даханчу пӀераскан д."}
                 "0"{"карарчу пӀераскан д."}
                 "1"{"рогӀерчу пӀераскан д."}
+            }
+            relativeTime{
+                past{
+                    one{"-{0} ПӀерасканденошкахь"}
+                    other{"-{0} ПӀерасканденошкахь"}
+                }
             }
         }
         hour{
@@ -391,6 +548,19 @@ ce{
                 past{
                     one{"{0} сахьт хьалха"}
                     other{"{0} сахьт хьалха"}
+                }
+            }
+        }
+        hour-narrow{
+            dn{"сахь."}
+            relativeTime{
+                future{
+                    one{"{0} сахь. даьлча"}
+                    other{"{0} сахь. даьлча"}
+                }
+                past{
+                    one{"{0} сахь. хьалха"}
+                    other{"{0} сахь. хьалха"}
                 }
             }
         }
@@ -423,6 +593,19 @@ ce{
                 }
             }
         }
+        minute-narrow{
+            dn{"мин."}
+            relativeTime{
+                future{
+                    one{"{0} мин. яьлча"}
+                    other{"{0} мин. яьлча"}
+                }
+                past{
+                    one{"{0} мин. хьалха"}
+                    other{"{0} мин. хьалха"}
+                }
+            }
+        }
         minute-short{
             dn{"мин."}
             relativeTime{
@@ -441,6 +624,13 @@ ce{
                 "-1"{"даханчу оршотан дийнахь"}
                 "0"{"карарчу оршотан дийнахь"}
                 "1"{"рогӀерчу оршотан дийнахь"}
+            }
+        }
+        mon-narrow{
+            relative{
+                "-1"{"даханчу оршотан д."}
+                "0"{"карара оршотан д."}
+                "1"{"рогӀерчу оршотан д."}
             }
         }
         mon-short{
@@ -468,6 +658,19 @@ ce{
                 }
             }
         }
+        month-narrow{
+            dn{"бут."}
+            relativeTime{
+                future{
+                    one{"{0} б. баьлча"}
+                    other{"{0} б. баьлча"}
+                }
+                past{
+                    one{"{0} б. хьалха"}
+                    other{"{0} б. хьалха"}
+                }
+            }
+        }
         month-short{
             dn{"бут."}
             relativeTime{
@@ -491,6 +694,19 @@ ce{
                 past{
                     one{"{0} квартал хьалха"}
                     other{"{0} квартал хьалха"}
+                }
+            }
+        }
+        quarter-narrow{
+            dn{"кв."}
+            relativeTime{
+                future{
+                    one{"{0} кв. яьлча"}
+                    other{"{0} кв. яьлча"}
+                }
+                past{
+                    one{"{0} кв. хьалха"}
+                    other{"{0} кв. хьалха"}
                 }
             }
         }
@@ -524,6 +740,13 @@ ce{
                 }
             }
         }
+        sat-narrow{
+            relative{
+                "-1"{"даханчу шотд."}
+                "0"{"карарчу даханчу шотд."}
+                "1"{"рогӀерчу даханчу шотд."}
+            }
+        }
         sat-short{
             relative{
                 "-1"{"даханчу шотд."}
@@ -544,6 +767,19 @@ ce{
                 past{
                     one{"{0} секунд хьалха"}
                     other{"{0} секунд хьалха"}
+                }
+            }
+        }
+        second-narrow{
+            dn{"сек."}
+            relativeTime{
+                future{
+                    one{"{0} сек. яьлча"}
+                    other{"{0} сек. яьлча"}
+                }
+                past{
+                    one{"{0} сек. хьалха"}
+                    other{"{0} сек. хьалха"}
                 }
             }
         }
@@ -583,12 +819,32 @@ ce{
                 "0"{"карарчу кӀиранан д."}
                 "1"{"рогӀерчу кӀиранан д"}
             }
+            relativeTime{
+                future{
+                    one{"+{0} кӀиранденошкахь"}
+                    other{"+{0} кӀиранденошкахь"}
+                }
+                past{
+                    one{"-{0} кӀиранденошкахь"}
+                    other{"-{0} кӀиранденошкахь"}
+                }
+            }
         }
         sun-short{
             relative{
                 "-1"{"даханчу кӀиранан д."}
                 "0"{"карарчу кӀиранан д."}
                 "1"{"рогӀерчу кӀиранан д."}
+            }
+            relativeTime{
+                future{
+                    one{"+{0} кӀиранденошкахь"}
+                    other{"+{0} кӀиранденошкахь"}
+                }
+                past{
+                    one{"-{0} кӀиранденошкахь"}
+                    other{"-{0} кӀиранденошкахь"}
+                }
             }
         }
         thu{
@@ -608,11 +864,30 @@ ce{
                 }
             }
         }
+        thu-narrow{
+            relative{
+                "-1"{"даханчу еарин д."}
+                "0"{"карарчу еарин д."}
+                "1"{"рогӀерчу еарин д."}
+            }
+            relativeTime{
+                future{
+                    one{"+{0} Еаринденошкахь"}
+                    other{"+{0} Еаринденошкахь"}
+                }
+            }
+        }
         thu-short{
             relative{
                 "-1"{"даханчу еарин д."}
                 "0"{"карарчу еарин д."}
                 "1"{"рогӀерчу еарин д."}
+            }
+            relativeTime{
+                future{
+                    one{"+{0} Еаринденошкахь"}
+                    other{"+{0} Еаринденошкахь"}
+                }
             }
         }
         tue{
@@ -632,11 +907,38 @@ ce{
                 }
             }
         }
+        tue-narrow{
+            relative{
+                "-1"{"даханчу шинарин д."}
+                "0"{"карарчу шинарин д."}
+                "1"{"рогӀерчу шинарин д."}
+            }
+            relativeTime{
+                future{
+                    one{"+{0} Ширанаденошкахь"}
+                    other{"+{0} Ширанаденошкахь"}
+                }
+                past{
+                    one{"-{0} Ширанаденошкахь"}
+                    other{"-{0} Ширанаденошкахь"}
+                }
+            }
+        }
         tue-short{
             relative{
                 "-1"{"даханчу шинарин д."}
                 "0"{"карарчу шинарин д."}
                 "1"{"рогӀерчу шинарин д."}
+            }
+            relativeTime{
+                future{
+                    one{"+{0} Ширанаденошкахь"}
+                    other{"+{0} Ширанаденошкахь"}
+                }
+                past{
+                    one{"-{0} Ширанаденошкахь"}
+                    other{"-{0} Ширанаденошкахь"}
+                }
             }
         }
         wed{
@@ -656,11 +958,30 @@ ce{
                 }
             }
         }
+        wed-narrow{
+            relative{
+                "-1"{"даханчу кхаарин д."}
+                "0"{"карарчу кхаарин д."}
+                "1"{"рогӀерчу кхаарин д."}
+            }
+            relativeTime{
+                past{
+                    one{"-{0} Кхааринденошкахь"}
+                    other{"-{0} Кхааринденошкахь"}
+                }
+            }
+        }
         wed-short{
             relative{
                 "-1"{"даханчу кхаарин д."}
                 "0"{"карарчу кхаарин д."}
                 "1"{"рогӀерчу кхаарин д."}
+            }
+            relativeTime{
+                past{
+                    one{"-{0} Кхааринденошкахь"}
+                    other{"-{0} Кхааринденошкахь"}
+                }
             }
         }
         week{
@@ -681,9 +1002,23 @@ ce{
                 }
             }
         }
-        week-short{
+        week-narrow{
             dn{"кӀир."}
             relativePeriod{"кӀирнахь {0}"}
+            relativeTime{
+                future{
+                    one{"{0} кӀир. даьлча"}
+                    other{"{0} кӀир. даьлча"}
+                }
+                past{
+                    one{"{0} кӀир. хьалха"}
+                    other{"{0} кӀир. хьалха"}
+                }
+            }
+        }
+        week-short{
+            dn{"кӀир."}
+            relativePeriod{"кӀирнахь"}
             relativeTime{
                 future{
                     one{"{0} кӀир. даьлча"}
@@ -698,10 +1033,25 @@ ce{
         weekOfMonth{
             dn{"беттан кӀира"}
         }
+        weekOfMonth-narrow{
+            dn{"беттан кӀира"}
+        }
+        weekOfMonth-short{
+            dn{"беттан кӀира"}
+        }
         weekday{
             dn{"кӀиранан де"}
         }
+        weekday-narrow{
+            dn{"кӀиранан де"}
+        }
+        weekday-short{
+            dn{"кӀиранан де"}
+        }
         weekdayOfMonth{
+            dn{"кӀиранан де"}
+        }
+        weekdayOfMonth-short{
             dn{"кӀиранан де"}
         }
         year{
@@ -722,6 +1072,19 @@ ce{
                 }
             }
         }
+        year-narrow{
+            dn{"ш."}
+            relativeTime{
+                future{
+                    one{"{0} ш. даьлча"}
+                    other{"{0} ш. даьлча"}
+                }
+                past{
+                    one{"{0} ш. хьалха"}
+                    other{"{0} ш. хьалха"}
+                }
+            }
+        }
         year-short{
             dn{"ш."}
             relativeTime{
@@ -738,6 +1101,10 @@ ce{
         zone{
             dn{"сахьтан аса"}
         }
+    }
+    layout{
+        characters{"left-to-right"}
+        lines{"top-to-bottom"}
     }
     measurementSystemNames{
         UK{"Ингалсан"}

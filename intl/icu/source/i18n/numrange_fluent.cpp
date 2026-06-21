@@ -12,7 +12,6 @@
 #include "numrange_impl.h"
 #include "util.h"
 #include "number_utypes.h"
-#include "number_decnum.h"
 
 using namespace icu;
 using namespace icu::number;
@@ -163,16 +162,6 @@ Derived NumberRangeFormatterSettings<Derived>::identityFallback(UNumberRangeIden
     return move;
 }
 
-template<typename Derived>
-LocalPointer<Derived> NumberRangeFormatterSettings<Derived>::clone() const & {
-    return LocalPointer<Derived>(new Derived(*this));
-}
-
-template<typename Derived>
-LocalPointer<Derived> NumberRangeFormatterSettings<Derived>::clone() && {
-    return LocalPointer<Derived>(new Derived(std::move(*this)));
-}
-
 // Declare all classes that implement NumberRangeFormatterSettings
 // See https://stackoverflow.com/a/495056/1407170
 template
@@ -204,20 +193,12 @@ UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(const NFS<UNF>&
 }
 
 // Make default copy constructor call the NumberRangeFormatterSettings copy constructor.
-UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(UNF&& src) noexcept
+UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(UNF&& src) U_NOEXCEPT
         : UNF(static_cast<NFS<UNF>&&>(src)) {}
 
-UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(NFS<UNF>&& src) noexcept
+UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(NFS<UNF>&& src) U_NOEXCEPT
         : NFS<UNF>(std::move(src)) {
     // No additional fields to assign
-}
-
-UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(const impl::RangeMacroProps &macros) {
-    fMacros = macros;
-}
-
-UnlocalizedNumberRangeFormatter::UnlocalizedNumberRangeFormatter(impl::RangeMacroProps &&macros) {
-    fMacros = macros;
 }
 
 UnlocalizedNumberRangeFormatter& UnlocalizedNumberRangeFormatter::operator=(const UNF& other) {
@@ -226,7 +207,7 @@ UnlocalizedNumberRangeFormatter& UnlocalizedNumberRangeFormatter::operator=(cons
     return *this;
 }
 
-UnlocalizedNumberRangeFormatter& UnlocalizedNumberRangeFormatter::operator=(UNF&& src) noexcept {
+UnlocalizedNumberRangeFormatter& UnlocalizedNumberRangeFormatter::operator=(UNF&& src) U_NOEXCEPT {
     NFS<UNF>::operator=(static_cast<NFS<UNF>&&>(src));
     // No additional fields to assign
     return *this;
@@ -241,10 +222,10 @@ LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(const NFS<LNF>& oth
     // No additional fields to assign
 }
 
-LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(LocalizedNumberRangeFormatter&& src) noexcept
+LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(LocalizedNumberRangeFormatter&& src) U_NOEXCEPT
         : LNF(static_cast<NFS<LNF>&&>(src)) {}
 
-LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(NFS<LNF>&& src) noexcept
+LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(NFS<LNF>&& src) U_NOEXCEPT
         : NFS<LNF>(std::move(src)) {
     // Steal the compiled formatter
     LNF&& _src = static_cast<LNF&&>(src);
@@ -253,14 +234,13 @@ LocalizedNumberRangeFormatter::LocalizedNumberRangeFormatter(NFS<LNF>&& src) noe
 }
 
 LocalizedNumberRangeFormatter& LocalizedNumberRangeFormatter::operator=(const LNF& other) {
-    if (this == &other) { return *this; }  // self-assignment: no-op
     NFS<LNF>::operator=(static_cast<const NFS<LNF>&>(other));
     // Do not steal; just clear
     delete fAtomicFormatter.exchange(nullptr);
     return *this;
 }
 
-LocalizedNumberRangeFormatter& LocalizedNumberRangeFormatter::operator=(LNF&& src) noexcept {
+LocalizedNumberRangeFormatter& LocalizedNumberRangeFormatter::operator=(LNF&& src) U_NOEXCEPT {
     NFS<LNF>::operator=(static_cast<NFS<LNF>&&>(src));
     // Steal the compiled formatter
     auto* stolen = src.fAtomicFormatter.exchange(nullptr);
@@ -294,27 +274,15 @@ LocalizedNumberRangeFormatter UnlocalizedNumberRangeFormatter::locale(const Loca
 }
 
 
-UnlocalizedNumberRangeFormatter LocalizedNumberRangeFormatter::withoutLocale() const & {
-    RangeMacroProps macros(fMacros);
-    macros.locale = Locale();
-    return UnlocalizedNumberRangeFormatter(macros);
-}
-
-UnlocalizedNumberRangeFormatter LocalizedNumberRangeFormatter::withoutLocale() && {
-    RangeMacroProps macros(std::move(fMacros));
-    macros.locale = Locale();
-    return UnlocalizedNumberRangeFormatter(std::move(macros));
-}
-
-
 FormattedNumberRange LocalizedNumberRangeFormatter::formatFormattableRange(
         const Formattable& first, const Formattable& second, UErrorCode& status) const {
     if (U_FAILURE(status)) {
         return FormattedNumberRange(U_ILLEGAL_ARGUMENT_ERROR);
     }
 
-    LocalPointer<UFormattedNumberRangeData> results(new UFormattedNumberRangeData(), status);
-    if (U_FAILURE(status)) {
+    auto results = new UFormattedNumberRangeData();
+    if (results == nullptr) {
+        status = U_MEMORY_ALLOCATION_ERROR;
         return FormattedNumberRange(status);
     }
 
@@ -332,15 +300,16 @@ FormattedNumberRange LocalizedNumberRangeFormatter::formatFormattableRange(
 
     // Do not save the results object if we encountered a failure.
     if (U_SUCCESS(status)) {
-        return FormattedNumberRange(results.orphan());
+        return FormattedNumberRange(results);
     } else {
+        delete results;
         return FormattedNumberRange(status);
     }
 }
 
 void LocalizedNumberRangeFormatter::formatImpl(
         UFormattedNumberRangeData& results, bool equalBeforeRounding, UErrorCode& status) const {
-    const auto* impl = getFormatter(status);
+    auto* impl = getFormatter(status);
     if (U_FAILURE(status)) {
         return;
     }
@@ -349,10 +318,6 @@ void LocalizedNumberRangeFormatter::formatImpl(
         return;
     }
     impl->format(results, equalBeforeRounding, status);
-    if (U_FAILURE(status)) {
-        return;
-    }
-    results.getStringRef().writeTerminator(status);
 }
 
 const impl::NumberRangeFormatterImpl*
@@ -371,8 +336,12 @@ LocalizedNumberRangeFormatter::getFormatter(UErrorCode& status) const {
     }
 
     // Try computing the formatter on our own
-    LocalPointer<NumberRangeFormatterImpl> temp(new NumberRangeFormatterImpl(fMacros, status), status);
+    auto* temp = new NumberRangeFormatterImpl(fMacros, status);
     if (U_FAILURE(status)) {
+        return nullptr;
+    }
+    if (temp == nullptr) {
+        status = U_MEMORY_ALLOCATION_ERROR;
         return nullptr;
     }
 
@@ -380,15 +349,124 @@ LocalizedNumberRangeFormatter::getFormatter(UErrorCode& status) const {
     // it is set to what is actually stored in the atomic
     // if another thread beat us to computing the formatter object.
     auto* nonConstThis = const_cast<LocalizedNumberRangeFormatter*>(this);
-    if (!nonConstThis->fAtomicFormatter.compare_exchange_strong(ptr, temp.getAlias())) {
+    if (!nonConstThis->fAtomicFormatter.compare_exchange_strong(ptr, temp)) {
         // Another thread beat us to computing the formatter
+        delete temp;
         return ptr;
     } else {
         // Our copy of the formatter got stored in the atomic
-        return temp.orphan();
+        return temp;
     }
 
 }
+
+
+FormattedNumberRange::FormattedNumberRange(FormattedNumberRange&& src) U_NOEXCEPT
+        : fResults(src.fResults), fErrorCode(src.fErrorCode) {
+    // Disown src.fResults to prevent double-deletion
+    src.fResults = nullptr;
+    src.fErrorCode = U_INVALID_STATE_ERROR;
+}
+
+FormattedNumberRange& FormattedNumberRange::operator=(FormattedNumberRange&& src) U_NOEXCEPT {
+    delete fResults;
+    fResults = src.fResults;
+    fErrorCode = src.fErrorCode;
+    // Disown src.fResults to prevent double-deletion
+    src.fResults = nullptr;
+    src.fErrorCode = U_INVALID_STATE_ERROR;
+    return *this;
+}
+
+UnicodeString FormattedNumberRange::toString(UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return ICU_Utility::makeBogusString();
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return ICU_Utility::makeBogusString();
+    }
+    return fResults->string.toUnicodeString();
+}
+
+Appendable& FormattedNumberRange::appendTo(Appendable& appendable, UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return appendable;
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return appendable;
+    }
+    appendable.appendString(fResults->string.chars(), fResults->string.length());
+    return appendable;
+}
+
+UBool FormattedNumberRange::nextFieldPosition(FieldPosition& fieldPosition, UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return FALSE;
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return FALSE;
+    }
+    // NOTE: MSVC sometimes complains when implicitly converting between bool and UBool
+    return fResults->string.nextFieldPosition(fieldPosition, status) ? TRUE : FALSE;
+}
+
+void FormattedNumberRange::getAllFieldPositions(FieldPositionIterator& iterator, UErrorCode& status) const {
+    FieldPositionIteratorHandler fpih(&iterator, status);
+    getAllFieldPositionsImpl(fpih, status);
+}
+
+void FormattedNumberRange::getAllFieldPositionsImpl(
+        FieldPositionIteratorHandler& fpih, UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return;
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return;
+    }
+    fResults->string.getAllFieldPositions(fpih, status);
+}
+
+UnicodeString FormattedNumberRange::getFirstDecimal(UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return ICU_Utility::makeBogusString();
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return ICU_Utility::makeBogusString();
+    }
+    return fResults->quantity1.toScientificString();
+}
+
+UnicodeString FormattedNumberRange::getSecondDecimal(UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return ICU_Utility::makeBogusString();
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return ICU_Utility::makeBogusString();
+    }
+    return fResults->quantity2.toScientificString();
+}
+
+UNumberRangeIdentityResult FormattedNumberRange::getIdentityResult(UErrorCode& status) const {
+    if (U_FAILURE(status)) {
+        return UNUM_IDENTITY_RESULT_NOT_EQUAL;
+    }
+    if (fResults == nullptr) {
+        status = fErrorCode;
+        return UNUM_IDENTITY_RESULT_NOT_EQUAL;
+    }
+    return fResults->identityResult;
+}
+
+FormattedNumberRange::~FormattedNumberRange() {
+    delete fResults;
+}
+
 
 
 #endif /* #if !UCONFIG_NO_FORMATTING */

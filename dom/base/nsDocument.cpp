@@ -10509,11 +10509,22 @@ nsDocument::CleanupFullscreenState()
   UpdateViewportScrollbarOverrideForFullscreen(this);
 }
 
+static bool
+IsFullscreenElement(nsIDocument::Element* aElement, void* aData)
+{
+  MOZ_ASSERT(!aData);
+  return aElement->State().HasState(NS_EVENT_STATE_FULL_SCREEN);
+}
+
+static bool
+IsSameTopLayerElement(nsIDocument::Element* aElement, void* aData)
+{
+  return aElement == static_cast<nsIDocument::Element*>(aData);
+}
+
 void
 nsDocument::UnsetFullscreenElement() {
-  Element* removedElement = TopLayerPop([](Element* element) -> bool {
-    return element->State().HasState(NS_EVENT_STATE_FULL_SCREEN);
-  });
+  Element* removedElement = TopLayerPop(IsFullscreenElement, nullptr);
 
   MOZ_ASSERT(removedElement->State().HasState(NS_EVENT_STATE_FULL_SCREEN));
   ClearFullscreenStateOnElement(removedElement);
@@ -10533,10 +10544,7 @@ nsDocument::SetFullscreenElement(Element* aElement) {
 bool
 nsDocument::TopLayerPush(Element* aElement) {
   NS_ASSERTION(aElement, "Must pass non-null to TopLayerPush()");
-  auto predictFunc = [&aElement](Element* element) {
-    return element == aElement;
-  };
-  TopLayerPop(predictFunc);
+  TopLayerPop(IsSameTopLayerElement, aElement);
 
   mTopLayer.AppendElement(do_GetWeakReference(aElement));
   NS_ASSERTION(GetTopLayerTop() == aElement, "Should match");
@@ -10544,7 +10552,7 @@ nsDocument::TopLayerPush(Element* aElement) {
 }
 
 Element*
-nsDocument::TopLayerPop(FunctionRef<bool(Element*)> aPredicateFunc) {
+nsDocument::TopLayerPop(TopLayerPredicate aPredicateFunc, void* aData) {
   if (mTopLayer.IsEmpty()) {
     return nullptr;
   }
@@ -10552,10 +10560,10 @@ nsDocument::TopLayerPop(FunctionRef<bool(Element*)> aPredicateFunc) {
   // Remove the topmost element that qualifies aPredicate; This
   // is required is because the top layer contains not only
   // fullscreen elements, but also dialog elements.
-  Element* removedElement;
+  Element* removedElement = nullptr;
   for (auto i : Reversed(MakeRange(mTopLayer.Length()))) {
     nsCOMPtr<Element> element(do_QueryReferent(mTopLayer[i]));
-    if (element && aPredicateFunc(element)) {
+    if (element && aPredicateFunc(element, aData)) {
       removedElement = element;
       mTopLayer.RemoveElementAt(i);
       break;

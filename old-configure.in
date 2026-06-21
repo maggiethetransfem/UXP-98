@@ -649,6 +649,19 @@ else
 fi
 
 dnl ========================================================
+dnl = Windows 9x/KernelEx compatibility packaging
+dnl ========================================================
+MOZ_ARG_ENABLE_BOOL(win9x-kernelex,
+[  --enable-win9x-kernelex   Omit API-set redist DLLs and tolerate API-set entries
+                          in dependentlibs.list for Windows 9x/KernelEx builds],
+    MOZ_WIN9X_KERNELEX=1,
+    MOZ_WIN9X_KERNELEX= )
+if test -n "$MOZ_WIN9X_KERNELEX"; then
+    AC_DEFINE(MOZ_WIN9X_KERNELEX)
+fi
+AC_SUBST(MOZ_WIN9X_KERNELEX)
+
+dnl ========================================================
 dnl = Use Valgrind
 dnl ========================================================
 MOZ_ARG_ENABLE_BOOL(valgrind,
@@ -873,7 +886,7 @@ case "$target" in
         MOZ_FOLD_LIBS_FLAGS=-mnop-fun-dllimport
     else
         TARGET_COMPILER_ABI=msvc
-        HOST_LD='$(LD)'
+        HOST_LD="${HOST_LD:-"'$(LD)'"}"
         if test "$AS_BIN"; then
             AS="$(basename "$AS_BIN")"
         fi

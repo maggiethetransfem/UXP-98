@@ -86,32 +86,32 @@ public:
      * equal if they are of the same size and all elements are equal,
      * as compared using this object's comparer.
      */
-    bool operator==(const UVector32& other) const;
+    UBool operator==(const UVector32& other);
 
     /**
      * Equivalent to !operator==()
      */
-    inline bool operator!=(const UVector32& other) const;
+    inline UBool operator!=(const UVector32& other);
 
     //------------------------------------------------------------
     // java.util.Vector API
     //------------------------------------------------------------
 
-    inline void addElement(int32_t elem, UErrorCode &status);
+    void addElement(int32_t elem, UErrorCode &status);
 
     void setElementAt(int32_t elem, int32_t index);
 
     void insertElementAt(int32_t elem, int32_t index, UErrorCode &status);
     
-    inline int32_t elementAti(int32_t index) const;
+    int32_t elementAti(int32_t index) const;
 
     UBool equals(const UVector32 &other) const;
 
-    inline int32_t lastElementi() const;
+    int32_t lastElementi(void) const;
 
     int32_t indexOf(int32_t elem, int32_t startIndex = 0) const;
 
-    inline UBool contains(int32_t elem) const;
+    UBool contains(int32_t elem) const;
 
     UBool containsAll(const UVector32& other) const;
 
@@ -123,9 +123,9 @@ public:
 
     void removeAllElements();
 
-    inline int32_t size() const;
+    int32_t size(void) const;
 
-    inline UBool isEmpty() const;
+    UBool isEmpty(void) const;
 
     // Inline.  Use this one for speedy size check.
     inline UBool ensureCapacity(int32_t minimumCapacity, UErrorCode &status);
@@ -163,7 +163,7 @@ public:
     /**
      * Returns a pointer to the internal array holding the vector.
      */
-    inline int32_t *getBuffer() const;
+    int32_t *getBuffer() const;
 
     /**
      * Set the maximum allowed buffer capacity for this vector/stack.
@@ -181,32 +181,32 @@ public:
     /**
      * ICU "poor man's RTTI", returns a UClassID for the actual class.
      */
-    virtual UClassID getDynamicClassID() const override;
+    virtual UClassID getDynamicClassID() const;
 
 private:
     void _init(int32_t initialCapacity, UErrorCode &status);
 
     // Disallow
-    UVector32(const UVector32&) = delete;
+    UVector32(const UVector32&);
 
     // Disallow
-    UVector32& operator=(const UVector32&) = delete;
+    UVector32& operator=(const UVector32&);
 
 
     //  API Functions for Stack operations.
     //  In the original UVector, these were in a separate derived class, UStack.
     //  Here in UVector32, they are all together.
 public:
-    inline UBool empty() const;   // TODO:  redundant, same as empty().  Remove it?
+    UBool empty(void) const;   // TODO:  redundant, same as empty().  Remove it?
 
-    inline int32_t peeki() const;
+    int32_t peeki(void) const;
     
-    inline int32_t popi();
+    int32_t popi(void);
     
-    inline int32_t push(int32_t i, UErrorCode &status);
+    int32_t push(int32_t i, UErrorCode &status);
 
-    inline int32_t *reserveBlock(int32_t size, UErrorCode &status);
-    inline int32_t *popFrame(int32_t size);
+    int32_t *reserveBlock(int32_t size, UErrorCode &status);
+    int32_t *popFrame(int32_t size);
 };
 
 
@@ -214,7 +214,7 @@ public:
 
 inline UBool UVector32::ensureCapacity(int32_t minimumCapacity, UErrorCode &status) {
     if ((minimumCapacity >= 0) && (capacity >= minimumCapacity)) {
-        return true;
+        return TRUE;
     } else {
         return expandCapacity(minimumCapacity, status);
     }
@@ -233,8 +233,8 @@ inline void UVector32::addElement(int32_t elem, UErrorCode &status) {
 }
 
 inline int32_t *UVector32::reserveBlock(int32_t size, UErrorCode &status) {
-    if (ensureCapacity(count+size, status) == false) {
-        return nullptr;
+    if (ensureCapacity(count+size, status) == FALSE) {
+        return NULL;
     }
     int32_t  *rp = elements+count;
     count += size;
@@ -252,11 +252,11 @@ inline int32_t *UVector32::popFrame(int32_t size) {
 
 
 
-inline int32_t UVector32::size() const {
+inline int32_t UVector32::size(void) const {
     return count;
 }
 
-inline UBool UVector32::isEmpty() const {
+inline UBool UVector32::isEmpty(void) const {
     return count == 0;
 }
 
@@ -264,11 +264,11 @@ inline UBool UVector32::contains(int32_t obj) const {
     return indexOf(obj) >= 0;
 }
 
-inline int32_t UVector32::lastElementi() const {
+inline int32_t UVector32::lastElementi(void) const {
     return elementAti(count-1);
 }
 
-inline bool UVector32::operator!=(const UVector32& other) const {
+inline UBool UVector32::operator!=(const UVector32& other) {
     return !operator==(other);
 }
 
@@ -279,11 +279,11 @@ inline int32_t *UVector32::getBuffer() const {
 
 // UStack inlines
 
-inline UBool UVector32::empty() const {
+inline UBool UVector32::empty(void) const {
     return isEmpty();
 }
 
-inline int32_t UVector32::peeki() const {
+inline int32_t UVector32::peeki(void) const {
     return lastElementi();
 }
 
@@ -292,7 +292,7 @@ inline int32_t UVector32::push(int32_t i, UErrorCode &status) {
     return i;
 }
 
-inline int32_t UVector32::popi() {
+inline int32_t UVector32::popi(void) {
     int32_t result = 0;
     if (count > 0) {
         count--;

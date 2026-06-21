@@ -13,24 +13,12 @@
 
 #include "unicode/utypes.h"
 #include "sharedobject.h"
-#include "unifiedcache.h"
 
 U_NAMESPACE_BEGIN
 
 class NumberFormat;
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4251)
-#pragma warning(disable:4275)
-#endif
-
 class U_I18N_API SharedNumberFormat : public SharedObject {
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
 public:
     SharedNumberFormat(NumberFormat *nfToAdopt) : ptr(nfToAdopt) { }
     virtual ~SharedNumberFormat();
@@ -39,13 +27,9 @@ public:
     const NumberFormat &operator*() const { return *ptr; }
 private:
     NumberFormat *ptr;
-    SharedNumberFormat(const SharedNumberFormat &) = delete;
-    SharedNumberFormat &operator=(const SharedNumberFormat &) = delete;
+    SharedNumberFormat(const SharedNumberFormat &);
+    SharedNumberFormat &operator=(const SharedNumberFormat &);
 };
-
-template<> U_I18N_API
-const SharedNumberFormat *LocaleCacheKey<SharedNumberFormat>::createObject(
-        const void * /*unused*/, UErrorCode &status) const;
 
 U_NAMESPACE_END
 

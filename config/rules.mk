@@ -462,7 +462,11 @@ endif
 ifeq (,$(CROSS_COMPILE))
 HOST_OUTOPTION = $(OUTOPTION)
 else
+ifdef _MSC_VER
+HOST_OUTOPTION = -Fo# eol
+else
 HOST_OUTOPTION = -o # eol
+endif
 endif
 ################################################################################
 

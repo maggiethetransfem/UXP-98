@@ -1,6 +1,5 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 asa{
     AuxExemplarCharacters{"[q x]"}
     ExemplarCharacters{"[a b c d e f g h i j k l m n o p r s t u v w y z]"}
@@ -8,12 +7,11 @@ asa{
     NumberElements{
         latn{
             patterns{
-                accountingFormat%alphaNextToNumber{"#,##0.00 ¤"}
                 currencyFormat{"#,##0.00 ¤"}
-                currencyFormat%alphaNextToNumber{"#,##0.00 ¤"}
             }
         }
     }
+    Version{"2.1.39.11"}
     calendar{
         generic{
             DateTimePatterns{
@@ -32,11 +30,19 @@ asa{
                 "{1} {0}",
             }
             availableFormats{
+                Hm{"HH:mm"}
+                Hms{"HH:mm:ss"}
+                M{"L"}
                 MEd{"E, M/d"}
+                MMM{"LLL"}
                 MMMEd{"E, MMM d"}
                 MMMMEd{"E, MMMM d"}
+                MMMMd{"MMMM d"}
+                MMMd{"MMM d"}
                 Md{"M/d"}
-                hm{"h:mm a"}
+                d{"d"}
+                hm{"h:mm a"}
+                ms{"mm:ss"}
                 y{"y"}
                 yM{"M/y"}
                 yMEd{"E, M/d/y"}
@@ -50,6 +56,10 @@ asa{
             }
         }
         gregorian{
+            AmPmMarkers{
+                "icheheavo",
+                "ichamthi",
+            }
             AmPmMarkersAbbr{
                 "icheheavo",
                 "ichamthi",
@@ -70,11 +80,20 @@ asa{
                 "{1} {0}",
             }
             availableFormats{
+                Hm{"HH:mm"}
+                Hms{"HH:mm:ss"}
+                M{"L"}
                 MEd{"E, M/d"}
+                MMM{"LLL"}
                 MMMEd{"E, MMM d"}
                 MMMMEd{"E, MMMM d"}
+                MMMMd{"MMMM d"}
+                MMMd{"MMM d"}
                 Md{"M/d"}
-                hm{"h:mm a"}
+                d{"d"}
+                hm{"h:mm a"}
+                ms{"mm:ss"}
+                y{"y"}
                 yM{"M/y"}
                 yMEd{"E, M/d/y"}
                 yMMM{"MMM y"}
@@ -120,12 +139,12 @@ asa{
             }
             eras{
                 abbreviated{
-                    0{"KM"}
-                    1{"BM"}
+                    "KM",
+                    "BM",
                 }
                 wide{
-                    0{"Kabla yakwe Yethu"}
-                    1{"Baada yakwe Yethu"}
+                    "Kabla yakwe Yethu",
+                    "Baada yakwe Yethu",
                 }
             }
             monthNames{
@@ -193,6 +212,12 @@ asa{
                 }
             }
         }
+    }
+    delimiters{
+        alternateQuotationEnd{"’"}
+        alternateQuotationStart{"‘"}
+        quotationEnd{"”"}
+        quotationStart{"“"}
     }
     fields{
         day{

@@ -58,6 +58,24 @@
 #include <limits>
 #include <cmath>
 
+static void
+GetFontOpenTypeScriptTags(hb_script_t aScript, unsigned int* aScriptCount,
+                          hb_tag_t* aScriptTags)
+{
+    hb_tag_t scriptTag1 = HB_TAG_NONE;
+    hb_tag_t scriptTag2 = HB_TAG_NONE;
+    hb_ot_tags_from_script(aScript, &scriptTag1, &scriptTag2);
+
+    unsigned int count = 0;
+    if (scriptTag1 && count < *aScriptCount) {
+        aScriptTags[count++] = scriptTag1;
+    }
+    if (scriptTag2 && scriptTag2 != scriptTag1 && count < *aScriptCount) {
+        aScriptTags[count++] = scriptTag2;
+    }
+    *aScriptCount = count;
+}
+
 using namespace mozilla;
 using namespace mozilla::gfx;
 using namespace mozilla::unicode;
@@ -1157,6 +1175,13 @@ gfxFont::CheckForFeaturesInvolvingSpace()
 {
     mFontEntry->mHasSpaceFeaturesInitialized = true;
 
+#ifdef MOZ_WIN9X_KERNELEX
+    mFontEntry->mHasSpaceFeaturesKerning = false;
+    mFontEntry->mHasSpaceFeaturesNonKerning = false;
+    mFontEntry->mHasSpaceFeatures = false;
+    return;
+#endif
+
     bool log = LOG_FONTINIT_ENABLED();
     TimeStamp start;
     if (MOZ_UNLIKELY(log)) {
@@ -1171,6 +1196,12 @@ gfxFont::CheckForFeaturesInvolvingSpace()
     }
 
     hb_face_t *face = GetFontEntry()->GetHBFace();
+    if (!face) {
+        mFontEntry->mHasSpaceFeaturesKerning = false;
+        mFontEntry->mHasSpaceFeaturesNonKerning = false;
+        mFontEntry->mHasSpaceFeatures = false;
+        return;
+    }
 
     // GSUB lookups - examine per script
     if (hb_ot_layout_has_substitution(face)) {
@@ -1186,9 +1217,7 @@ gfxFont::CheckForFeaturesInvolvingSpace()
                 hb_script_t script = hb_script_t(GetScriptTagForCode(s));
                 unsigned int scriptCount = 4;
                 hb_tag_t scriptTags[4];
-                hb_ot_tags_from_script_and_language(script, HB_LANGUAGE_INVALID,
-                                                    &scriptCount, scriptTags, nullptr,
-                                                    nullptr);
+                GetFontOpenTypeScriptTags(script, &scriptCount, scriptTags);
                 for (unsigned int i = 0; i < scriptCount; i++) {
                   sScriptTagToCode->Put(scriptTags[i], s);
                 }

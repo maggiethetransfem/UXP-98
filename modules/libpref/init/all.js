@@ -487,7 +487,11 @@ pref("media.webrtc.debug.aec_dump_max_size", 4194304); // 4MB
 
 pref("media.navigator.video.default_width",0);  // adaptive default
 pref("media.navigator.video.default_height",0); // adaptive default
+#ifdef MOZ_WIN9X_KERNELEX
+pref("media.peerconnection.enabled", false);
+#else
 pref("media.peerconnection.enabled", true);
+#endif
 pref("media.peerconnection.video.enabled", true);
 pref("media.navigator.video.max_fs", 12288); // Enough for 2048x1536
 pref("media.navigator.video.max_fr", 60);

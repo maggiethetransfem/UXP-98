@@ -121,6 +121,9 @@ else:
     ASFLAGS += [ '-I%s/media/libvpx/config/generic/' % TOPSRCDIR ]
     CFLAGS += [ '-I%s/media/libvpx/config/generic/' % TOPSRCDIR ]
 
+if CONFIG['MOZ_WIN9X_KERNELEX']:
+    for f in [f for f in SOURCES if 'avx512.c' in f]:
+        SOURCES.remove(f)
 
 if CONFIG['GKMEDIAS_SHARED_LIBRARY']:
     NO_VISIBILITY_FLAGS = True

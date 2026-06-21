@@ -12,6 +12,3 @@ LOCAL_INCLUDES += ['/intl/icu/source/common']
 
 include('../defs.mozbuild')
 include('sources.mozbuild')
-
-SOURCES += sources
-

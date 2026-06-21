@@ -18,10 +18,9 @@ namespace {
 alignas(DecimalFormatProperties)
 char kRawDefaultProperties[sizeof(DecimalFormatProperties)];
 
-icu::UInitOnce gDefaultPropertiesInitOnce {};
+icu::UInitOnce gDefaultPropertiesInitOnce = U_INITONCE_INITIALIZER;
 
 void U_CALLCONV initDefaultProperties(UErrorCode&) {
-    // can't fail, uses placement new into statically allocated space.
     new(kRawDefaultProperties) DecimalFormatProperties(); // set to the default instance
 }
 
@@ -40,7 +39,6 @@ void DecimalFormatProperties::clear() {
     decimalPatternMatchRequired = false;
     decimalSeparatorAlwaysShown = false;
     exponentSignAlwaysShown = false;
-    currencyAsDecimal = false;
     formatFailIfMoreThanMaxDigits = false;
     formatWidth = -1;
     groupingSize = -1;
@@ -89,7 +87,6 @@ DecimalFormatProperties::_equals(const DecimalFormatProperties& other, bool igno
     eq = eq && currencyUsage == other.currencyUsage;
     eq = eq && decimalSeparatorAlwaysShown == other.decimalSeparatorAlwaysShown;
     eq = eq && exponentSignAlwaysShown == other.exponentSignAlwaysShown;
-    eq = eq && currencyAsDecimal == other.currencyAsDecimal;
     eq = eq && formatFailIfMoreThanMaxDigits == other.formatFailIfMoreThanMaxDigits;
     eq = eq && formatWidth == other.formatWidth;
     eq = eq && magnitudeMultiplier == other.magnitudeMultiplier;
@@ -143,12 +140,6 @@ bool DecimalFormatProperties::equalsDefaultExceptFastFormat() const {
     UErrorCode localStatus = U_ZERO_ERROR;
     umtx_initOnce(gDefaultPropertiesInitOnce, &initDefaultProperties, localStatus);
     return _equals(*reinterpret_cast<DecimalFormatProperties*>(kRawDefaultProperties), true);
-}
-
-const DecimalFormatProperties& DecimalFormatProperties::getDefault() {
-    UErrorCode localStatus = U_ZERO_ERROR;
-    umtx_initOnce(gDefaultPropertiesInitOnce, &initDefaultProperties, localStatus);
-    return *reinterpret_cast<const DecimalFormatProperties*>(kRawDefaultProperties);
 }
 
 #endif /* #if !UCONFIG_NO_FORMATTING */

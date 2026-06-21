@@ -1,31 +1,30 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 to{
     Currencies{
         AUD{
             "AUD$",
-            "Tola fakaʻaositelēlia",
+            "Australian Dollar",
         }
-        EUR{
-            "€",
-            "ʻEulo",
+        BRL{
+            "R$",
+            "BRL",
         }
         FJD{
             "FJD",
-            "Tola fakafisi",
+            "FJD",
         }
         NZD{
             "NZD$",
-            "Tola fakanuʻusila",
+            "NZD",
         }
         PGK{
             "PGK",
-            "Kina fakapapuaniukini",
+            "PGK",
         }
         SBD{
             "SBD",
-            "Tola fakaʻotusolomone",
+            "SBD",
         }
         TOP{
             "T$",
@@ -33,7 +32,7 @@ to{
         }
         VUV{
             "VUV",
-            "Vatu fakavanuatu",
+            "VUV",
         }
         WST{
             "WST",
@@ -41,7 +40,7 @@ to{
         }
         XPF{
             "CFPF",
-            "Falaniki fakapasifika",
+            "XPF",
         }
         XXX{
             "¤",
@@ -49,17 +48,31 @@ to{
         }
     }
     Currencies%narrow{
-        AUD{"AU$"}
-        FJD{"F$"}
-        NZD{"NZ$"}
-        SBD{"S$"}
+        AUD{"$"}
+        FJD{"$"}
+        NZD{"$"}
+        SBD{"$"}
+        TWD{"$"}
+    }
+    Currencies%variant{
+        GEL{"₾"}
     }
     CurrencyPlurals{
-        EUR{
-            other{"ʻeulo"}
+        AUD{
+            other{"Australian Dollar"}
+        }
+        TOP{
+            other{"Paʻanga fakatonga"}
+        }
+        WST{
+            other{"Tala fakahaʻamoa"}
+        }
+        XXX{
+            other{"Pa’anga Ta’e’ilo"}
         }
     }
     CurrencyUnitPatterns{
         other{"{1} {0}"}
     }
+    Version{"2.1.44.88"}
 }

@@ -118,8 +118,10 @@ def normalize_path():
                 needed = GetShortPathNameW(path, out, size)
                 if size >= needed:
                     if ' ' in out.value:
-                        die("GetShortPathName returned a long path name. "
-                            "Are 8dot3 filenames disabled?")
+                        if ' ' in path:
+                            die("GetShortPathName returned a long path name. "
+                                "Are 8dot3 filenames disabled?")
+                        return path
                     return normsep(out.value)
                 size = needed
 

@@ -79,13 +79,19 @@ bool HTMLDialogElement::IsInTopLayer() const {
   return State().HasState(NS_EVENT_STATE_MODAL_DIALOG);
 }
 
+static bool
+IsDialogTopLayerElement(nsIDocument::Element* aElement, void* aData)
+{
+  return aElement == static_cast<HTMLDialogElement*>(aData);
+}
+
 void HTMLDialogElement::RemoveFromTopLayerIfNeeded() {
   if (!IsInTopLayer()) {
     return;
   }
-  auto predictFunc = [&](Element* element) { return element == this; };
 
-  DebugOnly<Element*> removedElement = OwnerDoc()->TopLayerPop(predictFunc);
+  DebugOnly<Element*> removedElement =
+    OwnerDoc()->TopLayerPop(IsDialogTopLayerElement, this);
   MOZ_ASSERT(removedElement == this);
   RemoveStates(NS_EVENT_STATE_MODAL_DIALOG);
 }

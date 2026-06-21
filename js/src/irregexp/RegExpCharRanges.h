@@ -128,9 +128,10 @@ class CharacterRange
 
     // Negate a vector of ranges by subtracting its ranges from a range
     // encompassing the full range of possible values.
-    template <typename RangeType>
-    static void NegateUnicodeRanges(LifoAlloc* alloc, InfallibleVector<RangeType, 1>** ranges,
-                                    RangeType full_range);
+    static void NegateUnicodeRanges(LifoAlloc* alloc, CharacterRangeVector** ranges,
+                                    CharacterRange full_range);
+    static void NegateUnicodeRanges(LifoAlloc* alloc, WideCharRangeVector** ranges,
+                                    WideCharRange full_range);
 
     // static methods for Unicode Property Escapes
     static bool AddPropertyClassRange(LifoAlloc* alloc, 

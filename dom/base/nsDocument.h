@@ -916,7 +916,7 @@ public:
 
   // Removes the topmost element which have aPredicate return true from the top
   // layer. The removed element, if any, is returned.
-  Element* TopLayerPop(FunctionRef<bool(Element*)> aPredicateFunc) override;
+  Element* TopLayerPop(TopLayerPredicate aPredicateFunc, void* aData) override;
 
   // Pops the fullscreen element from the top layer and clears its
   // fullscreen flag.

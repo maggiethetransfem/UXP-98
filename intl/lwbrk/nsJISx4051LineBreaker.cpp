@@ -561,12 +561,14 @@ GetClass(uint32_t u)
     /* E_BASE = 40,                       [EB] */ CLASS_BREAKABLE,
     /* E_MODIFIER = 41,                   [EM] */ CLASS_CHARACTER,
     /* ZWJ = 42,                          [ZWJ]*/ CLASS_CHARACTER,
+#ifdef U_LB_AKSARA
     /* AKSARA = 43,                       [AK] */ CLASS_CHARACTER,
     /* AKSARA_PREBASE = 44,               [AP] */ CLASS_CHARACTER,
     /* AKSARA_START = 45,                 [AS] */ CLASS_CHARACTER,
     /* VIRAMA_FINAL = 46,                 [VF] */ CLASS_CHARACTER,
     /* VIRAMA = 47,                       [VI] */ CLASS_CHARACTER,
     /* UNAMBIGUOUS_HYPHEN = 48,           [HH] */ CLASS_CHARACTER,
+#endif
   };
 
   static_assert(U_LB_COUNT == mozilla::ArrayLength(sUnicodeLineBreakToClass),

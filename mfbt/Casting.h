@@ -13,6 +13,7 @@
 
 #include <limits>
 #include <cmath>
+#include <type_traits>
 
 namespace mozilla {
 
@@ -63,111 +64,34 @@ BitwiseCast(const From aFrom)
 
 namespace detail {
 
-template <typename T>
-constexpr int64_t safe_integer() {
-  static_assert(std::is_floating_point_v<T>);
-  return std::pow(2, std::numeric_limits<T>::digits);
-}
-
-template <typename T>
-constexpr uint64_t safe_integer_unsigned() {
-  static_assert(std::is_floating_point_v<T>);
-  return std::pow(2, std::numeric_limits<T>::digits);
-}
-
-#ifdef __GNUC__
-// This is working around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81676,
-// fixed in gcc-10
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
-#endif
-
 template <typename In, typename Out>
-bool IsInBounds(In aIn) {
-  constexpr bool inSigned = std::is_signed_v<In>;
-  constexpr bool outSigned = std::is_signed_v<Out>;
-  constexpr bool bothSigned = inSigned && outSigned;
-  constexpr bool bothUnsigned = !inSigned && !outSigned;
-  constexpr bool inFloat = std::is_floating_point_v<In>;
-  constexpr bool outFloat = std::is_floating_point_v<Out>;
-  constexpr bool bothFloat = inFloat && outFloat;
-  constexpr bool noneFloat = !inFloat && !outFloat;
-  constexpr Out outMax = std::numeric_limits<Out>::max();
-  constexpr Out outMin = std::numeric_limits<Out>::lowest();
+bool IsInBounds(In aIn)
+{
+  const long double value = static_cast<long double>(aIn);
+  const long double outMin =
+    static_cast<long double>(std::numeric_limits<Out>::lowest());
+  const long double outMax =
+    static_cast<long double>(std::numeric_limits<Out>::max());
 
-  // This selects the widest of two types, and is used to cast throughout.
-  using select_widest = std::conditional_t<(sizeof(In) > sizeof(Out)), In, Out>;
+  if (value < outMin || value > outMax) {
+    return false;
+  }
 
-  if constexpr (bothFloat) {
-    if (aIn > select_widest(outMax) || aIn < select_widest(outMin)) {
+  if (!std::is_floating_point<In>::value &&
+      std::is_floating_point<Out>::value) {
+    const long double safeInteger =
+      ldexpl(1.0L, std::numeric_limits<Out>::digits);
+    if (std::is_signed<In>::value) {
+      if (value < -safeInteger || value > safeInteger) {
+        return false;
+      }
+    } else if (value >= safeInteger) {
       return false;
     }
   }
-  // Normal casting applies, the floating point number is floored.
-  if constexpr (inFloat && !outFloat) {
-    static_assert(sizeof(aIn) <= sizeof(int64_t));
-    // Check if the input floating point is larger than the output bounds. This
-    // catches situations where the input is a float larger than the max of the
-    // output type.
-    if (aIn < static_cast<double>(outMin) ||
-        aIn > static_cast<double>(outMax)) {
-      return false;
-    }
-    // At this point we know that the input can be converted to an integer.
-    // Check if it's larger than the bounds of the target integer.
-    if (outSigned) {
-      int64_t asInteger = static_cast<int64_t>(aIn);
-      if (asInteger < outMin || asInteger > outMax) {
-        return false;
-      }
-    } else {
-      uint64_t asInteger = static_cast<uint64_t>(aIn);
-      if (asInteger > outMax) {
-        return false;
-      }
-    }
-  }
-  // Checks if the integer is representable exactly as a floating point value of
-  // a specific width.
-  if constexpr (!inFloat && outFloat) {
-    if constexpr (inSigned) {
-      if (aIn < -safe_integer<Out>() || aIn > safe_integer<Out>()) {
-        return false;
-      }
-    } else {
-      if (aIn >= safe_integer_unsigned<Out>()) {
-        return false;
-      }
-    }
-  }
-  if constexpr (noneFloat) {
-    if constexpr (bothUnsigned) {
-      if (aIn > select_widest(outMax)) {
-        return false;
-      }
-    }
-    if constexpr (bothSigned) {
-      if (aIn > select_widest(outMax) || aIn < select_widest(outMin)) {
-        return false;
-      }
-    }
-    if constexpr (inSigned && !outSigned) {
-      if (aIn < 0 || std::make_unsigned_t<In>(aIn) > outMax) {
-        return false;
-      }
-    }
-    if constexpr (!inSigned && outSigned) {
-      if (aIn > select_widest(outMax)) {
-        return false;
-      }
-    }
-  }
+
   return true;
 }
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 
 } // namespace detail
 
@@ -181,7 +105,9 @@ template<typename To, typename From>
 inline To
 AssertedCast(const From aFrom)
 {
-  static_assert(std::is_arithmetic_v<To> && std::is_arithmetic_v<From>);
+  static_assert(std::is_arithmetic<To>::value &&
+                std::is_arithmetic<From>::value,
+                "AssertedCast requires arithmetic types");
   MOZ_ASSERT((detail::IsInBounds<From, To>(aFrom)));
   return static_cast<To>(aFrom);
 }
@@ -197,7 +123,9 @@ template<typename To, typename From>
 inline To
 ReleaseAssertedCast(const From aFrom)
 {
-  static_assert(std::is_arithmetic_v<To> && std::is_arithmetic_v<From>);
+  static_assert(std::is_arithmetic<To>::value &&
+                std::is_arithmetic<From>::value,
+                "ReleaseAssertedCast requires arithmetic types");
   MOZ_RELEASE_ASSERT((detail::IsInBounds<From, To>(aFrom)));
   return static_cast<To>(aFrom);
 }

@@ -1,6 +1,5 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 numberingSystems:table(nofallback){
     numberingSystems{
         adlm{
@@ -73,11 +72,6 @@ numberingSystems:table(nofallback){
             desc{"०१२३४५६७८९"}
             radix:int{10}
         }
-        diak{
-            algorithmic:int{0}
-            desc{"𑥐𑥑𑥒𑥓𑥔𑥕𑥖𑥗𑥘𑥙"}
-            radix:int{10}
-        }
         ethi{
             algorithmic:int{1}
             desc{"%ethiopic"}
@@ -86,11 +80,6 @@ numberingSystems:table(nofallback){
         fullwide{
             algorithmic:int{0}
             desc{"０１２３４５６７８９"}
-            radix:int{10}
-        }
-        gara{
-            algorithmic:int{0}
-            desc{"𐵀𐵁𐵂𐵃𐵄𐵅𐵆𐵇𐵈𐵉"}
             radix:int{10}
         }
         geor{
@@ -121,11 +110,6 @@ numberingSystems:table(nofallback){
         gujr{
             algorithmic:int{0}
             desc{"૦૧૨૩૪૫૬૭૮૯"}
-            radix:int{10}
-        }
-        gukh{
-            algorithmic:int{0}
-            desc{"𖄰𖄱𖄲𖄳𖄴𖄵𖄶𖄷𖄸𖄹"}
             radix:int{10}
         }
         guru{
@@ -173,11 +157,6 @@ numberingSystems:table(nofallback){
             desc{"𖭐𖭑𖭒𖭓𖭔𖭕𖭖𖭗𖭘𖭙"}
             radix:int{10}
         }
-        hmnp{
-            algorithmic:int{0}
-            desc{"𞅀𞅁𞅂𞅃𞅄𞅅𞅆𞅇𞅈𞅉"}
-            radix:int{10}
-        }
         java{
             algorithmic:int{0}
             desc{"꧐꧑꧒꧓꧔꧕꧖꧗꧘꧙"}
@@ -193,19 +172,9 @@ numberingSystems:table(nofallback){
             desc{"ja/SpelloutRules/%spellout-cardinal-financial"}
             radix:int{10}
         }
-        jpanyear{
-            algorithmic:int{1}
-            desc{"ja/SpelloutRules/%spellout-numbering-year-latn"}
-            radix:int{10}
-        }
         kali{
             algorithmic:int{0}
             desc{"꤀꤁꤂꤃꤄꤅꤆꤇꤈꤉"}
-            radix:int{10}
-        }
-        kawi{
-            algorithmic:int{0}
-            desc{"𑽐𑽑𑽒𑽓𑽔𑽕𑽖𑽗𑽘𑽙"}
             radix:int{10}
         }
         khmr{
@@ -216,11 +185,6 @@ numberingSystems:table(nofallback){
         knda{
             algorithmic:int{0}
             desc{"೦೧೨೩೪೫೬೭೮೯"}
-            radix:int{10}
-        }
-        krai{
-            algorithmic:int{0}
-            desc{"𖵰𖵱𖵲𖵳𖵴𖵵𖵶𖵷𖵸𖵹"}
             radix:int{10}
         }
         lana{
@@ -308,16 +272,6 @@ numberingSystems:table(nofallback){
             desc{"၀၁၂၃၄၅၆၇၈၉"}
             radix:int{10}
         }
-        mymrepka{
-            algorithmic:int{0}
-            desc{"𑛚𑛛𑛜𑛝𑛞𑛟𑛠𑛡𑛢𑛣"}
-            radix:int{10}
-        }
-        mymrpao{
-            algorithmic:int{0}
-            desc{"𑛐𑛑𑛒𑛓𑛔𑛕𑛖𑛗𑛘𑛙"}
-            radix:int{10}
-        }
         mymrshan{
             algorithmic:int{0}
             desc{"႐႑႒႓႔႕႖႗႘႙"}
@@ -326,11 +280,6 @@ numberingSystems:table(nofallback){
         mymrtlng{
             algorithmic:int{0}
             desc{"꧰꧱꧲꧳꧴꧵꧶꧷꧸꧹"}
-            radix:int{10}
-        }
-        nagm{
-            algorithmic:int{0}
-            desc{"𞓰𞓱𞓲𞓳𞓴𞓵𞓶𞓷𞓸𞓹"}
             radix:int{10}
         }
         newa{
@@ -348,11 +297,6 @@ numberingSystems:table(nofallback){
             desc{"᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙"}
             radix:int{10}
         }
-        onao{
-            algorithmic:int{0}
-            desc{"𞗱𞗲𞗳𞗴𞗵𞗶𞗷𞗸𞗹𞗺"}
-            radix:int{10}
-        }
         orya{
             algorithmic:int{0}
             desc{"୦୧୨୩୪୫୬୭୮୯"}
@@ -361,11 +305,6 @@ numberingSystems:table(nofallback){
         osma{
             algorithmic:int{0}
             desc{"𐒠𐒡𐒢𐒣𐒤𐒥𐒦𐒧𐒨𐒩"}
-            radix:int{10}
-        }
-        outlined{
-            algorithmic:int{0}
-            desc{"𜳰𜳱𜳲𜳳𜳴𜳵𜳶𜳷𜳸𜳹"}
             radix:int{10}
         }
         rohg{
@@ -386,11 +325,6 @@ numberingSystems:table(nofallback){
         saur{
             algorithmic:int{0}
             desc{"꣐꣑꣒꣓꣔꣕꣖꣗꣘꣙"}
-            radix:int{10}
-        }
-        segment{
-            algorithmic:int{0}
-            desc{"🯰🯱🯲🯳🯴🯵🯶🯷🯸🯹"}
             radix:int{10}
         }
         shrd{
@@ -416,11 +350,6 @@ numberingSystems:table(nofallback){
         sund{
             algorithmic:int{0}
             desc{"᮰᮱᮲᮳᮴᮵᮶᮷᮸᮹"}
-            radix:int{10}
-        }
-        sunu{
-            algorithmic:int{0}
-            desc{"𑯰𑯱𑯲𑯳𑯴𑯵𑯶𑯷𑯸𑯹"}
             radix:int{10}
         }
         takr{
@@ -463,16 +392,6 @@ numberingSystems:table(nofallback){
             desc{"𑓐𑓑𑓒𑓓𑓔𑓕𑓖𑓗𑓘𑓙"}
             radix:int{10}
         }
-        tnsa{
-            algorithmic:int{0}
-            desc{"𖫀𖫁𖫂𖫃𖫄𖫅𖫆𖫇𖫈𖫉"}
-            radix:int{10}
-        }
-        tols{
-            algorithmic:int{0}
-            desc{"𑷠𑷡𑷢𑷣𑷤𑷥𑷦𑷧𑷨𑷩"}
-            radix:int{10}
-        }
         vaii{
             algorithmic:int{0}
             desc{"꘠꘡꘢꘣꘤꘥꘦꘧꘨꘩"}
@@ -481,11 +400,6 @@ numberingSystems:table(nofallback){
         wara{
             algorithmic:int{0}
             desc{"𑣠𑣡𑣢𑣣𑣤𑣥𑣦𑣧𑣨𑣩"}
-            radix:int{10}
-        }
-        wcho{
-            algorithmic:int{0}
-            desc{"𞋰𞋱𞋲𞋳𞋴𞋵𞋶𞋷𞋸𞋹"}
             radix:int{10}
         }
     }

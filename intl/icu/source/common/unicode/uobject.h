@@ -21,10 +21,6 @@
 
 #include "unicode/utypes.h"
 
-#if U_SHOW_CPLUSPLUS_API
-
-#include "unicode/platform.h"
-
 /**
  * \file
  * \brief C++ API: Common ICU base class UObject.
@@ -32,21 +28,19 @@
 
 /**
  * \def U_NO_THROW
- *         Since ICU 64, use noexcept instead.
- *
- *         Previously, define this to define the throw() specification so
+ *         Define this to define the throw() specification so
  *                 certain functions do not throw any exceptions
  *
  *         UMemory operator new methods should have the throw() specification 
- *         appended to them, so that the compiler adds the additional nullptr check 
- *         before calling constructors. Without, if <code>operator new</code> returns nullptr the
+ *         appended to them, so that the compiler adds the additional NULL check 
+ *         before calling constructors. Without, if <code>operator new</code> returns NULL the 
  *         constructor is still called, and if the constructor references member 
  *         data, (which it typically does), the result is a segmentation violation.
  *
- * @stable ICU 4.2. Since ICU 64, Use noexcept instead. See ICU-20422.
+ * @stable ICU 4.2
  */
 #ifndef U_NO_THROW
-#define U_NO_THROW noexcept
+#define U_NO_THROW throw()
 #endif
 
 /*===========================================================================*/
@@ -131,14 +125,14 @@ public:
      * for ICU4C C++ classes
      * @stable ICU 2.4
      */
-    static void * U_EXPORT2 operator new(size_t size) noexcept;
+    static void * U_EXPORT2 operator new(size_t size) U_NO_THROW;
 
     /**
      * Override for ICU4C C++ memory management.
      * See new().
      * @stable ICU 2.4
      */
-    static void * U_EXPORT2 operator new[](size_t size) noexcept;
+    static void * U_EXPORT2 operator new[](size_t size) U_NO_THROW;
 
     /**
      * Override for ICU4C C++ memory management.
@@ -148,29 +142,30 @@ public:
      * for ICU4C C++ classes
      * @stable ICU 2.4
      */
-    static void U_EXPORT2 operator delete(void *p) noexcept;
+    static void U_EXPORT2 operator delete(void *p) U_NO_THROW;
 
     /**
      * Override for ICU4C C++ memory management.
      * See delete().
      * @stable ICU 2.4
      */
-    static void U_EXPORT2 operator delete[](void *p) noexcept;
+    static void U_EXPORT2 operator delete[](void *p) U_NO_THROW;
 
+#if U_HAVE_PLACEMENT_NEW
     /**
      * Override for ICU4C C++ memory management for STL.
      * See new().
      * @stable ICU 2.6
      */
-    static inline void * U_EXPORT2 operator new(size_t, void *ptr) noexcept { return ptr; }
+    static inline void * U_EXPORT2 operator new(size_t, void *ptr) U_NO_THROW { return ptr; }
 
     /**
      * Override for ICU4C C++ memory management for STL.
      * See delete().
      * @stable ICU 2.6
      */
-    static inline void U_EXPORT2 operator delete(void *, void *) noexcept {}
-
+    static inline void U_EXPORT2 operator delete(void *, void *) U_NO_THROW {}
+#endif /* U_HAVE_PLACEMENT_NEW */
 #if U_HAVE_DEBUG_LOCATION_NEW
     /**
       * This method overrides the MFC debug version of the operator new
@@ -179,7 +174,7 @@ public:
       * @param file   The file where the allocation was requested
       * @param line   The line where the allocation was requested 
       */ 
-    static void * U_EXPORT2 operator new(size_t size, const char* file, int line) noexcept;
+    static void * U_EXPORT2 operator new(size_t size, const char* file, int line) U_NO_THROW;
     /**
       * This method provides a matching delete for the MFC debug new
       * 
@@ -187,7 +182,7 @@ public:
       * @param file   The file where the allocation was requested
       * @param line   The line where the allocation was requested 
       */ 
-    static void U_EXPORT2 operator delete(void* p, const char* file, int line) noexcept;
+    static void U_EXPORT2 operator delete(void* p, const char* file, int line) U_NO_THROW;
 #endif /* U_HAVE_DEBUG_LOCATION_NEW */
 #endif /* U_OVERRIDE_CXX_ALLOCATION */
 
@@ -214,8 +209,11 @@ public:
  * The clone() function is not available in UObject because it is not
  * implemented by all ICU classes.
  * Many ICU services provide a clone() function for their class trees,
- * defined on the service's C++ base class
+ * defined on the service's C++ base class, and all subclasses within that
+ * service class tree return a pointer to the service base class
  * (which itself is a subclass of UObject).
+ * This is because some compilers do not support covariant (same-as-this)
+ * return types; cast to the appropriate subclass if necessary.
  *
  * @stable ICU 2.2
  */
@@ -261,8 +259,8 @@ protected:
     // UObject &operator=(const UObject &other) { return *this; }
 
     // comparison operators
-    virtual inline bool operator==(const UObject &other) const { return this==&other; }
-    inline bool operator!=(const UObject &other) const { return !operator==(other); }
+    virtual inline UBool operator==(const UObject &other) const { return this==&other; }
+    inline UBool operator!=(const UObject &other) const { return !operator==(other); }
 
     // clone() commented out from the base class:
     // some compilers do not support co-variant return types
@@ -317,7 +315,5 @@ protected:
 #endif  /* U_HIDE_INTERNAL_API */
 
 U_NAMESPACE_END
-
-#endif /* U_SHOW_CPLUSPLUS_API */
 
 #endif

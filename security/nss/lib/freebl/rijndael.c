@@ -20,6 +20,15 @@
 #include "gcm.h"
 #include "mpi.h"
 
+#if !defined(NSS_X86_OR_X64) && \
+    (defined(_M_IX86) || defined(_M_X64) || defined(__i386__) || defined(__x86_64__))
+#define NSS_X86_OR_X64 1
+#endif
+
+#ifdef _MSC_VER
+#undef USE_HW_AES
+#endif
+
 #if (!defined(IS_LITTLE_ENDIAN) && !defined(NSS_X86_OR_X64)) || \
     (defined(__arm__) && !defined(__ARM_NEON) && !defined(__ARM_NEON__))
 // not test yet on big endian platform of arm
@@ -45,8 +54,8 @@ void rijndael_native_encryptBlock(AESContext *cx,
                                   const unsigned char *input);
 
 /* Stub definitions for the above rijndael_native_* functions, which
- * shouldn't be used unless NSS_X86_OR_X64 is defined */
-#ifndef NSS_X86_OR_X64
+ * shouldn't be used unless hardware AES support is enabled. */
+#ifndef USE_HW_AES
 void
 rijndael_native_key_expansion(AESContext *cx, const unsigned char *key,
                               unsigned int Nk)
@@ -710,12 +719,16 @@ rijndael_encryptECB(AESContext *cx, unsigned char *output,
 {
     AESBlockFunc *encryptor;
 
+#ifdef USE_HW_AES
     if (aesni_support()) {
         /* Use hardware acceleration for normal AES parameters. */
         encryptor = &rijndael_native_encryptBlock;
     } else {
+#endif
         encryptor = &rijndael_encryptBlock128;
+#ifdef USE_HW_AES
     }
+#endif
     while (inputLen > 0) {
         (*encryptor)(cx, output, input);
         output += AES_BLOCK_SIZE;
@@ -857,7 +870,7 @@ aes_InitContext(AESContext *cx, const unsigned char *key, unsigned int keysize,
         PORT_SetError(SEC_ERROR_INVALID_ARGS);
         return SECFailure;
     }
-#if defined(NSS_X86_OR_X64) || defined(USE_HW_AES)
+#ifdef USE_HW_AES
     use_hw_aes = (aesni_support() || arm_aes_support()) && (keysize % 8) == 0;
 #else
     use_hw_aes = PR_FALSE;

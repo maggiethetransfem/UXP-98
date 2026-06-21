@@ -9,6 +9,7 @@
 #include "mozilla/dom/MessagePortBinding.h"
 #include "mozilla/ErrorResult.h"
 
+using mozilla::ErrorResult;
 using mozilla::dom::StructuredSerializeOptions;
 using namespace mozilla::dom;
 

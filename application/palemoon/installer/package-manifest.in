@@ -87,7 +87,9 @@
 @BINPATH@/@MSVC_CXX_RUNTIME_DLL@
 #endif
 #if MOZ_PACKAGE_WIN_UCRT_DLLS
+#ifndef MOZ_WIN9X_KERNELEX
 @BINPATH@/api-ms-win-*.dll
+#endif
 @BINPATH@/ucrtbase.dll
 #endif
 #endif

@@ -16,8 +16,6 @@
 
 #include "unicode/utypes.h"
 
-#if U_SHOW_CPLUSPLUS_API
-
 #if !UCONFIG_NO_FORMATTING
 
 #include "unicode/format.h"
@@ -271,35 +269,35 @@ class UVector;
  * @see TimeZoneNames
  * @stable ICU 50
  */
-class U_I18N_API_CLASS TimeZoneFormat : public Format {
+class U_I18N_API TimeZoneFormat : public Format {
 public:
     /**
      * Copy constructor.
      * @stable ICU 50
      */
-    U_I18N_API TimeZoneFormat(const TimeZoneFormat& other);
+    TimeZoneFormat(const TimeZoneFormat& other);
 
     /**
      * Destructor.
      * @stable ICU 50
      */
-    U_I18N_API virtual ~TimeZoneFormat();
+    virtual ~TimeZoneFormat();
 
     /**
      * Assignment operator.
      * @stable ICU 50
      */
-    U_I18N_API TimeZoneFormat& operator=(const TimeZoneFormat& other);
+    TimeZoneFormat& operator=(const TimeZoneFormat& other);
 
     /**
      * Return true if the given Format objects are semantically equal.
      * Objects of different subclasses are considered unequal.
      * @param other The object to be compared with.
-     * @return Return true if the given Format objects are semantically equal.
+     * @return Return TRUE if the given Format objects are semantically equal.
      *                Objects of different subclasses are considered unequal.
      * @stable ICU 50
      */
-    U_I18N_API virtual bool operator==(const Format& other) const override;
+    virtual UBool operator==(const Format& other) const;
 
     /**
      * Clone this object polymorphically. The caller is responsible
@@ -307,7 +305,7 @@ public:
      * @return A copy of the object
      * @stable ICU 50
      */
-    U_I18N_API virtual TimeZoneFormat* clone() const override;
+    virtual Format* clone() const;
 
     /**
      * Creates an instance of <code>TimeZoneFormat</code> for the given locale.
@@ -317,30 +315,30 @@ public:
      *          owned by the caller.
      * @stable ICU 50
      */
-    U_I18N_API static TimeZoneFormat* U_EXPORT2 createInstance(const Locale& locale, UErrorCode& status);
+    static TimeZoneFormat* U_EXPORT2 createInstance(const Locale& locale, UErrorCode& status);
 
     /**
      * Returns the time zone display name data used by this instance.
      * @return The time zone display name data.
      * @stable ICU 50
      */
-    U_I18N_API const TimeZoneNames* getTimeZoneNames() const;
+    const TimeZoneNames* getTimeZoneNames() const;
 
     /**
-     * Sets the time zone display name data to this format instance.
+     * Sets the time zone display name data to this format instnace.
      * The caller should not delete the TimeZoenNames object after it is adopted
      * by this call.
      * @param tznames TimeZoneNames object to be adopted.
      * @stable ICU 50
      */
-    U_I18N_API void adoptTimeZoneNames(TimeZoneNames* tznames);
+    void adoptTimeZoneNames(TimeZoneNames *tznames);
 
     /**
-     * Sets the time zone display name data to this format instance.
+     * Sets the time zone display name data to this format instnace.
      * @param tznames TimeZoneNames object to be set.
      * @stable ICU 50
      */
-    U_I18N_API void setTimeZoneNames(const TimeZoneNames& tznames);
+    void setTimeZoneNames(const TimeZoneNames &tznames);
 
     /**
      * Returns the localized GMT format pattern.
@@ -349,17 +347,17 @@ public:
      * @see #setGMTPattern
      * @stable ICU 50
      */
-    U_I18N_API UnicodeString& getGMTPattern(UnicodeString& pattern) const;
+    UnicodeString& getGMTPattern(UnicodeString& pattern) const;
 
     /**
      * Sets the localized GMT format pattern. The pattern must contain
      * a single argument {0}, for example "GMT {0}".
      * @param pattern The localized GMT format pattern to be used by this object.
-     * @param status Receives the status.
+     * @param status Recieves the status.
      * @see #getGMTPattern
      * @stable ICU 50
      */
-    U_I18N_API void setGMTPattern(const UnicodeString& pattern, UErrorCode& status);
+    void setGMTPattern(const UnicodeString& pattern, UErrorCode& status);
 
     /**
      * Returns the offset pattern used for localized GMT format.
@@ -369,8 +367,7 @@ public:
      * @see #setGMTOffsetPattern
      * @stable ICU 50
      */
-    U_I18N_API UnicodeString& getGMTOffsetPattern(UTimeZoneFormatGMTOffsetPatternType type,
-                                                  UnicodeString& pattern) const;
+    UnicodeString& getGMTOffsetPattern(UTimeZoneFormatGMTOffsetPatternType type, UnicodeString& pattern) const;
 
     /**
      * Sets the offset pattern for the given offset type.
@@ -380,8 +377,7 @@ public:
      * @see #getGMTOffsetPattern
      * @stable ICU 50
      */
-    U_I18N_API void setGMTOffsetPattern(UTimeZoneFormatGMTOffsetPatternType type,
-                                        const UnicodeString& pattern, UErrorCode& status);
+    void setGMTOffsetPattern(UTimeZoneFormatGMTOffsetPatternType type, const UnicodeString& pattern, UErrorCode& status);
 
     /**
      * Returns the decimal digit characters used for localized GMT format.
@@ -392,7 +388,7 @@ public:
      * @see #setGMTOffsetDigits
      * @stable ICU 50
      */
-    U_I18N_API UnicodeString& getGMTOffsetDigits(UnicodeString& digits) const;
+    UnicodeString& getGMTOffsetDigits(UnicodeString& digits) const;
 
     /**
      * Sets the decimal digit characters used for localized GMT format.
@@ -406,7 +402,7 @@ public:
      * @see #getGMTOffsetDigits
      * @stable ICU 50
      */
-    U_I18N_API void setGMTOffsetDigits(const UnicodeString& digits, UErrorCode& status);
+    void setGMTOffsetDigits(const UnicodeString& digits, UErrorCode& status);
 
     /**
      * Returns the localized GMT format string for GMT(UTC) itself (GMT offset is 0).
@@ -415,7 +411,7 @@ public:
      * @see #setGMTZeroFormat
      * @stable ICU 50
      */
-    U_I18N_API UnicodeString& getGMTZeroFormat(UnicodeString& gmtZeroFormat) const;
+    UnicodeString& getGMTZeroFormat(UnicodeString& gmtZeroFormat) const;
 
     /**
      * Sets the localized GMT format string for GMT(UTC) itself (GMT offset is 0).
@@ -424,7 +420,7 @@ public:
      * @see #getGMTZeroFormat
      * @stable ICU 50
      */
-    U_I18N_API void setGMTZeroFormat(const UnicodeString& gmtZeroFormat, UErrorCode& status);
+    void setGMTZeroFormat(const UnicodeString& gmtZeroFormat, UErrorCode& status);
 
     /**
      * Returns the bitwise flags of UTimeZoneFormatParseOption representing the default parse
@@ -433,17 +429,17 @@ public:
      * @see ParseOption
      * @stable ICU 50
      */
-    U_I18N_API uint32_t getDefaultParseOptions() const;
+    uint32_t getDefaultParseOptions(void) const;
 
     /**
      * Sets the default parse options.
      * <p><b>Note</b>: By default, an instance of <code>TimeZoneFormat</code>
      * created by {@link #createInstance} has no parse options set (UTZFMT_PARSE_OPTION_NONE).
-     * To specify multiple options, use bitwise flags of UTimeZoneFormatParseOption.
+     * To specify multipe options, use bitwise flags of UTimeZoneFormatParseOption.
      * @see #UTimeZoneFormatParseOption
      * @stable ICU 50
      */
-    U_I18N_API void setDefaultParseOptions(uint32_t flags);
+    void setDefaultParseOptions(uint32_t flags);
 
     /**
      * Returns the ISO 8601 basic time zone string for the given offset.
@@ -460,12 +456,8 @@ public:
      * @see #parseOffsetISO8601
      * @stable ICU 51
      */
-    U_I18N_API UnicodeString& formatOffsetISO8601Basic(int32_t offset,
-                                                       UBool useUtcIndicator,
-                                                       UBool isShort,
-                                                       UBool ignoreSeconds,
-                                                       UnicodeString& result,
-                                                       UErrorCode& status) const;
+    UnicodeString& formatOffsetISO8601Basic(int32_t offset, UBool useUtcIndicator, UBool isShort, UBool ignoreSeconds,
+        UnicodeString& result, UErrorCode& status) const;
 
     /**
      * Returns the ISO 8601 extended time zone string for the given offset.
@@ -482,12 +474,8 @@ public:
      * @see #parseOffsetISO8601
      * @stable ICU 51
      */
-    U_I18N_API UnicodeString& formatOffsetISO8601Extended(int32_t offset,
-                                                          UBool useUtcIndicator,
-                                                          UBool isShort,
-                                                          UBool ignoreSeconds,
-                                                          UnicodeString& result,
-                                                          UErrorCode& status) const;
+    UnicodeString& formatOffsetISO8601Extended(int32_t offset, UBool useUtcIndicator, UBool isShort, UBool ignoreSeconds,
+        UnicodeString& result, UErrorCode& status) const;
 
     /**
      * Returns the localized GMT(UTC) offset format for the given offset.
@@ -508,9 +496,7 @@ public:
      * @see #parseOffsetLocalizedGMT
      * @stable ICU 50
      */
-    U_I18N_API UnicodeString& formatOffsetLocalizedGMT(int32_t offset,
-                                                       UnicodeString& result,
-                                                       UErrorCode& status) const;
+    UnicodeString& formatOffsetLocalizedGMT(int32_t offset, UnicodeString& result, UErrorCode& status) const;
 
     /**
      * Returns the short localized GMT(UTC) offset format for the given offset.
@@ -531,9 +517,7 @@ public:
      * @see #parseOffsetShortLocalizedGMT
      * @stable ICU 51
      */
-    U_I18N_API UnicodeString& formatOffsetShortLocalizedGMT(int32_t offset,
-                                                            UnicodeString& result,
-                                                            UErrorCode& status) const;
+    UnicodeString& formatOffsetShortLocalizedGMT(int32_t offset, UnicodeString& result, UErrorCode& status) const;
 
     using Format::format;
 
@@ -544,17 +528,14 @@ public:
      * @param date The date.
      * @param name Receives the display name.
      * @param timeType the output argument for receiving the time type (standard/daylight/unknown)
-     * used for the display name, or nullptr if the information is not necessary.
+     * used for the display name, or NULL if the information is not necessary.
      * @return A reference to the result
      * @see #UTimeZoneFormatStyle
      * @see #UTimeZoneFormatTimeType
      * @stable ICU 50
      */
-    U_I18N_API virtual UnicodeString& format(UTimeZoneFormatStyle style,
-                                             const TimeZone& tz,
-                                             UDate date,
-                                             UnicodeString& name,
-                                             UTimeZoneFormatTimeType* timeType = nullptr) const;
+    virtual UnicodeString& format(UTimeZoneFormatStyle style, const TimeZone& tz, UDate date,
+        UnicodeString& name, UTimeZoneFormatTimeType* timeType = NULL) const;
 
     /**
      * Returns offset from GMT(UTC) in milliseconds for the given ISO 8601
@@ -570,7 +551,7 @@ public:
      * @see #formatOffsetISO8601Extended
      * @stable ICU 50
      */
-    U_I18N_API int32_t parseOffsetISO8601(const UnicodeString& text, ParsePosition& pos) const;
+    int32_t parseOffsetISO8601(const UnicodeString& text, ParsePosition& pos) const;
 
     /**
      * Returns offset from GMT(UTC) in milliseconds for the given localized GMT
@@ -584,7 +565,7 @@ public:
      * @see #formatOffsetLocalizedGMT
      * @stable ICU 50
      */
-    U_I18N_API int32_t parseOffsetLocalizedGMT(const UnicodeString& text, ParsePosition& pos) const;
+    int32_t parseOffsetLocalizedGMT(const UnicodeString& text, ParsePosition& pos) const;
 
     /**
      * Returns offset from GMT(UTC) in milliseconds for the given short localized GMT
@@ -598,7 +579,7 @@ public:
      * @see #formatOffsetShortLocalizedGMT
      * @stable ICU 51
      */
-    U_I18N_API int32_t parseOffsetShortLocalizedGMT(const UnicodeString& text, ParsePosition& pos) const;
+    int32_t parseOffsetShortLocalizedGMT(const UnicodeString& text, ParsePosition& pos) const;
 
     /**
      * Returns a <code>TimeZone</code> by parsing the time zone string according to
@@ -607,20 +588,17 @@ public:
      * @param text The text contains a time zone string at the position.
      * @param style The format style
      * @param pos The position.
-     * @param parseOptions The parse options represented by bitwise flags of UTimeZoneFormatParseOption.
+     * @param parseOptions The parse options repesented by bitwise flags of UTimeZoneFormatParseOption.
      * @param timeType The output argument for receiving the time type (standard/daylight/unknown),
-     * or nullptr if the information is not necessary.
+     * or NULL if the information is not necessary.
      * @return A <code>TimeZone</code>, or null if the input could not be parsed.
      * @see UTimeZoneFormatStyle
      * @see UTimeZoneFormatParseOption
      * @see UTimeZoneFormatTimeType
      * @stable ICU 50
      */
-    U_I18N_API virtual TimeZone* parse(UTimeZoneFormatStyle style,
-                                       const UnicodeString& text,
-                                       ParsePosition& pos,
-                                       int32_t parseOptions,
-                                       UTimeZoneFormatTimeType* timeType = nullptr) const;
+    virtual TimeZone* parse(UTimeZoneFormatStyle style, const UnicodeString& text, ParsePosition& pos,
+        int32_t parseOptions, UTimeZoneFormatTimeType* timeType = NULL) const;
 
     /**
      * Returns a <code>TimeZone</code> by parsing the time zone string according to
@@ -630,17 +608,15 @@ public:
      * @param style The format style
      * @param pos The position.
      * @param timeType The output argument for receiving the time type (standard/daylight/unknown),
-     * or nullptr if the information is not necessary.
+     * or NULL if the information is not necessary.
      * @return A <code>TimeZone</code>, or null if the input could not be parsed.
      * @see UTimeZoneFormatStyle
      * @see UTimeZoneFormatParseOption
      * @see UTimeZoneFormatTimeType
      * @stable ICU 50
      */
-    U_I18N_API TimeZone* parse(UTimeZoneFormatStyle style,
-                               const UnicodeString& text,
-                               ParsePosition& pos,
-                               UTimeZoneFormatTimeType* timeType = nullptr) const;
+    TimeZone* parse(UTimeZoneFormatStyle style, const UnicodeString& text, ParsePosition& pos,
+        UTimeZoneFormatTimeType* timeType = NULL) const;
 
     /* ----------------------------------------------
      * Format APIs
@@ -657,10 +633,8 @@ public:
      * @return Reference to 'appendTo' parameter.
      * @stable ICU 50
      */
-    U_I18N_API virtual UnicodeString& format(const Formattable& obj,
-                                             UnicodeString& appendTo,
-                                             FieldPosition& pos,
-                                             UErrorCode& status) const override;
+    virtual UnicodeString& format(const Formattable& obj, UnicodeString& appendTo,
+        FieldPosition& pos, UErrorCode& status) const;
 
     /**
      * Parse a string to produce an object. This methods handles parsing of
@@ -670,25 +644,23 @@ public:
      * @param parse_pos The position to start parsing at. Upon return this param is set to the position after the
      *                  last character successfully parsed. If the source is not parsed successfully, this param
      *                  will remain unchanged.
-     * @return A newly created Formattable* object, or nullptr on failure.  The caller owns this and should
+     * @return A newly created Formattable* object, or NULL on failure.  The caller owns this and should
      *                 delete it when done.
      * @stable ICU 50
      */
-    U_I18N_API virtual void parseObject(const UnicodeString& source,
-                                        Formattable& result,
-                                        ParsePosition& parse_pos) const override;
+    virtual void parseObject(const UnicodeString& source, Formattable& result, ParsePosition& parse_pos) const;
 
     /**
      * ICU "poor man's RTTI", returns a UClassID for this class.
      * @stable ICU 50
      */
-    U_I18N_API static UClassID getStaticClassID();
+    static UClassID U_EXPORT2 getStaticClassID(void);
 
     /**
      * ICU "poor man's RTTI", returns a UClassID for the actual class.
      * @stable ICU 50
      */
-    U_I18N_API virtual UClassID getDynamicClassID() const override;
+    virtual UClassID getDynamicClassID() const;
 
 protected:
     /**
@@ -697,7 +669,7 @@ protected:
      * @param status receives the status.
      * @stable ICU 50
      */
-    U_I18N_API TimeZoneFormat(const Locale& locale, UErrorCode& status);
+    TimeZoneFormat(const Locale& locale, UErrorCode& status);
 
 private:
     /* Locale of this object */
@@ -809,7 +781,7 @@ private:
      * @param required the required set of fields, such as FIELDS_HM
      * @param status U_ILLEGAL_ARGUMENT is set when the specified pattern does not contain
      *               pattern letters for the required fields.
-     * @return A list of GMTOffsetField objects, or nullptr on error.
+     * @return A list of GMTOffsetField objects, or NULL on error.
      */
     static UVector* parseOffsetPattern(const UnicodeString& pattern, OffsetFields required, UErrorCode& status);
 
@@ -840,7 +812,7 @@ private:
      * @param str the string
      * @param codeArray receives the result
      * @param capacity the capacity of codeArray
-     * @return true when the specified code array is fully filled with code points
+     * @return TRUE when the specified code array is fully filled with code points
      *         (no under/overflow).
      */
     static UBool toCodePoints(const UnicodeString& str, UChar32* codeArray, int32_t capacity);
@@ -875,14 +847,14 @@ private:
      * @param text the text contains ISO 8601 style time zone string (e.g. "-08:00", "Z")
      *      at the position.
      * @param pos the position, non-negative error index will be set on failure.
-     * @param extendedOnly true if parsing the text as ISO 8601 extended offset format (e.g. "-08:00"),
-     *      or false to evaluate the text as basic format.
+     * @param extendedOnly TRUE if parsing the text as ISO 8601 extended offset format (e.g. "-08:00"),
+     *      or FALSE to evaluate the text as basic format.
      * @param hasDigitOffset receiving if the parsed zone string contains offset digits.
      * @return the offset from GMT(UTC) in milliseconds for the given ISO 8601 style
      *      time zone string.
      */
     int32_t parseOffsetISO8601(const UnicodeString& text, ParsePosition& pos, UBool extendedOnly,
-        UBool* hasDigitOffset = nullptr) const;
+        UBool* hasDigitOffset = NULL) const;
 
     /**
      * Appends localized digits to the buffer.
@@ -1084,7 +1056,7 @@ private:
      * Returns the time zone ID of a match at the specified index within
      * the MatchInfoCollection.
      * @param matches the collection of matches
-     * @param idx the index within matches
+     * @param idx the index withing matches
      * @param tzID receives the resolved time zone ID
      * @return a reference to tzID.
      */
@@ -1122,7 +1094,4 @@ private:
 U_NAMESPACE_END
 
 #endif /* !UCONFIG_NO_FORMATTING */
-
-#endif /* U_SHOW_CPLUSPLUS_API */
-
 #endif

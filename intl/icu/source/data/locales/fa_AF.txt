@@ -1,29 +1,24 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 fa_AF{
-    AuxExemplarCharacters{"[\u200E\u200F َ ِ ُ ْ ٖ ٰ \u200C\u200D إ ټ ځ څ ډ ړ ږ ښ ك ګ ڼ ىي]"}
+    AuxExemplarCharacters{
+        "[\u200E\u200F \u064E \u0650 \u064F \u0652 \u0656 \u0670 \u200C \u200D إ ټ ځ "
+        "څ ډ ړ ږ ښ ك ګ ڼ ى ي]"
+    }
     NumberElements{
         arabext{
             patterns{
-                accountingFormat%alphaNextToNumber{"¤ #,##0.00;‎(¤ #,##0.00)"}
-                accountingFormat%noCurrency{"#,##0.00;‎(#,##0.00)"}
                 currencyFormat{"¤ #,##0.00"}
-                currencyFormat%alphaNextToNumber{"¤ #,##0.00"}
-                currencyFormat%noCurrency{"#,##0.00"}
             }
         }
         latn{
             patterns{
                 accountingFormat{"¤ #,##0.00;‎(¤ #,##0.00)"}
-                accountingFormat%alphaNextToNumber{"¤ #,##0.00;‎(¤ #,##0.00)"}
-                accountingFormat%noCurrency{"#,##0.00;‎(#,##0.00)"}
                 currencyFormat{"¤ #,##0.00"}
-                currencyFormat%alphaNextToNumber{"¤ #,##0.00"}
-                currencyFormat%noCurrency{"#,##0.00"}
             }
         }
     }
+    Version{"2.1.43.65"}
     calendar{
         gregorian{
             appendItems{
@@ -52,26 +47,47 @@ fa_AF{
             dayPeriod{
                 format{
                     abbreviated{
-                        afternoon1{"ظهر"}
-                        afternoon2{"بعدازچاشت"}
-                        morning1{"بامداد"}
-                        morning2{"صبح"}
+                        afternoon1{"بعد از چاشت"}
+                        evening1{"شام"}
+                        midnight{"نیمه‌شب"}
+                        morning1{"صبح"}
                         night1{"شب"}
-                        night2{"نیمه‌شب"}
+                        noon{"ظهر"}
+                    }
+                    narrow{
+                        afternoon1{"ب.ظ."}
+                        evening1{"ش"}
+                        midnight{"ن"}
+                        morning1{"ص"}
+                        night1{"ش"}
+                        noon{"ظ"}
                     }
                     wide{
-                        afternoon1{"ظهر"}
-                        afternoon2{"بعدازچاشت"}
-                        morning1{"بامداد"}
-                        morning2{"صبح"}
+                        afternoon1{"بعد از چاشت"}
+                        evening1{"شام"}
+                        midnight{"نیمه‌شب"}
+                        morning1{"صبح"}
                         night1{"شب"}
-                        night2{"نیمه‌شب"}
+                        noon{"ظهر"}
                     }
                 }
                 stand-alone{
+                    abbreviated{
+                        afternoon1{"بعد از چاشت"}
+                        evening1{"شام"}
+                        morning1{"صبح"}
+                        night1{"شب"}
+                    }
                     narrow{
                         afternoon1{"بعد از چاشت"}
-                        morning1{"بامداد"}
+                        evening1{"شام"}
+                        morning1{"ص"}
+                        night1{"ش"}
+                    }
+                    wide{
+                        afternoon1{"بعد از چاشت"}
+                        evening1{"شام"}
+                        morning1{"صبح"}
                         night1{"شب"}
                     }
                 }
@@ -91,6 +107,20 @@ fa_AF{
                         "اکتوبر",
                         "نومبر",
                         "دسم",
+                    }
+                    narrow{
+                        "ج",
+                        "ف",
+                        "م",
+                        "ا",
+                        "م",
+                        "ج",
+                        "ج",
+                        "ا",
+                        "س",
+                        "ا",
+                        "ن",
+                        "د",
                     }
                     wide{
                         "جنوری",
@@ -154,6 +184,20 @@ fa_AF{
             }
             quarters{
                 format{
+                    abbreviated{
+                        "ر۱",
+                        "ر۲",
+                        "ر۳",
+                        "ر۴",
+                    }
+                    wide{
+                        "ربع اول",
+                        "ربع دوم",
+                        "ربع سوم",
+                        "ربع چهارم",
+                    }
+                }
+                stand-alone{
                     abbreviated{
                         "ر۱",
                         "ر۲",

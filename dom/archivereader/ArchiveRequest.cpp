@@ -5,6 +5,7 @@
 
 #include "ArchiveRequest.h"
 
+#include "mozilla/DebugOnly.h"
 #include "mozilla/EventDispatcher.h"
 #include "mozilla/dom/ArchiveRequestBinding.h"
 #include "mozilla/dom/File.h"
@@ -271,8 +272,4 @@ ArchiveRequest::Create(nsPIDOMWindowInner* aOwner,
 NS_IMPL_CYCLE_COLLECTION_INHERITED(ArchiveRequest, DOMRequest,
                                    mArchiveReader)
 
-NS_INTERFACE_MAP_BEGIN_CYCLE_COLLECTION_INHERITED(ArchiveRequest)
-NS_INTERFACE_MAP_END_INHERITING(DOMRequest)
-
-NS_IMPL_ADDREF_INHERITED(ArchiveRequest, DOMRequest)
-NS_IMPL_RELEASE_INHERITED(ArchiveRequest, DOMRequest)
+NS_IMPL_ISUPPORTS_INHERITED0(ArchiveRequest, DOMRequest)

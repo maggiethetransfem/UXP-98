@@ -1349,8 +1349,10 @@ public:
    * Push elements to and pop elements from the top layer.
    * Currently in use for fullscreen and modal version of <dialog>.
    */
+  typedef bool (*TopLayerPredicate)(Element* aElement, void* aData);
   virtual bool TopLayerPush(Element* aElement) = 0;
-  virtual Element* TopLayerPop(FunctionRef<bool(Element*)> aPredicateFunc) = 0;
+  virtual Element* TopLayerPop(TopLayerPredicate aPredicateFunc,
+                               void* aData) = 0;
 
   /**
    * Cancel the dialog element if the document is blocked by the dialog.

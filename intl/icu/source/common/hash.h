@@ -41,7 +41,7 @@ public:
      * @param ignoreKeyCase If true, keys are case insensitive.
      * @param status Error code
     */
-    inline Hashtable(UBool ignoreKeyCase, UErrorCode& status);
+    Hashtable(UBool ignoreKeyCase, UErrorCode& status);
 
     /**
      * Construct a hashtable
@@ -49,7 +49,7 @@ public:
      * @param size initial size allocation
      * @param status Error code
     */
-    inline Hashtable(UBool ignoreKeyCase, int32_t size, UErrorCode& status);
+    Hashtable(UBool ignoreKeyCase, int32_t size, UErrorCode& status);
 
     /**
      * Construct a hashtable
@@ -57,66 +57,60 @@ public:
      * @param valueComp Comparator for comparing the values
      * @param status Error code
     */
-    inline Hashtable(UKeyComparator *keyComp, UValueComparator *valueComp, UErrorCode& status);
+    Hashtable(UKeyComparator *keyComp, UValueComparator *valueComp, UErrorCode& status);
 
     /**
      * Construct a hashtable
      * @param status Error code
     */
-    inline Hashtable(UErrorCode& status);
+    Hashtable(UErrorCode& status);
 
     /**
      * Construct a hashtable, _disregarding any error_.  Use this constructor
      * with caution.
      */
-    inline Hashtable();
+    Hashtable();
 
     /**
      * Non-virtual destructor; make this virtual if Hashtable is subclassed
      * in the future.
      */
-    inline ~Hashtable();
+    ~Hashtable();
 
-    inline UObjectDeleter *setValueDeleter(UObjectDeleter *fn);
+    UObjectDeleter *setValueDeleter(UObjectDeleter *fn);
 
-    inline int32_t count() const;
+    int32_t count() const;
 
-    inline void* put(const UnicodeString& key, void* value, UErrorCode& status);
+    void* put(const UnicodeString& key, void* value, UErrorCode& status);
 
-    inline int32_t puti(const UnicodeString& key, int32_t value, UErrorCode& status);
+    int32_t puti(const UnicodeString& key, int32_t value, UErrorCode& status);
 
-    inline int32_t putiAllowZero(const UnicodeString& key, int32_t value, UErrorCode& status);
+    void* get(const UnicodeString& key) const;
 
-    inline void* get(const UnicodeString& key) const;
+    int32_t geti(const UnicodeString& key) const;
 
-    inline int32_t geti(const UnicodeString& key) const;
+    void* remove(const UnicodeString& key);
 
-    inline int32_t getiAndFound(const UnicodeString& key, UBool &found) const;
+    int32_t removei(const UnicodeString& key);
 
-    inline void* remove(const UnicodeString& key);
+    void removeAll(void);
 
-    inline int32_t removei(const UnicodeString& key);
-
-    inline void removeAll();
-
-    inline UBool containsKey(const UnicodeString& key) const;
-
-    inline const UHashElement* find(const UnicodeString& key) const;
+    const UHashElement* find(const UnicodeString& key) const;
 
     /**
      * @param pos - must be UHASH_FIRST on first call, and untouched afterwards.
      * @see uhash_nextElement
      */
-    inline const UHashElement* nextElement(int32_t& pos) const;
+    const UHashElement* nextElement(int32_t& pos) const;
 
-    inline UKeyComparator* setKeyComparator(UKeyComparator*keyComp);
+    UKeyComparator* setKeyComparator(UKeyComparator*keyComp);
 
-    inline UValueComparator* setValueComparator(UValueComparator* valueComp);
+    UValueComparator* setValueComparator(UValueComparator* valueComp);
 
-    inline UBool equals(const Hashtable& that) const;
+    UBool equals(const Hashtable& that) const;
 private:
-    Hashtable(const Hashtable &other) = delete; // forbid copying of this class
-    Hashtable &operator=(const Hashtable &other) = delete; // forbid copying of this class
+    Hashtable(const Hashtable &other); // forbid copying of this class
+    Hashtable &operator=(const Hashtable &other); // forbid copying of this class
 };
 
 /*********************************************************************
@@ -148,47 +142,47 @@ inline void Hashtable::initSize(UHashFunction *keyHash, UKeyComparator *keyComp,
 }
 
 inline Hashtable::Hashtable(UKeyComparator *keyComp, UValueComparator *valueComp,
-                 UErrorCode& status) : hash(nullptr) {
+                 UErrorCode& status) : hash(0) {
     init( uhash_hashUnicodeString, keyComp, valueComp, status);
 }
 
 inline Hashtable::Hashtable(UBool ignoreKeyCase, UErrorCode& status)
- : hash(nullptr)
+ : hash(0)
 {
     init(ignoreKeyCase ? uhash_hashCaselessUnicodeString
                         : uhash_hashUnicodeString,
             ignoreKeyCase ? uhash_compareCaselessUnicodeString
                         : uhash_compareUnicodeString,
-            nullptr,
+            NULL,
             status);
 }
 
 inline Hashtable::Hashtable(UBool ignoreKeyCase, int32_t size, UErrorCode& status)
- : hash(nullptr)
+ : hash(0)
 {
     initSize(ignoreKeyCase ? uhash_hashCaselessUnicodeString
                         : uhash_hashUnicodeString,
             ignoreKeyCase ? uhash_compareCaselessUnicodeString
                         : uhash_compareUnicodeString,
-            nullptr, size,
+            NULL, size,
             status);
 }
 
 inline Hashtable::Hashtable(UErrorCode& status)
- : hash(nullptr)
+ : hash(0)
 {
-    init(uhash_hashUnicodeString, uhash_compareUnicodeString, nullptr, status);
+    init(uhash_hashUnicodeString, uhash_compareUnicodeString, NULL, status);
 }
 
 inline Hashtable::Hashtable()
- : hash(nullptr)
+ : hash(0)
 {
     UErrorCode status = U_ZERO_ERROR;
-    init(uhash_hashUnicodeString, uhash_compareUnicodeString, nullptr, status);
+    init(uhash_hashUnicodeString, uhash_compareUnicodeString, NULL, status);
 }
 
 inline Hashtable::~Hashtable() {
-    if (hash != nullptr) {
+    if (hash != NULL) {
         uhash_close(hash);
     }
 }
@@ -209,21 +203,12 @@ inline int32_t Hashtable::puti(const UnicodeString& key, int32_t value, UErrorCo
     return uhash_puti(hash, new UnicodeString(key), value, &status);
 }
 
-inline int32_t Hashtable::putiAllowZero(const UnicodeString& key, int32_t value,
-                                        UErrorCode& status) {
-    return uhash_putiAllowZero(hash, new UnicodeString(key), value, &status);
-}
-
 inline void* Hashtable::get(const UnicodeString& key) const {
     return uhash_get(hash, &key);
 }
 
 inline int32_t Hashtable::geti(const UnicodeString& key) const {
     return uhash_geti(hash, &key);
-}
-
-inline int32_t Hashtable::getiAndFound(const UnicodeString& key, UBool &found) const {
-    return uhash_getiAndFound(hash, &key, &found);
 }
 
 inline void* Hashtable::remove(const UnicodeString& key) {
@@ -234,10 +219,6 @@ inline int32_t Hashtable::removei(const UnicodeString& key) {
     return uhash_removei(hash, &key);
 }
 
-inline UBool Hashtable::containsKey(const UnicodeString& key) const {
-    return uhash_containsKey(hash, &key);
-}
-
 inline const UHashElement* Hashtable::find(const UnicodeString& key) const {
     return uhash_find(hash, &key);
 }
@@ -246,7 +227,7 @@ inline const UHashElement* Hashtable::nextElement(int32_t& pos) const {
     return uhash_nextElement(hash, &pos);
 }
 
-inline void Hashtable::removeAll() {
+inline void Hashtable::removeAll(void) {
     uhash_removeAll(hash);
 }
 

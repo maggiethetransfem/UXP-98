@@ -63,7 +63,11 @@ typedef struct
     } cache [N_CACHED_FAST_PATHS];
 } cache_t;
 
+#ifdef MOZ_WIN9X_KERNELEX
+static cache_t fast_path_cache_win9x;
+#else
 PIXMAN_DEFINE_THREAD_LOCAL (cache_t, fast_path_cache);
+#endif
 
 static void
 dummy_composite_rect (pixman_implementation_t *imp,
@@ -88,7 +92,11 @@ _pixman_implementation_lookup_composite (pixman_implementation_t  *toplevel,
     int i;
 
     /* Check cache for fast paths */
+#ifdef MOZ_WIN9X_KERNELEX
+    cache = &fast_path_cache_win9x;
+#else
     cache = PIXMAN_GET_THREAD_LOCAL (fast_path_cache);
+#endif
 
     for (i = 0; i < N_CACHED_FAST_PATHS; ++i)
     {

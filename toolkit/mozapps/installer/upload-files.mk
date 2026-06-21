@@ -81,7 +81,9 @@ ifdef MSVC_CXX_RUNTIME_DLL
 endif
 
 ifdef WIN_UCRT_REDIST_DIR
+ifndef MOZ_WIN9X_KERNELEX
   JSSHELL_BINS += $(notdir $(wildcard $(DIST)/bin/api-ms-win-*.dll))
+endif
   JSSHELL_BINS += ucrtbase.dll
 endif
 

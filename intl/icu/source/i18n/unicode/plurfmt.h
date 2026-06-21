@@ -16,8 +16,6 @@
 
 #include "unicode/utypes.h"
 
-#if U_SHOW_CPLUSPLUS_API
-
 /**
  * \file
  * \brief C++ API: PluralFormat object
@@ -70,7 +68,7 @@ class NFRule;
  *     use the predefined keywords. The whole plural formatting of messages can
  *     be done using localized patterns from resource bundles. For predefined plural
  *     rules, see the CLDR <i>Language Plural Rules</i> page at
- *     https://unicode-org.github.io/cldr-staging/charts/latest/supplemental/language_plural_rules.html
+ *    http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
  * </ul>
  * </p>
  * <h4>Usage of <code>PluralFormat</code></h4>
@@ -145,7 +143,7 @@ class NFRule;
  * @stable ICU 4.0
  */
 
-class U_I18N_API_CLASS PluralFormat : public Format {
+class U_I18N_API PluralFormat : public Format {
 public:
 
     /**
@@ -156,7 +154,7 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(UErrorCode& status);
+    PluralFormat(UErrorCode& status);
 
     /**
      * Creates a new cardinal-number <code>PluralFormat</code> for a given locale.
@@ -167,7 +165,7 @@ public:
      *               must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const Locale& locale, UErrorCode& status);
+    PluralFormat(const Locale& locale, UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for a given set of rules.
@@ -178,7 +176,7 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const PluralRules& rules, UErrorCode& status);
+    PluralFormat(const PluralRules& rules, UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for a given set of rules.
@@ -190,8 +188,13 @@ public:
      * @param status  output param set to success/failure code on exit, which
      *                must not indicate a failure before the function call.
      * @stable ICU 4.0
+	 * <p>
+	 * <h4>Sample code</h4>
+	 * \snippet samples/plurfmtsample/plurfmtsample.cpp PluralFormatExample1
+	 * \snippet samples/plurfmtsample/plurfmtsample.cpp PluralFormatExample
+	 * <p>
      */
-    U_I18N_API PluralFormat(const Locale& locale, const PluralRules& rules, UErrorCode& status);
+    PluralFormat(const Locale& locale, const PluralRules& rules, UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for the plural type.
@@ -203,7 +206,7 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 50
      */
-    U_I18N_API PluralFormat(const Locale& locale, UPluralType type, UErrorCode& status);
+    PluralFormat(const Locale& locale, UPluralType type, UErrorCode& status);
 
     /**
      * Creates a new cardinal-number <code>PluralFormat</code> for a given pattern string.
@@ -215,7 +218,7 @@ public:
      *                 must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const UnicodeString& pattern, UErrorCode& status);
+    PluralFormat(const UnicodeString& pattern, UErrorCode& status);
 
     /**
      * Creates a new cardinal-number <code>PluralFormat</code> for a given pattern string and
@@ -231,7 +234,7 @@ public:
      *                 must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const Locale& locale, const UnicodeString& pattern, UErrorCode& status);
+    PluralFormat(const Locale& locale, const UnicodeString& pattern, UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for a given set of rules, a
@@ -244,7 +247,9 @@ public:
      *                 must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const PluralRules& rules, const UnicodeString& pattern, UErrorCode& status);
+    PluralFormat(const PluralRules& rules,
+                 const UnicodeString& pattern,
+                 UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for a given set of rules, a
@@ -260,10 +265,10 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API PluralFormat(const Locale& locale,
-                            const PluralRules& rules,
-                            const UnicodeString& pattern,
-                            UErrorCode& status);
+    PluralFormat(const Locale& locale,
+                 const PluralRules& rules,
+                 const UnicodeString& pattern,
+                 UErrorCode& status);
 
     /**
      * Creates a new <code>PluralFormat</code> for a plural type, a
@@ -278,22 +283,22 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 50
      */
-    U_I18N_API PluralFormat(const Locale& locale,
-                            UPluralType type,
-                            const UnicodeString& pattern,
-                            UErrorCode& status);
+    PluralFormat(const Locale& locale,
+                 UPluralType type,
+                 const UnicodeString& pattern,
+                 UErrorCode& status);
 
     /**
       * copy constructor.
       * @stable ICU 4.0
       */
-    U_I18N_API PluralFormat(const PluralFormat& other);
+    PluralFormat(const PluralFormat& other);
 
     /**
      * Destructor.
      * @stable ICU 4.0
      */
-    U_I18N_API virtual ~PluralFormat();
+    virtual ~PluralFormat();
 
     /**
      * Sets the pattern used by this plural format.
@@ -307,7 +312,8 @@ public:
      *                must not indicate a failure before the function call.
      * @stable ICU 4.0
      */
-    U_I18N_API void applyPattern(const UnicodeString& pattern, UErrorCode& status);
+    void applyPattern(const UnicodeString& pattern, UErrorCode& status);
+
 
     using Format::format;
 
@@ -323,7 +329,7 @@ public:
      * @return        the string containing the formatted plural message.
      * @stable ICU 4.0
      */
-    U_I18N_API UnicodeString format(int32_t number, UErrorCode& status) const;
+    UnicodeString format(int32_t number, UErrorCode& status) const;
 
     /**
      * Formats a plural message for a given number.
@@ -337,7 +343,7 @@ public:
      * @return        the string containing the formatted plural message.
      * @stable ICU 4.0
      */
-    U_I18N_API UnicodeString format(double number, UErrorCode& status) const;
+    UnicodeString format(double number, UErrorCode& status) const;
 
     /**
      * Formats a plural message for a given number.
@@ -355,10 +361,10 @@ public:
      * @return         the string containing the formatted plural message.
      * @stable ICU 4.0
      */
-    U_I18N_API UnicodeString& format(int32_t number,
-                                     UnicodeString& appendTo,
-                                     FieldPosition& pos,
-                                     UErrorCode& status) const;
+    UnicodeString& format(int32_t number,
+                          UnicodeString& appendTo,
+                          FieldPosition& pos,
+                          UErrorCode& status) const;
 
     /**
      * Formats a plural message for a given number.
@@ -376,10 +382,10 @@ public:
      * @return         the string containing the formatted plural message.
      * @stable ICU 4.0
      */
-    U_I18N_API UnicodeString& format(double number,
-                                     UnicodeString& appendTo,
-                                     FieldPosition& pos,
-                                     UErrorCode& status) const;
+    UnicodeString& format(double number,
+                          UnicodeString& appendTo,
+                          FieldPosition& pos,
+                          UErrorCode& status) const;
 
 #ifndef U_HIDE_DEPRECATED_API 
     /**
@@ -397,7 +403,7 @@ public:
      *             a different kind of PluralRules instance;
      *             use one of the constructors to create a new instance instead.
      */
-    U_I18N_API void setLocale(const Locale& locale, UErrorCode& status);
+    void setLocale(const Locale& locale, UErrorCode& status);
 #endif  /* U_HIDE_DEPRECATED_API */
 
     /**
@@ -409,7 +415,7 @@ public:
       *                must not indicate a failure before the function call.
       * @stable ICU 4.0
       */
-    U_I18N_API void setNumberFormat(const NumberFormat* format, UErrorCode& status);
+    void setNumberFormat(const NumberFormat* format, UErrorCode& status);
 
     /**
        * Assignment operator
@@ -417,7 +423,7 @@ public:
        * @param other    the PluralFormat object to copy from.
        * @stable ICU 4.0
        */
-    U_I18N_API PluralFormat& operator=(const PluralFormat& other);
+    PluralFormat& operator=(const PluralFormat& other);
 
     /**
       * Return true if another object is semantically equal to this one.
@@ -426,7 +432,7 @@ public:
       * @return         true if other is semantically equal to this.
       * @stable ICU 4.0
       */
-    U_I18N_API virtual bool operator==(const Format& other) const override;
+    virtual UBool operator==(const Format& other) const;
 
     /**
      * Return true if another object is semantically unequal to this one.
@@ -435,69 +441,69 @@ public:
      * @return         true if other is semantically unequal to this.
      * @stable ICU 4.0
      */
-    U_I18N_API virtual bool operator!=(const Format& other) const;
+    virtual UBool operator!=(const Format& other) const;
 
     /**
      * Clones this Format object polymorphically.  The caller owns the
      * result and should delete it when done.
      * @stable ICU 4.0
      */
-    U_I18N_API virtual PluralFormat* clone() const override;
+    virtual Format* clone(void) const;
 
-    /**
-     * Formats a plural message for a number taken from a Formattable object.
-     *
-     * @param obj       The object containing a number for which the
-     *                  plural message should be formatted.
-     *                  The object must be of a numeric type.
-     * @param appendTo  output parameter to receive result.
+   /**
+    * Formats a plural message for a number taken from a Formattable object.
+    *
+    * @param obj       The object containing a number for which the 
+    *                  plural message should be formatted.
+    *                  The object must be of a numeric type.
+    * @param appendTo  output parameter to receive result.
+    *                  Result is appended to existing contents.
+    * @param pos       On input: an alignment field, if desired.
+    *                  On output: the offsets of the alignment field.
+    * @param status    output param filled with success/failure status.
+    * @return          Reference to 'appendTo' parameter.
+    * @stable ICU 4.0
+    */
+   UnicodeString& format(const Formattable& obj,
+                         UnicodeString& appendTo,
+                         FieldPosition& pos,
+                         UErrorCode& status) const;
+
+   /**
+    * Returns the pattern from applyPattern() or constructor().
+    *
+    * @param  appendTo  output parameter to receive result.
      *                  Result is appended to existing contents.
-     * @param pos       On input: an alignment field, if desired.
-     *                  On output: the offsets of the alignment field.
-     * @param status    output param filled with success/failure status.
-     * @return          Reference to 'appendTo' parameter.
-     * @stable ICU 4.0
-     */
-    U_I18N_API UnicodeString& format(const Formattable& obj,
-                                     UnicodeString& appendTo,
-                                     FieldPosition& pos,
-                                     UErrorCode& status) const override;
+    * @return the UnicodeString with inserted pattern.
+    * @stable ICU 4.0
+    */
+   UnicodeString& toPattern(UnicodeString& appendTo);
 
-    /**
-     * Returns the pattern from applyPattern() or constructor().
-     *
-     * @param  appendTo  output parameter to receive result.
-     *                  Result is appended to existing contents.
-     * @return the UnicodeString with inserted pattern.
-     * @stable ICU 4.0
-     */
-    U_I18N_API UnicodeString& toPattern(UnicodeString& appendTo);
-
-    /**
-     * This method is not yet supported by <code>PluralFormat</code>.
-     * <P>
-     * Before calling, set parse_pos.index to the offset you want to start
-     * parsing at in the source. After calling, parse_pos.index is the end of
-     * the text you parsed. If error occurs, index is unchanged.
-     * <P>
-     * When parsing, leading whitespace is discarded (with a successful parse),
-     * while trailing whitespace is left as is.
-     * <P>
-     * See Format::parseObject() for more.
-     *
-     * @param source    The string to be parsed into an object.
-     * @param result    Formattable to be set to the parse result.
-     *                  If parse fails, return contents are undefined.
-     * @param parse_pos The position to start parsing at. Upon return
-     *                  this param is set to the position after the
-     *                  last character successfully parsed. If the
-     *                  source is not parsed successfully, this param
-     *                  will remain unchanged.
-     * @stable ICU 4.0
-     */
-    U_I18N_API virtual void parseObject(const UnicodeString& source,
-                                        Formattable& result,
-                                        ParsePosition& parse_pos) const override;
+   /**
+    * This method is not yet supported by <code>PluralFormat</code>.
+    * <P>
+    * Before calling, set parse_pos.index to the offset you want to start
+    * parsing at in the source. After calling, parse_pos.index is the end of
+    * the text you parsed. If error occurs, index is unchanged.
+    * <P>
+    * When parsing, leading whitespace is discarded (with a successful parse),
+    * while trailing whitespace is left as is.
+    * <P>
+    * See Format::parseObject() for more.
+    *
+    * @param source    The string to be parsed into an object.
+    * @param result    Formattable to be set to the parse result.
+    *                  If parse fails, return contents are undefined.
+    * @param parse_pos The position to start parsing at. Upon return
+    *                  this param is set to the position after the
+    *                  last character successfully parsed. If the
+    *                  source is not parsed successfully, this param
+    *                  will remain unchanged.
+    * @stable ICU 4.0
+    */
+   virtual void parseObject(const UnicodeString& source,
+                            Formattable& result,
+                            ParsePosition& parse_pos) const;
 
     /**
      * ICU "poor man's RTTI", returns a UClassID for this class.
@@ -505,17 +511,20 @@ public:
      * @stable ICU 4.0
      *
      */
-    U_I18N_API static UClassID getStaticClassID();
+    static UClassID U_EXPORT2 getStaticClassID(void);
 
     /**
      * ICU "poor man's RTTI", returns a UClassID for the actual class.
      *
      * @stable ICU 4.0
      */
-    U_I18N_API virtual UClassID getDynamicClassID() const override;
+     virtual UClassID getDynamicClassID() const;
 
 private:
-    class PluralSelector : public UMemory {
+     /**
+      * @internal
+      */
+    class U_I18N_API PluralSelector : public UMemory {
       public:
         virtual ~PluralSelector();
         /**
@@ -525,18 +534,22 @@ private:
          * @param number The number to be plural-formatted.
          * @param ec Error code.
          * @return The selected PluralFormat keyword.
+         * @internal
          */
         virtual UnicodeString select(void *context, double number, UErrorCode& ec) const = 0;
     };
 
-    class PluralSelectorAdapter : public PluralSelector {
+    /**
+     * @internal
+     */
+    class U_I18N_API PluralSelectorAdapter : public PluralSelector {
       public:
-        PluralSelectorAdapter() : pluralRules(nullptr) {
+        PluralSelectorAdapter() : pluralRules(NULL) {
         }
 
         virtual ~PluralSelectorAdapter();
 
-        virtual UnicodeString select(void *context, double number, UErrorCode& /*ec*/) const override;
+        virtual UnicodeString select(void *context, double number, UErrorCode& /*ec*/) const; /**< @internal */
 
         void reset();
 
@@ -549,7 +562,7 @@ private:
     double offset;
     PluralSelectorAdapter pluralRulesWrapper;
 
-    PluralFormat() = delete;   // default constructor not implemented
+    PluralFormat();   // default constructor not implemented
     void init(const PluralRules* rules, UPluralType type, UErrorCode& status);
     /**
      * Copies dynamically allocated values (pointer fields).
@@ -560,7 +573,7 @@ private:
     UnicodeString& format(const Formattable& numberObject, double number,
                           UnicodeString& appendTo,
                           FieldPosition& pos,
-                          UErrorCode& status) const;
+                          UErrorCode& status) const; /**< @internal */
 
     /**
      * Finds the PluralFormat sub-message for the given number, or the "other" sub-message.
@@ -575,7 +588,7 @@ private:
      */
     static int32_t findSubMessage(
          const MessagePattern& pattern, int32_t partIndex,
-         const PluralSelector& selector, void *context, double number, UErrorCode& ec);
+         const PluralSelector& selector, void *context, double number, UErrorCode& ec); /**< @internal */
 
     void parseType(const UnicodeString& source, const NFRule *rbnfLenientScanner,
         Formattable& result, FieldPosition& pos) const;
@@ -587,8 +600,6 @@ private:
 U_NAMESPACE_END
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
-
-#endif /* U_SHOW_CPLUSPLUS_API */
 
 #endif // _PLURFMT
 //eof

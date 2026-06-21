@@ -11,7 +11,6 @@
 
 #include "numparse_types.h"
 #include "number_decimalquantity.h"
-#include "string_segment.h"
 #include "putilimp.h"
 #include <cmath>
 
@@ -53,7 +52,7 @@ bool ParsedNumber::seenNumber() const {
     return !quantity.bogus || 0 != (flags & FLAG_NAN) || 0 != (flags & FLAG_INFINITY);
 }
 
-double ParsedNumber::getDouble(UErrorCode& status) const {
+double ParsedNumber::getDouble() const {
     bool sawNaN = 0 != (flags & FLAG_NAN);
     bool sawInfinity = 0 != (flags & FLAG_INFINITY);
 
@@ -70,11 +69,8 @@ double ParsedNumber::getDouble(UErrorCode& status) const {
             return INFINITY;
         }
     }
-    if (quantity.bogus) {
-        status = U_INVALID_STATE_ERROR;
-        return 0.0;
-    }
-    if (quantity.isZeroish() && quantity.isNegative()) {
+    U_ASSERT(!quantity.bogus);
+    if (quantity.isZero() && quantity.isNegative()) {
         return -0.0;
     }
 
@@ -107,7 +103,7 @@ void ParsedNumber::populateFormattable(Formattable& output, parse_flags_t parseF
         }
     }
     U_ASSERT(!quantity.bogus);
-    if (quantity.isZeroish() && quantity.isNegative() && !integerOnly) {
+    if (quantity.isZero() && quantity.isNegative() && !integerOnly) {
         output.setDouble(-0.0);
         return;
     }

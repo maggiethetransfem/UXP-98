@@ -52,11 +52,13 @@ struct InvalidFunctorTag {};
 // pointer, as pointer to object, or unstorable.
 template <typename Callable, typename Ret, typename... Params>
 struct GetCallableTag {
+#if !defined(_MSC_VER) || _MSC_VER > 1900
   // Match the case where |Callable| is a compatible function pointer or
   // converts to one.  (|+obj| invokes such a conversion.)
   template <typename T>
   static MatchingFunctionPointerTag test(
       int, T& obj, EnableMatchingFunction<decltype(+obj), Ret, Params...> = 0);
+#endif
 
   // Match the case where |Callable| is callable but can't be converted to a
   // function pointer.  (|short| is a worse match for 0 than |int|, causing the
@@ -77,11 +79,16 @@ struct GetCallableTag {
 template <typename Ret, typename... Params>
 struct GetCallableTag<std::nullptr_t, Ret, Params...> {};
 
+#if defined(_MSC_VER) && _MSC_VER <= 1900
+template <typename Result, typename Callable, typename Ret, typename... Params>
+using EnableFunctionTag = int;
+#else
 template <typename Result, typename Callable, typename Ret, typename... Params>
 using EnableFunctionTag = std::enable_if_t<
     std::is_same_v<typename GetCallableTag<Callable, Ret, Params...>::Type,
                    Result>,
     int>;
+#endif
 
 }  // namespace detail
 
@@ -178,7 +185,11 @@ class FunctionRef<Ret(Params...)> {
   MOZ_IMPLICIT FunctionRef(Callable& aCallable) noexcept
       : mAdaptor([](const Payload& aPayload, Params... aParams) {
           auto& func = *static_cast<Callable*>(aPayload.mObject);
+#if defined(_MSC_VER) && _MSC_VER <= 1900
+          return func(static_cast<Params>(aParams)...);
+#else
           return static_cast<Ret>(func(static_cast<Params>(aParams)...));
+#endif
         }) {
     ::new (KnownNotNull, &mPayload.mObject) void*(&aCallable);
   }
@@ -196,15 +207,28 @@ class FunctionRef<Ret(Params...)> {
    *   float thrice(long double d) { return static_cast<float>(d) * 3; }
    *   FunctionRef<double(double)> func2(&thrice);
    *
-   *   // Non-generic lambdas that don't capture anything have a conversion
-   *   // function to the appropriate function pointer type.
-   *   FunctionRef<int(double)> f([](long double){ return 'c'; });
-   */
+  *   // Non-generic lambdas that don't capture anything have a conversion
+  *   // function to the appropriate function pointer type.
+  *   FunctionRef<int(double)> f([](long double){ return 'c'; });
+  */
+#if defined(_MSC_VER) && _MSC_VER <= 1900
+  template <typename Callable,
+            typename = detail::EnableFunctionTag<detail::MatchingFunctorTag,
+                                                 Callable, Ret, Params...>>
+  MOZ_IMPLICIT FunctionRef(const Callable& aCallable) noexcept
+      : mAdaptor([](const Payload& aPayload, Params... aParams) {
+          auto& func = *static_cast<Callable*>(aPayload.mObject);
+          return func(static_cast<Params>(aParams)...);
+        }) {
+    ::new (KnownNotNull, &mPayload.mObject) void*(const_cast<Callable*>(&aCallable));
+  }
+#else
   template <typename Callable,
             typename = detail::EnableFunctionTag<
                 detail::MatchingFunctionPointerTag, Callable, Ret, Params...>>
   MOZ_IMPLICIT FunctionRef(const Callable& aCallable) noexcept
       : FunctionRef(detail::MatchingFunctionPointerTag{}, +aCallable) {}
+#endif
 
   /** Call the callable stored in this with the given arguments. */
   Ret operator()(Params... params) const {

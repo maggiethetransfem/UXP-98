@@ -1,18 +1,20 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 en_150{
     %%Parent{"en_001"}
     NumberElements{
         latn{
             patterns{
                 accountingFormat{"#,##0.00 ¤"}
-                accountingFormat%alphaNextToNumber{"#,##0.00 ¤"}
                 currencyFormat{"#,##0.00 ¤"}
-                currencyFormat%alphaNextToNumber{"#,##0.00 ¤"}
+            }
+            symbols{
+                decimal{","}
+                group{"."}
             }
         }
     }
+    Version{"2.1.38.69"}
     calendar{
         gregorian{
             DateTimePatterns{
@@ -25,20 +27,10 @@ en_150{
                 "d MMM y",
                 "dd/MM/y",
                 "{1}, {0}",
+                "{1} 'at' {0}",
+                "{1} 'at' {0}",
                 "{1}, {0}",
                 "{1}, {0}",
-                "{1}, {0}",
-                "{1}, {0}",
-            }
-            DateTimeSkeletons{
-                "HHmmsszzzz",
-                "HHmmssz",
-                "HHmmss",
-                "HHmm",
-                "yMMMMEEEEd",
-                "yMMMMd",
-                "yMMMd",
-                "yMMdd",
             }
         }
     }

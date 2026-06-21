@@ -45,6 +45,24 @@
 
 #include <algorithm>
 
+static void
+GetFontEntryOpenTypeScriptTags(hb_script_t aScript, unsigned int* aScriptCount,
+                               hb_tag_t* aScriptTags)
+{
+    hb_tag_t scriptTag1 = HB_TAG_NONE;
+    hb_tag_t scriptTag2 = HB_TAG_NONE;
+    hb_ot_tags_from_script(aScript, &scriptTag1, &scriptTag2);
+
+    unsigned int count = 0;
+    if (scriptTag1 && count < *aScriptCount) {
+        aScriptTags[count++] = scriptTag1;
+    }
+    if (scriptTag2 && scriptTag2 != scriptTag1 && count < *aScriptCount) {
+        aScriptTags[count++] = scriptTag2;
+    }
+    *aScriptCount = count;
+}
+
 using namespace mozilla;
 using namespace mozilla::gfx;
 using namespace mozilla::unicode;
@@ -244,8 +262,11 @@ gfxFontEntry::SupportsScriptInGSUB(const hb_tag_t* aScriptTags,
 
     unsigned int index;
     hb_tag_t     chosenScript;
-    bool found = hb_ot_layout_table_select_script(
-        face, TRUETYPE_TAG('G', 'S', 'U', 'B'), aNumTags, aScriptTags, &index,
+    AutoTArray<hb_tag_t, 8> scriptTags;
+    scriptTags.AppendElements(aScriptTags, aNumTags);
+    scriptTags.AppendElement(HB_TAG_NONE);
+    bool found = hb_ot_layout_table_choose_script(
+        face, TRUETYPE_TAG('G', 'S', 'U', 'B'), scriptTags.Elements(), &index,
         &chosenScript);
     hb_face_destroy(face);
 
@@ -827,9 +848,7 @@ gfxFontEntry::SupportsOpenTypeFeature(Script aScript, uint32_t aFeatureTag)
         // Get the OpenType tag(s) that match this script code
         unsigned int scriptCount = 4;
         hb_tag_t scriptTags[4];
-        hb_ot_tags_from_script_and_language(hbScript, HB_LANGUAGE_INVALID,
-                                            &scriptCount, scriptTags, nullptr,
-                                            nullptr);
+        GetFontEntryOpenTypeScriptTags(hbScript, &scriptCount, scriptTags);
 
         // Append DEFAULT to the returned tags, if room
         if (scriptCount < 4) {
@@ -888,9 +907,7 @@ gfxFontEntry::InputsForOpenTypeFeature(Script aScript, uint32_t aFeatureTag)
         // Get the OpenType tag(s) that match this script code
         unsigned int scriptCount = 4;
         hb_tag_t scriptTags[5];  // space for null terminator
-        hb_ot_tags_from_script_and_language(hbScript, HB_LANGUAGE_INVALID,
-                                            &scriptCount, scriptTags, nullptr,
-                                            nullptr);
+        GetFontEntryOpenTypeScriptTags(hbScript, &scriptCount, scriptTags);
 
         // Append DEFAULT to the returned tags, if room
         if (scriptCount < 4) {

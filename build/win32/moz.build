@@ -21,7 +21,11 @@ if CONFIG['WIN32_REDIST_DIR'] and CONFIG['COMPILE_ENVIRONMENT']:
         ]
 
 if CONFIG['WIN_UCRT_REDIST_DIR'] and CONFIG['COMPILE_ENVIRONMENT']:
-    for f in ['api-ms-win-*.dll', 'ucrtbase.dll']:
+    ucrt_files = ['ucrtbase.dll']
+    if not CONFIG['MOZ_WIN9X_KERNELEX']:
+        ucrt_files.insert(0, 'api-ms-win-*.dll')
+
+    for f in ucrt_files:
         FINAL_TARGET_FILES += [
             '%%%s/%s' % (CONFIG['WIN_UCRT_REDIST_DIR'], f)
         ]

@@ -1030,6 +1030,11 @@ nsScriptSecurityManager::CheckLoadURIFlags(nsIURI *aSourceURI,
                              &hasSubsumersFlag);
     NS_ENSURE_SUCCESS(rv, rv);
     if (!hasFlags && !hasSubsumersFlag) {
+#ifdef MOZ_WIN9X_KERNELEX
+        if (!sStrBundle) {
+            return NS_OK;
+        }
+#endif
         nsXPIDLString message;
         NS_ConvertASCIItoUTF16 ucsTargetScheme(targetScheme);
         const char16_t* formatStrings[] = { ucsTargetScheme.get() };
@@ -1056,6 +1061,11 @@ nsScriptSecurityManager::ReportError(JSContext* cx, const nsAString& messageTag,
 {
     nsresult rv;
     NS_ENSURE_TRUE(aSource && aTarget, NS_ERROR_NULL_POINTER);
+#ifdef MOZ_WIN9X_KERNELEX
+    if (!sStrBundle) {
+        return NS_OK;
+    }
+#endif
 
     // Get the source URL spec
     nsAutoCString sourceSpec;
@@ -1105,6 +1115,11 @@ nsScriptSecurityManager::CheckLoadURIStrWithPrincipal(nsIPrincipal* aPrincipal,
     nsCOMPtr<nsIURI> target;
     rv = NS_NewURI(getter_AddRefs(target), aTargetURIStr,
                    nullptr, nullptr, sIOService);
+#ifdef MOZ_WIN9X_KERNELEX
+    if (NS_FAILED(rv) && !sIOService) {
+        rv = NS_NewURI(getter_AddRefs(target), aTargetURIStr);
+    }
+#endif
     NS_ENSURE_SUCCESS(rv, rv);
 
     rv = CheckLoadURIWithPrincipal(aPrincipal, target, aFlags);
@@ -1320,6 +1335,11 @@ nsScriptSecurityManager::CanCreateWrapper(JSContext *cx,
     } else {
         strName.AppendLiteral("ForOrigin");
     }
+#ifdef MOZ_WIN9X_KERNELEX
+    if (!sStrBundle) {
+        return NS_ERROR_DOM_XPCONNECT_ACCESS_DENIED;
+    }
+#endif
     nsXPIDLString errorMsg;
     nsresult rv = sStrBundle->FormatStringFromName(strName.get(),
                                                    formatStrings,
@@ -1406,17 +1426,34 @@ nsScriptSecurityManager::nsScriptSecurityManager(void)
 nsresult nsScriptSecurityManager::Init()
 {
     nsresult rv = CallGetService(NS_IOSERVICE_CONTRACTID, &sIOService);
+#ifdef MOZ_WIN9X_KERNELEX
+    if (NS_FAILED(rv)) {
+        sIOService = nullptr;
+    }
+#else
     NS_ENSURE_SUCCESS(rv, rv);
+#endif
 
     InitPrefs();
 
     nsCOMPtr<nsIStringBundleService> bundleService =
         mozilla::services::GetStringBundleService();
+#ifdef MOZ_WIN9X_KERNELEX
+    if (!bundleService) {
+        sStrBundle = nullptr;
+    } else {
+        rv = bundleService->CreateBundle("chrome://global/locale/security/caps.properties", &sStrBundle);
+        if (NS_FAILED(rv)) {
+            sStrBundle = nullptr;
+        }
+    }
+#else
     if (!bundleService)
         return NS_ERROR_FAILURE;
 
     rv = bundleService->CreateBundle("chrome://global/locale/security/caps.properties", &sStrBundle);
     NS_ENSURE_SUCCESS(rv, rv);
+#endif
 
     // Create our system principal singleton
     RefPtr<nsSystemPrincipal> system = new nsSystemPrincipal();
@@ -1548,6 +1585,12 @@ nsScriptSecurityManager::AddSitesToFileURIWhitelist(const nsCString& aSiteList)
         // Grab the current site.
         bound = SkipUntil<IsWhitespace>(aSiteList, base);
         nsAutoCString site(Substring(aSiteList, base, bound - base));
+
+#ifdef MOZ_WIN9X_KERNELEX
+        if (!sIOService) {
+            continue;
+        }
+#endif
 
         // Check if the URI is schemeless. If so, add both http and https.
         nsAutoCString unused;

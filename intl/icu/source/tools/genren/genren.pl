@@ -106,9 +106,8 @@ print HEADER <<"EndOfHeaderComment";
 
 #if !U_DISABLE_RENAMING
 
-// Disable Renaming for Visual Studio's IntelliSense feature and for LLVM's Clang-Tidy tool, so that
-// 'Go-to-Definition' (F12) and 'include-cleaner' respectively will work.
-#if !(defined(_MSC_VER) && defined(__INTELLISENSE__)) && !defined(__clang_analyzer__)
+// Disable Renaming for Visual Studio's IntelliSense feature, so that 'Go-to-Definition' (F12) will work.
+#if !(defined(_MSC_VER) && defined(__INTELLISENSE__))
 
 /* We need the U_ICU_ENTRY_POINT_RENAME definition. There's a default one in unicode/uvernum.h we can use, but we will give
    the platform a chance to define it first.
@@ -155,17 +154,9 @@ for(;@ARGV; shift(@ARGV)) {
             chop $qtype;
         } elsif ($mode =~ /Mach-O/) {
             ($address, $type, $_) = split(/ /);
-            if (/^(.*)\(/) {
-            	# on Mac, C++ functions and methods are NOT prefixed with an underscore,
-            	# but do contain their parameter lists (in patentheses)-- remove
-            	# the parameter list
-            	$_ = $1;
-            } elsif(/^_(.*)$/) {
-            	# C function names (and maybe also C++ functions on Linux?) are all
-            	# prefixed with an underscore-- remove it
+            if(/^_(.*)$/) {
                 $_ = $1;
             } else {
-            	# skip symbols in any other format
                 next;
             }
         } else {
@@ -251,7 +242,7 @@ foreach(sort keys(%CFuncs)) {
 
 print HEADER <<"EndOfHeaderFooter";
 
-#endif /* !(defined(_MSC_VER) && defined(__INTELLISENSE__)) && !defined(__clang_analyzer__) */
+#endif /* !(defined(_MSC_VER) && defined(__INTELLISENSE__)) */
 #endif /* U_DISABLE_RENAMING */
 #endif /* URENAME_H */
 

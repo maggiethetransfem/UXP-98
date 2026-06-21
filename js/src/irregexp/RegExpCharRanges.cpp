@@ -39,6 +39,7 @@
 
 using namespace js::irregexp;
 
+using js::LifoAlloc;
 using mozilla::ArrayLength;
 
 void
@@ -358,14 +359,19 @@ CharacterRange::CompareInverseRanges(const CharacterRangeVector& ranges, const i
     return true;
 }
 
+namespace {
+
 template <typename RangeType>
-/* static */ void
-CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc, InfallibleVector<RangeType, 1>** ranges,
-                                    RangeType full_range)
+static void
+NegateUnicodeRangesImpl(LifoAlloc* alloc,
+                        InfallibleVector<RangeType, 1>** ranges,
+                        RangeType full_range)
 {
     typedef InfallibleVector<RangeType, 1> RangeVector;
+
     RangeVector* tmp_ranges = alloc->newInfallible<RangeVector>(*alloc);
     tmp_ranges->append(full_range);
+
     RangeVector* result_ranges = alloc->newInfallible<RangeVector>(*alloc);
 
     // Perform the following calculation:
@@ -385,10 +391,10 @@ CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc, InfallibleVector<RangeType
         const RangeType& range = (**ranges)[i];
         for (size_t j = 0; j < tmp_ranges->length(); j++) {
             const RangeType& tmpRange = (*tmp_ranges)[j];
-            auto from1 = tmpRange.from();
-            auto to1 = tmpRange.to();
-            auto from2 = range.from();
-            auto to2 = range.to();
+            widechar from1 = tmpRange.from();
+            widechar to1 = tmpRange.to();
+            widechar from2 = range.from();
+            widechar to2 = range.to();
 
             if (from1 < from2) {
                 if (to1 < from2) {
@@ -407,7 +413,7 @@ CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc, InfallibleVector<RangeType
             }
         }
 
-        auto tmp = tmp_ranges;
+        RangeVector* tmp = tmp_ranges;
         tmp_ranges = result_ranges;
         result_ranges = tmp;
     }
@@ -417,9 +423,23 @@ CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc, InfallibleVector<RangeType
     *ranges = tmp_ranges;
 }
 
-// Explicit specialization for NegateUnicodeRanges
-template void CharacterRange::NegateUnicodeRanges<CharacterRange>(LifoAlloc* alloc, InfallibleVector<CharacterRange, 1>** ranges, CharacterRange full_range);
-template void CharacterRange::NegateUnicodeRanges<WideCharRange>(LifoAlloc* alloc, InfallibleVector<WideCharRange, 1>** ranges, WideCharRange full_range);
+} // namespace
+
+/* static */ void
+CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc,
+                                    CharacterRangeVector** ranges,
+                                    CharacterRange full_range)
+{
+    NegateUnicodeRangesImpl(alloc, ranges, full_range);
+}
+
+/* static */ void
+CharacterRange::NegateUnicodeRanges(LifoAlloc* alloc,
+                                    WideCharRangeVector** ranges,
+                                    WideCharRange full_range)
+{
+    NegateUnicodeRangesImpl(alloc, ranges, full_range);
+}
 
 
 namespace {
@@ -427,25 +447,25 @@ namespace {
 
 bool IsExactPropertyAlias(const std::string& property_name, UProperty property) {
     const char* short_name = u_getPropertyName(property, U_SHORT_PROPERTY_NAME);
-    if (short_name != nullptr && short_name == property_name)
+    if (short_name != nullptr && property_name.compare(short_name) == 0)
         return true;
     for (int i = 0;; i++) {
         const char* long_name = u_getPropertyName(property, static_cast<UPropertyNameChoice>(U_LONG_PROPERTY_NAME + i));
         if (long_name == nullptr) break;
-        if (long_name == property_name) return true;
+        if (long_name != nullptr && property_name.compare(long_name) == 0) return true;
     }
     return false;
 }
 
 bool IsExactPropertyValueAlias(const std::string& property_value_name, UProperty property, int32_t property_value) {
     const char* short_name = u_getPropertyValueName(property, property_value, U_SHORT_PROPERTY_NAME);
-    if (short_name != nullptr && short_name == property_value_name)
+    if (short_name != nullptr && property_value_name.compare(short_name) == 0)
         return true;
     for (int i = 0;; i++) {
       const char* long_name = u_getPropertyValueName(property, property_value,
                                                      static_cast<UPropertyNameChoice>(U_LONG_PROPERTY_NAME + i));
       if (long_name == nullptr) break;
-      if (long_name == property_value_name) return true;
+      if (long_name != nullptr && property_value_name.compare(long_name) == 0) return true;
     }
     return false;
 }
@@ -494,7 +514,7 @@ bool LookupSpecialPropertyValueName(js::LifoAlloc* alloc,
                                     CharacterRangeVector* lead_ranges,
                                     CharacterRangeVector* trail_ranges,
                                     WideCharRangeVector* wide_ranges) {
-    if (name == "Any") {
+    if (name.compare("Any") == 0) {
         if (negate) {
             // Leave the list of character ranges empty, since the negation of 'Any'
             // is the empty set.
@@ -503,7 +523,7 @@ bool LookupSpecialPropertyValueName(js::LifoAlloc* alloc,
                                             0, js::unicode::NonBMPMax);
         }
     } else
-    if (name == "ASCII") {
+    if (name.compare("ASCII") == 0) {
         if (negate) {
             // negative ASCII contains all planes
             CharacterRange::AddUnicodeRange(alloc, ranges, lead_ranges, trail_ranges, wide_ranges,
@@ -513,7 +533,7 @@ bool LookupSpecialPropertyValueName(js::LifoAlloc* alloc,
             ranges->append(CharacterRange::Range(0x00, 0x7F));
         }
     } else
-    if (name == "Assigned") {
+    if (name.compare("Assigned") == 0) {
         return LookupPropertyValueName(alloc, UCHAR_GENERAL_CATEGORY, "Unassigned", !negate,
                                        ranges, lead_ranges, trail_ranges, wide_ranges);
     } else {

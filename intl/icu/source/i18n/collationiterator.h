@@ -31,15 +31,27 @@ class UVector32;
 /* Large enough for CEs of most short strings. */
 #define CEBUFFER_INITIAL_CAPACITY 40
 
+// Export an explicit template instantiation of the MaybeStackArray that
+//    is used as a data member of CEBuffer.
+//
+//    When building DLLs for Windows this is required even though
+//    no direct access to the MaybeStackArray leaks out of the i18n library.
+//
+// See digitlst.h, pluralaffix.h, datefmt.h, and others for similar examples.
+//
+#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN
+template class U_I18N_API MaybeStackArray<int64_t, CEBUFFER_INITIAL_CAPACITY>;
+#endif
+
 /**
  * Collation element iterator and abstract character iterator.
  *
  * When a method returns a code point value, it must be in 0..10FFFF,
  * except it can be negative as a sentinel value.
  */
-class U_I18N_API_CLASS CollationIterator : public UObject {
+class U_I18N_API CollationIterator : public UObject {
 private:
-    class CEBuffer {
+    class U_I18N_API CEBuffer {
     private:
         /** Large enough for CEs of most short strings. */
         static const int32_t INITIAL_CAPACITY = CEBUFFER_INITIAL_CAPACITY;
@@ -57,16 +69,16 @@ private:
             buffer[length++] = ce;
         }
 
-        U_I18N_API UBool ensureAppendCapacity(int32_t appCap, UErrorCode &errorCode);
+        UBool ensureAppendCapacity(int32_t appCap, UErrorCode &errorCode);
 
         inline UBool incLength(UErrorCode &errorCode) {
             // Use INITIAL_CAPACITY for a very simple fastpath.
             // (Rather than buffer.getCapacity().)
             if(length < INITIAL_CAPACITY || ensureAppendCapacity(1, errorCode)) {
                 ++length;
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         }
 
@@ -80,8 +92,8 @@ private:
         int32_t length;
 
     private:
-        CEBuffer(const CEBuffer &) = delete;
-        void operator=(const CEBuffer &) = delete;
+        CEBuffer(const CEBuffer &);
+        void operator=(const CEBuffer &);
 
         MaybeStackArray<int64_t, INITIAL_CAPACITY> buffer;
     };
@@ -91,14 +103,14 @@ public:
             : trie(d->trie),
               data(d),
               cesIndex(0),
-              skipped(nullptr),
+              skipped(NULL),
               numCpFwd(-1),
               isNumeric(numeric) {}
 
     virtual ~CollationIterator();
 
-    virtual bool operator==(const CollationIterator &other) const;
-    inline bool operator!=(const CollationIterator &other) const {
+    virtual UBool operator==(const CollationIterator &other) const;
+    inline UBool operator!=(const CollationIterator &other) const {
         return !operator==(other);
     }
 
@@ -130,7 +142,7 @@ public:
             // Normal CE from the main data.
             // Forced-inline of ceFromSimpleCE32(ce32).
             return ceBuffer.set(cesIndex++,
-                    (static_cast<int64_t>(ce32 & 0xffff0000) << 32) | ((ce32 & 0xff00) << 16) | (t << 8));
+                    ((int64_t)(ce32 & 0xffff0000) << 32) | ((ce32 & 0xff00) << 16) | (t << 8));
         }
         const CollationData *d;
         // The compiler should be able to optimize the previous and the following
@@ -145,7 +157,7 @@ public:
             if(t < Collation::SPECIAL_CE32_LOW_BYTE) {
                 // Normal CE from the base data.
                 return ceBuffer.set(cesIndex++,
-                        (static_cast<int64_t>(ce32 & 0xffff0000) << 32) | ((ce32 & 0xff00) << 16) | (t << 8));
+                        ((int64_t)(ce32 & 0xffff0000) << 32) | ((ce32 & 0xff00) << 16) | (t << 8));
             }
         } else {
             d = data;
@@ -153,7 +165,7 @@ public:
         if(t == Collation::LONG_PRIMARY_CE32_LOW_BYTE) {
             // Forced-inline of ceFromLongPrimaryCE32(ce32).
             return ceBuffer.set(cesIndex++,
-                    (static_cast<int64_t>(ce32 - t) << 32) | Collation::COMMON_SEC_AND_TER_CE);
+                    ((int64_t)(ce32 - t) << 32) | Collation::COMMON_SEC_AND_TER_CE);
         }
         return nextCEFromCE32(d, c, ce32, errorCode);
     }
@@ -230,7 +242,7 @@ protected:
      * if a trail surrogate follows the lead surrogate.
      * Otherwise returns any other code unit and does not advance.
      */
-    virtual char16_t handleGetTrailSurrogate();
+    virtual UChar handleGetTrailSurrogate();
 
     /**
      * Called when handleNextCE32() returns with c==0, to see whether it is a NUL terminator.
@@ -239,9 +251,9 @@ protected:
     virtual UBool foundNULTerminator();
 
     /**
-     * @return false if surrogate code points U+D800..U+DFFF
+     * @return FALSE if surrogate code points U+D800..U+DFFF
      *         map to their own implicit primary weights (for UTF-16),
-     *         or true if they map to CE(U+FFFD) (for UTF-8)
+     *         or TRUE if they map to CE(U+FFFD) (for UTF-8)
      */
     virtual UBool forbidSurrogateCodePoints() const;
 
@@ -266,8 +278,8 @@ protected:
     const CollationData *data;
 
 private:
-    U_I18N_API int64_t nextCEFromCE32(const CollationData *d, UChar32 c, uint32_t ce32,
-                                      UErrorCode &errorCode);
+    int64_t nextCEFromCE32(const CollationData *d, UChar32 c, uint32_t ce32,
+                           UErrorCode &errorCode);
 
     uint32_t getCE32FromPrefix(const CollationData *d, uint32_t ce32,
                                UErrorCode &errorCode);
@@ -278,7 +290,7 @@ private:
 
     uint32_t nextCE32FromContraction(
             const CollationData *d, uint32_t contractionCE32,
-            const char16_t *p, uint32_t ce32, UChar32 c,
+            const UChar *p, uint32_t ce32, UChar32 c,
             UErrorCode &errorCode);
 
     uint32_t nextCE32FromDiscontiguousContraction(

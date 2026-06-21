@@ -10,8 +10,6 @@
 **********************************************************************
 */
 
-#include <utility>
-
 #include "unicode/utypes.h"
 
 #if  !UCONFIG_NO_TRANSLITERATION && !UCONFIG_NO_BREAK_ITERATION
@@ -34,7 +32,7 @@ U_NAMESPACE_BEGIN
 
 UOBJECT_DEFINE_RTTI_IMPLEMENTATION(BreakTransliterator)
 
-static const char16_t SPACE       = 32;  // ' '
+static const UChar SPACE       = 32;  // ' '
 
 
 /**
@@ -43,7 +41,7 @@ static const char16_t SPACE       = 32;  // ' '
  */
 BreakTransliterator::BreakTransliterator(UnicodeFilter* adoptedFilter) :
         Transliterator(UNICODE_STRING("Any-BreakInternal", 17), adoptedFilter),
-        cachedBI(nullptr), cachedBoundaries(nullptr), fInsertion(SPACE) {
+        cachedBI(NULL), cachedBoundaries(NULL), fInsertion(SPACE) {
     }
 
 
@@ -57,14 +55,14 @@ BreakTransliterator::~BreakTransliterator() {
  * Copy constructor.
  */
 BreakTransliterator::BreakTransliterator(const BreakTransliterator& o) :
-        Transliterator(o), cachedBI(nullptr), cachedBoundaries(nullptr), fInsertion(o.fInsertion) {
+        Transliterator(o), cachedBI(NULL), cachedBoundaries(NULL), fInsertion(o.fInsertion) {
 }
 
 
 /**
  * Transliterator API.
  */
-BreakTransliterator* BreakTransliterator::clone() const {
+Transliterator* BreakTransliterator::clone(void) const {
     return new BreakTransliterator(*this);
 }
 
@@ -81,8 +79,8 @@ void BreakTransliterator::handleTransliterate(Replaceable& text, UTransPosition&
         {
             Mutex m;
             BreakTransliterator *nonConstThis = const_cast<BreakTransliterator *>(this);
-            boundaries = std::move(nonConstThis->cachedBoundaries);
-            bi = std::move(nonConstThis->cachedBI);
+            boundaries.moveFrom(nonConstThis->cachedBoundaries);
+            bi.moveFrom(nonConstThis->cachedBI);
         }
         if (bi.isNull()) {
             bi.adoptInstead(BreakIterator::createWordInstance(Locale::getEnglish(), status));
@@ -106,7 +104,7 @@ void BreakTransliterator::handleTransliterate(Replaceable& text, UTransPosition&
         int32_t boundary;
         for(boundary = bi->next(); boundary != UBRK_DONE && boundary < offsets.limit; boundary = bi->next()) {
             if (boundary == 0) continue;
-            // HACK: Check to see that preceding item was a letter
+            // HACK: Check to see that preceeding item was a letter
 
             UChar32 cp = sText.char32At(boundary-1);
             int type = u_charType(cp);
@@ -147,10 +145,10 @@ void BreakTransliterator::handleTransliterate(Replaceable& text, UTransPosition&
             Mutex m;
             BreakTransliterator *nonConstThis = const_cast<BreakTransliterator *>(this);
             if (nonConstThis->cachedBI.isNull()) {
-                nonConstThis->cachedBI = std::move(bi);
+                nonConstThis->cachedBI.moveFrom(bi);
             }
             if (nonConstThis->cachedBoundaries.isNull()) {
-                nonConstThis->cachedBoundaries = std::move(boundaries);
+                nonConstThis->cachedBoundaries.moveFrom(boundaries);
             }
         }
 
@@ -182,7 +180,7 @@ void BreakTransliterator::setInsertion(const UnicodeString &insertion) {
 UnicodeString BreakTransliterator::replaceableAsString(Replaceable &r) {
     UnicodeString s;
     UnicodeString *rs = dynamic_cast<UnicodeString *>(&r);
-    if (rs != nullptr) {
+    if (rs != NULL) {
         s = *rs;
     } else {
         r.extractBetween(0, r.length(), s);

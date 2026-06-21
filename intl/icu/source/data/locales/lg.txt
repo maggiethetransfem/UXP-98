@@ -1,6 +1,5 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 lg{
     AuxExemplarCharacters{"[h q x]"}
     ExemplarCharacters{"[a b c d e f g i j k l m n {ny} ŋ o p r s t u v w y z]"}
@@ -12,6 +11,7 @@ lg{
             }
         }
     }
+    Version{"2.1.39.11"}
     calendar{
         generic{
             DateTimePatterns{
@@ -30,11 +30,19 @@ lg{
                 "{1} {0}",
             }
             availableFormats{
+                Hm{"HH:mm"}
+                Hms{"HH:mm:ss"}
+                M{"L"}
                 MEd{"E, M/d"}
+                MMM{"LLL"}
                 MMMEd{"E, MMM d"}
                 MMMMEd{"E, MMMM d"}
+                MMMMd{"MMMM d"}
+                MMMd{"MMM d"}
                 Md{"M/d"}
-                hm{"h:mm a"}
+                d{"d"}
+                hm{"h:mm a"}
+                ms{"mm:ss"}
                 y{"y"}
                 yM{"M/y"}
                 yMEd{"E, M/d/y"}
@@ -62,11 +70,20 @@ lg{
                 "{1} {0}",
             }
             availableFormats{
+                Hm{"HH:mm"}
+                Hms{"HH:mm:ss"}
+                M{"L"}
                 MEd{"E, M/d"}
+                MMM{"LLL"}
                 MMMEd{"E, MMM d"}
                 MMMMEd{"E, MMMM d"}
+                MMMMd{"MMMM d"}
+                MMMd{"MMM d"}
                 Md{"M/d"}
-                hm{"h:mm a"}
+                d{"d"}
+                hm{"h:mm a"}
+                ms{"mm:ss"}
+                y{"y"}
                 yM{"M/y"}
                 yMEd{"E, M/d/y"}
                 yMMM{"MMM y"}
@@ -110,12 +127,12 @@ lg{
             }
             eras{
                 abbreviated{
-                    0{"BC"}
-                    1{"AD"}
+                    "BC",
+                    "AD",
                 }
                 wide{
-                    0{"Kulisito nga tannaza"}
-                    1{"Bukya Kulisito Azaal"}
+                    "Kulisito nga tannaza",
+                    "Bukya Kulisito Azaal",
                 }
             }
             monthNames{
@@ -183,6 +200,12 @@ lg{
                 }
             }
         }
+    }
+    delimiters{
+        alternateQuotationEnd{"’"}
+        alternateQuotationStart{"‘"}
+        quotationEnd{"”"}
+        quotationStart{"“"}
     }
     fields{
         day{

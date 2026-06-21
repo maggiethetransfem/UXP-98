@@ -1,15 +1,9 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 uz_Cyrl{
     %%Parent{"root"}
+    Version{"2.1.43.2"}
     zoneStrings{
-        "America:Lower_Princes"{
-            ec{"Lower Princeʼs Quarter"}
-        }
-        "Etc:Unknown"{
-            ec{"Номаълум"}
-        }
         "Europe:Dublin"{
             ld{"Ирландия ёзги вақти"}
         }
@@ -29,7 +23,9 @@ uz_Cyrl{
             ls{"Жанубий Африка вақти"}
         }
         "meta:Africa_Western"{
-            ls{"Ғарбий Африка вақти"}
+            ld{"Ғарбий Африка ёзги вақти"}
+            lg{"Ғарбий Африка вақти"}
+            ls{"Ғарбий Африка стандарт вақти"}
         }
         "meta:Alaska"{
             ld{"Аляска кундузги вақти"}
@@ -158,6 +154,11 @@ uz_Cyrl{
             lg{"Хитой вақти"}
             ls{"Хитой стандарт вақти"}
         }
+        "meta:Choibalsan"{
+            ld{"Чойбалсан ёзги вақти"}
+            lg{"Чойбалсан вақти"}
+            ls{"Чойбалсан стандарт вақти"}
+        }
         "meta:Christmas"{
             ls{"Рождество ороли вақти"}
         }
@@ -260,9 +261,6 @@ uz_Cyrl{
         "meta:Guyana"{
             ls{"Гайана вақти"}
         }
-        "meta:Hawaii"{
-            ls{"Гавайи-алеут стандарт вақти"}
-        }
         "meta:Hawaii_Aleutian"{
             ld{"Гавайи-алеут кундузги вақти"}
             lg{"Гавайи-алеут вақти"}
@@ -346,6 +344,9 @@ uz_Cyrl{
             lg{"Лорд Хове вақти"}
             ls{"Лорд Хове стандарт вақти"}
         }
+        "meta:Macquarie"{
+            ls{"Маквари ороли вақти"}
+        }
         "meta:Magadan"{
             ld{"Магадан ёзги вақти"}
             lg{"Магадан вақти"}
@@ -409,9 +410,7 @@ uz_Cyrl{
             ls{"Ниуе вақти"}
         }
         "meta:Norfolk"{
-            ld{"Норфолк ороли ёзги вақти"}
-            lg{"Норфолк ороли вақти"}
-            ls{"Норфолк ороли стандарт вақти"}
+            ls{"Норфолк ороли вақти"}
         }
         "meta:Noronha"{
             ld{"Фернандо де Норонья ёзги вақти"}
@@ -579,6 +578,10 @@ uz_Cyrl{
             lg{"Екатеринбург вақти"}
             ls{"Екатеринбург стандарт вақти"}
         }
+        fallbackFormat{"{1} ({0})"}
+        gmtFormat{"GMT{0}"}
+        gmtZeroFormat{"GMT"}
+        hourFormat{"+HH:mm;-HH:mm"}
         regionFormat{"{0} вақти"}
         regionFormatDaylight{"{0} кундузги вақти"}
         regionFormatStandard{"{0} стандарт вақти"}

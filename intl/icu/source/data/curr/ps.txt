@@ -1,11 +1,10 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 ps{
     Currencies{
         AED{
             "AED",
-            "متحده عرب امارات درهم",
+            "AED",
         }
         AFA{
             "AFA",
@@ -17,431 +16,431 @@ ps{
         }
         ALL{
             "ALL",
-            "البانوي لک",
+            "ALL",
         }
         AMD{
             "AMD",
-            "ارمينيايي ډرام",
+            "AMD",
         }
         ANG{
             "ANG",
-            "هالېنډي انټيليايي ګيلډر",
+            "ANG",
         }
         AOA{
             "AOA",
-            "انګولي کوانزا",
+            "AOA",
         }
         ARS{
             "ARS",
-            "ارجنټاين پسو",
+            "ARS",
         }
         AUD{
             "A$",
-            "آسترالوي ډالر",
+            "AUD",
         }
         AWG{
             "AWG",
-            "اروبايي فلورن",
+            "AWG",
         }
         AZN{
             "AZN",
-            "آزربايجاني منت",
+            "AZN",
         }
         BAM{
             "BAM",
-            "بوسنيا هرزګوينيايي بدلېدونکې مارک",
+            "BAM",
         }
         BBD{
             "BBD",
-            "باربيډين ډالر",
+            "BBD",
         }
         BDT{
             "BDT",
-            "بنګالۍ ټاکه",
+            "BDT",
         }
         BGN{
             "BGN",
-            "بلغاري ليو",
+            "BGN",
         }
         BHD{
             "BHD",
-            "بحريني دينار",
+            "BHD",
         }
         BIF{
             "BIF",
-            "برونډي فرانک",
+            "BIF",
         }
         BMD{
             "BMD",
-            "برمودا ډالر",
+            "BMD",
         }
         BND{
             "BND",
-            "برونايي ډالر",
+            "BND",
         }
         BOB{
             "BOB",
-            "بوليوي بوليويانو",
+            "BOB",
         }
         BRL{
             "R$",
-            "برازيلي ريل",
+            "BRL",
         }
         BSD{
             "BSD",
-            "بهاماسي ډالر",
+            "BSD",
         }
         BTN{
             "BTN",
-            "بهوټانۍ انګولټرم",
+            "BTN",
         }
         BWP{
             "BWP",
-            "بوټسواني پولا",
+            "BWP",
         }
         BYN{
             "BYN",
-            "بلاروسي روبل",
+            "BYN",
         }
         BZD{
             "BZD",
-            "بليز ډالر",
+            "BZD",
         }
         CAD{
             "CA$",
-            "کاناډايي ډالر",
+            "CAD",
         }
         CDF{
             "CDF",
-            "کانګولي فرانک",
+            "CDF",
         }
         CHF{
             "CHF",
-            "سويسي فرانک",
+            "CHF",
         }
         CLP{
             "CLP",
-            "چلي پسو",
+            "CLP",
         }
         CNH{
             "CNH",
-            "چيني يوان (آف شور)",
+            "CNH",
         }
         CNY{
             "CN¥",
-            "چيني يوان",
+            "CNY",
         }
         COP{
             "COP",
-            "کولمبين پسو",
+            "COP",
         }
         CRC{
             "CRC",
-            "کوسټا ريکن کولون",
+            "CRC",
         }
         CUC{
             "CUC",
-            "کيوبايي بدلېدونکي پسو",
+            "CUC",
         }
         CUP{
             "CUP",
-            "کيوبايي پسو",
+            "CUP",
         }
         CVE{
             "CVE",
-            "کيپ وردين اسکوډو",
+            "CVE",
         }
         CZK{
             "CZK",
-            "چيک کرونا",
+            "CZK",
         }
         DJF{
             "DJF",
-            "جبوتي فرانک",
+            "DJF",
         }
         DKK{
             "DKK",
-            "ډنمارکي کرون",
+            "DKK",
         }
         DOP{
             "DOP",
-            "دومينيکا پسو",
+            "DOP",
         }
         DZD{
             "DZD",
-            "الجيرين دينار",
+            "DZD",
         }
         EGP{
             "EGP",
-            "مصري پونډ",
+            "EGP",
         }
         ERN{
             "ERN",
-            "ايريټرين نکفا",
+            "ERN",
         }
         ETB{
             "ETB",
-            "ايتهوپيايي بر",
+            "ETB",
         }
         EUR{
             "€",
-            "يورو",
+            "EUR",
         }
         FJD{
             "FJD",
-            "فجي ډالر",
+            "FJD",
         }
         FKP{
             "FKP",
-            "پاکلېنډ ټاپوګانو پونډ",
+            "FKP",
         }
         GBP{
             "£",
-            "برتانوې پونډ",
+            "GBP",
         }
         GEL{
             "GEL",
-            "جارجیاېي لارې",
+            "GEL",
         }
         GHS{
             "GHS",
-            "ګانين سيډي",
+            "GHS",
         }
         GIP{
             "GIP",
-            "جبل الطارقي پونډ",
+            "GIP",
         }
         GMD{
             "GMD",
-            "ګيمبين دلاسې",
+            "GMD",
         }
         GNF{
             "GNF",
-            "ګنې فرانک",
+            "GNF",
         }
         GTQ{
             "GTQ",
-            "ګويټيمالن کوټزل",
+            "GTQ",
         }
         GYD{
             "GYD",
-            "ګايانيز ډالر",
+            "GYD",
         }
         HKD{
             "HK$",
-            "هانګ کانګ ډالر",
+            "HKD",
         }
         HNL{
             "HNL",
-            "هونډوران ليمپيرا",
+            "HNL",
         }
         HRK{
             "HRK",
-            "کروشيايي کونا",
+            "HRK",
         }
         HTG{
             "HTG",
-            "هيټي ګورډ",
+            "HTG",
         }
         HUF{
             "HUF",
-            "هنګري فورنټ",
+            "HUF",
         }
         IDR{
             "IDR",
-            "انډونيشي روپيا",
+            "IDR",
         }
         ILS{
             "₪",
-            "اسرايلي نيو شيکل",
+            "ILS",
         }
         INR{
             "₹",
-            "هندي روپۍ",
+            "INR",
         }
         IQD{
             "IQD",
-            "عراقي دينار",
+            "IQD",
         }
         IRR{
             "IRR",
-            "ايراني ريال",
+            "IRR",
         }
         ISK{
             "ISK",
-            "آيسلېنډي کرونا",
+            "ISK",
         }
         JMD{
             "JMD",
-            "جمايکايي ډالر",
+            "JMD",
         }
         JOD{
             "JOD",
-            "اردني دينار",
+            "JOD",
         }
         JPY{
             "JP¥",
-            "جاپاني ين",
+            "JPY",
         }
         KES{
             "KES",
-            "کينيايي شيلنګ",
+            "KES",
         }
         KGS{
             "KGS",
-            "کرغزستاني سوم",
+            "KGS",
         }
         KHR{
             "KHR",
-            "کمبوډي ريل",
+            "KHR",
         }
         KMF{
             "KMF",
-            "کوموري فرانک",
+            "KMF",
         }
         KPW{
             "KPW",
-            "شمالي کوريايي وان",
+            "KPW",
         }
         KRW{
             "₩",
-            "جنوبي کوريايي وان",
+            "KRW",
         }
         KWD{
             "KWD",
-            "کويتي دينار",
+            "KWD",
         }
         KYD{
             "KYD",
-            "کيمن ټاپوګانو ډالر",
+            "KYD",
         }
         KZT{
             "KZT",
-            "قازقستاني ټينج",
+            "KZT",
         }
         LAK{
             "LAK",
-            "لاشې کپ",
+            "LAK",
         }
         LBP{
             "LBP",
-            "لبناني پونډ",
+            "LBP",
         }
         LKR{
             "LKR",
-            "سري لنکن روپۍ",
+            "LKR",
         }
         LRD{
             "LRD",
-            "لايبيرين ډالر",
-        }
-        LSL{
-            "LSL",
-            "Lesotho Loti",
+            "LRD",
         }
         LYD{
             "LYD",
-            "ليبياېي دينار",
+            "LYD",
         }
         MAD{
             "MAD",
-            "مراکشي درهم",
+            "MAD",
         }
         MDL{
             "MDL",
-            "مالډوي ليو",
+            "MDL",
         }
         MGA{
             "MGA",
-            "ملاګاسي ارياري",
+            "MGA",
         }
         MKD{
             "MKD",
-            "مسيډونايي دينار",
+            "MKD",
         }
         MMK{
             "MMK",
-            "ميانماري کيات",
+            "MMK",
         }
         MNT{
             "MNT",
-            "منګوليايي توګريک",
+            "MNT",
         }
         MOP{
             "MOP",
-            "مکانيس پټاکا",
+            "MOP",
+        }
+        MRO{
+            "MRO",
+            "MRO",
         }
         MRU{
             "MRU",
-            "موريشيسي ډالر",
+            "MRU",
         }
         MUR{
             "MUR",
-            "موريشيسي روپۍ",
+            "MUR",
         }
         MVR{
             "MVR",
-            "مالديپي روپيا",
+            "MVR",
         }
         MWK{
             "MWK",
-            "ملاوي کواچا",
+            "MWK",
         }
         MXN{
             "MX$",
-            "ميکسيکن پيسو",
+            "MXN",
         }
         MYR{
             "MYR",
-            "ملايشي رنګټ",
+            "MYR",
         }
         MZN{
             "MZN",
-            "موزمبيقي ميټيکل",
+            "MZN",
         }
         NAD{
             "NAD",
-            "نيميبيايي ډالر",
+            "NAD",
         }
         NGN{
             "NGN",
-            "نايجيري نايرا",
+            "NGN",
         }
         NIO{
             "NIO",
-            "نيکاراګون کورډوبا",
+            "NIO",
         }
         NOK{
             "NOK",
-            "نارويجين کرون",
+            "NOK",
         }
         NPR{
             "NPR",
-            "نيپالي روپۍ",
+            "نيپالي روپيه",
         }
         NZD{
             "NZ$",
-            "نيوزي لينډي ډالر",
+            "NZD",
         }
         OMR{
             "OMR",
-            "عماني ريال",
+            "OMR",
         }
         PAB{
             "PAB",
-            "پانامۍ بالبوا",
+            "PAB",
         }
         PEN{
             "PEN",
-            "پيروين سول",
+            "PEN",
         }
         PGK{
             "PGK",
-            "پاپوا نيوګاني کينا",
+            "PGK",
         }
         PHP{
-            "₱",
-            "فلپاينۍ پیسو",
+            "PHP",
+            "PHP",
         }
         PKR{
             "PKR",
@@ -449,183 +448,183 @@ ps{
         }
         PLN{
             "PLN",
-            "پولينډي زلوټي",
+            "PLN",
         }
         PYG{
             "PYG",
-            "پيراګوين ګوراني",
+            "PYG",
         }
         QAR{
             "QAR",
-            "قطري ريال",
+            "QAR",
         }
         RON{
             "RON",
-            "روماني ليو",
+            "RON",
         }
         RSD{
             "RSD",
-            "سربيايي دينار",
+            "RSD",
         }
         RUB{
             "RUB",
-            "روسي روبل",
+            "RUB",
         }
         RWF{
             "RWF",
-            "روانډي فرانک",
+            "RWF",
         }
         SAR{
             "SAR",
-            "سعودي ريال",
+            "SAR",
         }
         SBD{
             "SBD",
-            "سولومن ټاپوګانو ډالر",
+            "SBD",
         }
         SCR{
             "SCR",
-            "سيچيليسي روپۍ",
+            "SCR",
         }
         SDG{
             "SDG",
-            "سوډاني پونډ",
+            "SDG",
         }
         SEK{
             "SEK",
-            "سويډني کرونا",
+            "SEK",
         }
         SGD{
             "SGD",
-            "سنګاپور ډالر",
+            "SGD",
         }
         SHP{
             "SHP",
-            "سينټ هيلينا پونډ",
-        }
-        SLE{
-            "SLE",
-            "سيرا ليوني ليون",
+            "SHP",
         }
         SLL{
             "SLL",
-            "سيرا ليوني ليون - 1964-2022",
+            "SLL",
         }
         SOS{
             "SOS",
-            "سومالي شيلنګ",
+            "SOS",
         }
         SRD{
             "SRD",
-            "سورينيمي ډالر",
+            "SRD",
         }
         SSP{
             "SSP",
-            "جنوب سوډاني پونډ",
+            "SSP",
+        }
+        STD{
+            "STD",
+            "STD",
         }
         STN{
             "STN",
-            "ساو ټوم او پرينسپي ډوبرا",
+            "STN",
         }
         SYP{
             "SYP",
-            "سوريايي پونډ",
+            "SYP",
         }
         SZL{
             "SZL",
-            "سوازي ليلانګيني",
+            "SZL",
         }
         THB{
             "THB",
-            "تهايي بات",
+            "THB",
         }
         TJS{
             "TJS",
-            "تاجکستاني سوموني",
+            "TJS",
         }
         TMT{
             "TMT",
-            "ترکمانستاني منت",
+            "TMT",
         }
         TND{
             "TND",
-            "تيونسې دينار",
+            "TND",
         }
         TOP{
             "TOP",
-            "ټونګن پانګا",
+            "TOP",
         }
         TRY{
             "TRY",
-            "ترکي ليرا",
+            "TRY",
         }
         TTD{
             "TTD",
-            "ټرينيډاډ او ټوباګو ډالر",
+            "TTD",
         }
         TWD{
             "NT$",
-            "نيو تائيواني ډالر",
+            "TWD",
         }
         TZS{
             "TZS",
-            "تنزاني شيلنګ",
+            "TZS",
         }
         UAH{
             "UAH",
-            "اوکرايني هريونيا",
+            "UAH",
         }
         UGX{
             "UGX",
-            "يوګانډي شيلنګ",
+            "UGX",
         }
         USD{
-            "$",
-            "امريکايي ډالر",
+            "US$",
+            "USD",
         }
         UYU{
             "UYU",
-            "يوراګوي پسو",
+            "UYU",
         }
         UZS{
             "UZS",
-            "ازبکستاني سوم",
+            "UZS",
+        }
+        VEF{
+            "VEF",
+            "VEF (2008–2018)",
         }
         VES{
             "VES",
-            "وينزويلي بوليوار",
+            "VES",
         }
         VND{
             "₫",
-            "ويتنامي ډونګ",
+            "VND",
         }
         VUV{
             "VUV",
-            "ونواتو واتو",
+            "VUV",
         }
         WST{
             "WST",
-            "سموون تالا",
+            "WST",
         }
         XAF{
             "FCFA",
-            "مرکزي افريقايي CFA فرانک",
+            "XAF",
         }
         XCD{
             "EC$",
-            "ختيځ کربين ډالر",
-        }
-        XCG{
-            "Cg.",
-            "د کارابین ګیلډر",
+            "XCD",
         }
         XOF{
-            "F CFA",
-            "ختيځ افريقايي CFA فرانک",
+            "CFA",
+            "XOF",
         }
         XPF{
             "CFPF",
-            "CFP فرانک",
+            "XPF",
         }
         XXX{
             "¤",
@@ -633,556 +632,757 @@ ps{
         }
         YER{
             "YER",
-            "يمني ريال",
+            "YER",
         }
         ZAR{
             "ZAR",
-            "جنوبي افريقاېي رنډ",
+            "ZAR",
         }
         ZMW{
             "ZMW",
-            "زيمبي کواچا",
-        }
-        ZWG{
-            "ZWG",
-            "د زمبابوې سره زر",
+            "ZMW",
         }
     }
     Currencies%narrow{
+        AOA{"Kz"}
+        ARS{"$"}
+        AUD{"$"}
+        BAM{"KM"}
+        BBD{"$"}
+        BDT{"৳"}
+        BMD{"$"}
+        BND{"$"}
+        BOB{"Bs"}
+        BRL{"R$"}
+        BSD{"$"}
+        BWP{"P"}
         BYN{"р."}
+        BZD{"$"}
+        CAD{"$"}
+        CLP{"$"}
+        CNY{"¥"}
+        COP{"$"}
+        CRC{"₡"}
+        CUC{"$"}
+        CUP{"$"}
+        CZK{"Kč"}
+        DKK{"kr"}
+        DOP{"$"}
+        EGP{"E£"}
+        EUR{"€"}
+        FJD{"$"}
+        FKP{"£"}
+        GBP{"£"}
+        GEL{"₾"}
+        GIP{"£"}
+        GNF{"FG"}
+        GTQ{"Q"}
+        GYD{"$"}
+        HKD{"$"}
+        HNL{"L"}
+        HRK{"kn"}
+        HUF{"Ft"}
+        IDR{"Rp"}
+        ILS{"₪"}
+        INR{"₹"}
+        ISK{"kr"}
+        JMD{"$"}
+        JPY{"¥"}
+        KHR{"៛"}
+        KMF{"CF"}
+        KPW{"₩"}
+        KRW{"₩"}
+        KYD{"$"}
+        KZT{"₸"}
+        LAK{"₭"}
+        LBP{"L£"}
+        LKR{"Rs"}
+        LRD{"$"}
+        MGA{"Ar"}
+        MMK{"K"}
+        MNT{"₮"}
+        MUR{"Rs"}
+        MXN{"$"}
+        MYR{"RM"}
+        NAD{"$"}
+        NGN{"₦"}
+        NIO{"C$"}
+        NOK{"kr"}
+        NPR{"Rs"}
+        NZD{"$"}
+        PHP{"₱"}
+        PKR{"Rs"}
+        PLN{"zł"}
+        PYG{"₲"}
+        RON{"lei"}
+        RUB{"₽"}
+        RWF{"RF"}
+        SBD{"$"}
+        SEK{"kr"}
+        SGD{"$"}
+        SHP{"£"}
+        SRD{"$"}
+        SSP{"£"}
+        STN{"Db"}
+        SYP{"£"}
+        THB{"฿"}
+        TOP{"T$"}
+        TRY{"₺"}
+        TTD{"$"}
+        TWD{"$"}
+        UAH{"₴"}
+        USD{"$"}
+        UYU{"$"}
+        VEF{"Bs"}
+        VND{"₫"}
+        XCD{"$"}
+        ZAR{"R"}
+        ZMW{"ZK"}
+    }
+    Currencies%variant{
+        TRY{"TL"}
     }
     CurrencyPlurals{
         AED{
-            one{"UAE درهم"}
-            other{"UAE درهمې"}
+            one{"AED"}
+            other{"AED"}
+        }
+        AFA{
+            one{"افغانۍ (1927–2002)"}
+            other{"افغانۍ (1927–2002)"}
+        }
+        AFN{
+            one{"افغانۍ"}
+            other{"افغانۍ"}
         }
         ALL{
-            one{"البانوي لک"}
-            other{"البانوي لکي"}
+            one{"ALL"}
+            other{"ALL"}
         }
         AMD{
-            one{"ارمينيايي ډرام"}
-            other{"ارمينيايي ډرامز"}
+            one{"AMD"}
+            other{"AMD"}
         }
         ANG{
-            one{"هالېنډې انټيليايي ګيلډر"}
-            other{"هالېنډي انټيليايي ګيلډر"}
+            one{"ANG"}
+            other{"ANG"}
         }
         AOA{
-            one{"انګولي کوانزا"}
-            other{"انګولي کوانزې"}
+            one{"AOA"}
+            other{"AOA"}
         }
         ARS{
-            one{"ارجنټاين پسو"}
-            other{"ارجنټاين پسوز"}
+            one{"ARS"}
+            other{"ARS"}
         }
         AUD{
-            one{"آسترالوي ډالر"}
-            other{"آسترالوي ډالرې"}
+            one{"AUD"}
+            other{"AUD"}
+        }
+        AWG{
+            one{"AWG"}
+            other{"AWG"}
         }
         AZN{
-            one{"آزربايجاني منت"}
-            other{"آزربايجاني منتس"}
+            one{"AZN"}
+            other{"AZN"}
         }
         BAM{
-            one{"بوسنيا هرزګوينيايي بدلېدونکي مارک"}
-            other{"بوسنيا هرزګوينيايي بدلېدونکي مارکس"}
+            one{"BAM"}
+            other{"BAM"}
         }
         BBD{
-            one{"باربيډين ډالر"}
-            other{"باربيډين ډالرې"}
+            one{"BBD"}
+            other{"BBD"}
         }
         BDT{
-            one{"بنګالۍ ټاکه"}
-            other{"بنګالۍ ټاکاس"}
+            one{"BDT"}
+            other{"BDT"}
         }
         BGN{
-            one{"بلغاري ليو"}
-            other{"بلغاري ليوا"}
+            one{"BGN"}
+            other{"BGN"}
         }
         BHD{
-            one{"بحريني دينار"}
-            other{"بحريني دينارونه"}
+            one{"BHD"}
+            other{"BHD"}
+        }
+        BIF{
+            one{"BIF"}
+            other{"BIF"}
         }
         BMD{
-            one{"برمودي ډالر"}
-            other{"برمودي ډالرې"}
+            one{"BMD"}
+            other{"BMD"}
         }
         BND{
-            one{"برونايي ډالر"}
-            other{"برونايي ډالرې"}
+            one{"BND"}
+            other{"BND"}
+        }
+        BOB{
+            one{"BOB"}
+            other{"BOB"}
         }
         BRL{
-            one{"برازيلي ريل"}
-            other{"برازيلي ريلز"}
+            one{"BRL"}
+            other{"BRL"}
         }
         BSD{
-            one{"بهاماسي ډالر"}
-            other{"بهاماسي ډالرې"}
+            one{"BSD"}
+            other{"BSD"}
         }
         BTN{
-            one{"بهوټانۍ انګولټرم"}
-            other{"بهوټانۍ انګولټرمس"}
+            one{"BTN"}
+            other{"BTN"}
         }
         BWP{
-            one{"بوټسواني پولا"}
-            other{"بوټسواني پولاز"}
+            one{"BWP"}
+            other{"BWP"}
         }
         BYN{
-            one{"بلاروسي روبل"}
-            other{"بلاروسي روبلز"}
+            one{"BYN"}
+            other{"BYN"}
         }
         BZD{
-            one{"بليز ډالر"}
-            other{"بليز ډالرې"}
+            one{"BZD"}
+            other{"BZD"}
         }
         CAD{
-            one{"کاناډايي ډالر"}
-            other{"کاناډايي ډالرې"}
+            one{"CAD"}
+            other{"CAD"}
         }
         CDF{
-            one{"کانګولي فرانک"}
-            other{"کانګولي فرانکس"}
+            one{"CDF"}
+            other{"CDF"}
         }
         CHF{
-            one{"سويسي فرانک"}
-            other{"سويسي فرانکس"}
+            one{"CHF"}
+            other{"CHF"}
         }
         CLP{
-            one{"چلي پسو"}
-            other{"چلي پسوز"}
+            one{"CLP"}
+            other{"CLP"}
+        }
+        CNH{
+            one{"CNH"}
+            other{"CNH"}
+        }
+        CNY{
+            one{"CNY"}
+            other{"CNY"}
         }
         COP{
-            one{"کولمبين پسو"}
-            other{"کولمبين پسوز"}
+            one{"COP"}
+            other{"COP"}
         }
         CRC{
-            one{"کوسټا ريکن کولون"}
-            other{"کوسټا ريکن کولونز"}
+            one{"CRC"}
+            other{"CRC"}
         }
         CUC{
-            one{"کيوبايي بدلېدونکې پسو"}
-            other{"کيوبايي بدلېدونکې پسوز"}
+            one{"CUC"}
+            other{"CUC"}
         }
         CUP{
-            one{"کيوبايي پسو"}
-            other{"کيوبايي پسوز"}
+            one{"CUP"}
+            other{"CUP"}
         }
         CVE{
-            one{"کيپ وردين اسکوډو"}
-            other{"کيپ وردين اسکوډوز"}
+            one{"CVE"}
+            other{"CVE"}
         }
         CZK{
-            one{"چيک کرونا"}
-            other{"چيک کروناز"}
+            one{"CZK"}
+            other{"CZK"}
         }
         DJF{
-            one{"جبوتي فرانک"}
-            other{"جبوتي فرانکس"}
+            one{"DJF"}
+            other{"DJF"}
         }
         DKK{
-            one{"ډنمارکي کرون"}
-            other{"ډنمارکي کرونر"}
+            one{"DKK"}
+            other{"DKK"}
         }
         DOP{
-            one{"دومينيکا پسو"}
-            other{"دومينيکا پسوز"}
+            one{"DOP"}
+            other{"DOP"}
         }
         DZD{
-            one{"الجيرين دينار"}
-            other{"الجيرين دينارې"}
+            one{"DZD"}
+            other{"DZD"}
         }
         EGP{
-            one{"مصري پونډ"}
-            other{"مصري پونډونه"}
+            one{"EGP"}
+            other{"EGP"}
         }
         ERN{
-            one{"ايريټرين نکفا"}
-            other{"ايريټرين نکفاس"}
+            one{"ERN"}
+            other{"ERN"}
         }
         ETB{
-            one{"ايتهوپيايي بر"}
-            other{"ايتهوپيايي برز"}
+            one{"ETB"}
+            other{"ETB"}
         }
         EUR{
-            one{"يورو"}
-            other{"يوروز"}
+            one{"EUR"}
+            other{"EUR"}
         }
         FJD{
-            one{"فجي ډالر"}
-            other{"فجي ډالرې"}
+            one{"FJD"}
+            other{"FJD"}
         }
         FKP{
-            one{"پاکلېنډ ټاپوګانو پونډ"}
-            other{"پاکلېنډ ټاپوګانو پونډز"}
+            one{"FKP"}
+            other{"FKP"}
         }
         GBP{
-            one{"برتانوې پونډ"}
-            other{"برتانوې پونډونه"}
+            one{"GBP"}
+            other{"GBP"}
         }
         GEL{
-            one{"جارجیا لاري"}
-            other{"جارجیاېي لارېز"}
+            one{"GEL"}
+            other{"GEL"}
         }
         GHS{
-            one{"ګانين سيډي"}
-            other{"ګانين سيډيز"}
+            one{"GHS"}
+            other{"GHS"}
         }
         GIP{
-            one{"جبل الطارقي پونډ"}
-            other{"جبل الطارقي پونډونه"}
+            one{"GIP"}
+            other{"GIP"}
         }
         GMD{
-            one{"ګيمبين دلاسې"}
-            other{"ګيمبين دلاسېز"}
+            one{"GMD"}
+            other{"GMD"}
         }
         GNF{
-            one{"ګنې فرانک"}
-            other{"ګنې فرانکس"}
+            one{"GNF"}
+            other{"GNF"}
         }
         GTQ{
-            one{"ګويټيمالن کوټزل"}
-            other{"ګويټيمالن کوټزلز"}
+            one{"GTQ"}
+            other{"GTQ"}
         }
         GYD{
-            one{"ګايانيز ډالر"}
-            other{"ګايانيز ډالرز"}
+            one{"GYD"}
+            other{"GYD"}
         }
         HKD{
-            one{"هانګ کانګ ډالر"}
-            other{"هانګ کانګ ډالرې"}
+            one{"HKD"}
+            other{"HKD"}
         }
         HNL{
-            one{"هونډوران ليمپيرا"}
-            other{"هونډوران ليمپيراز"}
+            one{"HNL"}
+            other{"HNL"}
         }
         HRK{
-            one{"کروشيايي کونا"}
-            other{"کروشيايي کوناز"}
+            one{"HRK"}
+            other{"HRK"}
         }
         HTG{
-            one{"هيټي ګورډ"}
-            other{"هيټي ګورډز"}
+            one{"HTG"}
+            other{"HTG"}
         }
         HUF{
-            one{"هنګري فورنټ"}
-            other{"هنګري فورنټز"}
+            one{"HUF"}
+            other{"HUF"}
         }
         IDR{
-            one{"انډونيشي روپيا"}
-            other{"انډونيشي روپۍ"}
+            one{"IDR"}
+            other{"IDR"}
         }
         ILS{
-            one{"اسرايلي نيو شيکل"}
-            other{"اسرايلي نيو شيکلز"}
+            one{"ILS"}
+            other{"ILS"}
+        }
+        INR{
+            one{"INR"}
+            other{"INR"}
         }
         IQD{
-            one{"عراقي دينار"}
-            other{"عراقي دينارونه"}
+            one{"IQD"}
+            other{"IQD"}
         }
         IRR{
-            one{"ايراني ريال"}
-            other{"ايراني ريالونه"}
+            one{"IRR"}
+            other{"IRR"}
         }
         ISK{
-            one{"آيسلېنډي کرونا"}
-            other{"آيسلېنډي کرونر"}
+            one{"ISK"}
+            other{"ISK"}
         }
         JMD{
-            one{"جمايکايي ډالر"}
-            other{"جمايکايي ډالرې"}
+            one{"JMD"}
+            other{"JMD"}
         }
         JOD{
-            one{"اردني دينار"}
-            other{"اردني دينارونه"}
+            one{"JOD"}
+            other{"JOD"}
+        }
+        JPY{
+            one{"JPY"}
+            other{"JPY"}
         }
         KES{
-            one{"کينيايي شيلنګ"}
-            other{"کينيايي شيلنګز"}
+            one{"KES"}
+            other{"KES"}
         }
         KGS{
-            one{"کرغزستاني سوم"}
-            other{"کرغزستاني سومز"}
+            one{"KGS"}
+            other{"KGS"}
         }
         KHR{
-            one{"کمبوډي ريل"}
-            other{"کمبوډي ريلس"}
+            one{"KHR"}
+            other{"KHR"}
         }
         KMF{
-            one{"کوموري فرانک"}
-            other{"کوموري فرانکس"}
+            one{"KMF"}
+            other{"KMF"}
+        }
+        KPW{
+            one{"KPW"}
+            other{"KPW"}
+        }
+        KRW{
+            one{"KRW"}
+            other{"KRW"}
         }
         KWD{
-            one{"کويتي دينار"}
-            other{"کويتي دينارونه"}
+            one{"KWD"}
+            other{"KWD"}
         }
         KYD{
-            one{"کيمن ټاپوګانو ډالر"}
-            other{"کيمن ټاپوګانو ډالرې"}
+            one{"KYD"}
+            other{"KYD"}
         }
         KZT{
-            one{"قازقستاني ټينج"}
-            other{"قازقستاني ټينجز"}
+            one{"KZT"}
+            other{"KZT"}
         }
         LAK{
-            one{"لاشې کپ"}
-            other{"لاشې کپس"}
+            one{"LAK"}
+            other{"LAK"}
         }
         LBP{
-            one{"لبناني پونډ"}
-            other{"لبناني پونډونه"}
+            one{"LBP"}
+            other{"LBP"}
+        }
+        LKR{
+            one{"LKR"}
+            other{"LKR"}
         }
         LRD{
-            one{"لايبيرين ډالر"}
-            other{"لايبيرين ډالرې"}
-        }
-        LSL{
-            one{"Lesotho loti"}
-            other{"Lesotho lotis"}
+            one{"LRD"}
+            other{"LRD"}
         }
         LYD{
-            one{"ليبياېي دينار"}
-            other{"ليبياېي دينارونه"}
+            one{"LYD"}
+            other{"LYD"}
         }
         MAD{
-            one{"مراکشي درهم"}
-            other{"مراکشي درهمونه"}
+            one{"MAD"}
+            other{"MAD"}
         }
         MDL{
-            one{"مالډوي ليو"}
-            other{"مالډوي لي"}
+            one{"MDL"}
+            other{"MDL"}
         }
         MGA{
-            one{"ملاګاسي ارياري"}
-            other{"ملاګاسي ارياريز"}
+            one{"MGA"}
+            other{"MGA"}
         }
         MKD{
-            one{"مسيډونايي دينار"}
-            other{"مسيډونايي دينارې"}
+            one{"MKD"}
+            other{"MKD"}
         }
         MMK{
-            one{"ميانماري کيات"}
-            other{"ميانماري کياتې"}
+            one{"MMK"}
+            other{"MMK"}
         }
         MNT{
-            one{"منګوليايي توګريک"}
-            other{"منګوليايي توګريکس"}
+            one{"MNT"}
+            other{"MNT"}
         }
         MOP{
-            one{"مکانيس پټاکا"}
-            other{"مکانيز پټاکاز"}
+            one{"MOP"}
+            other{"MOP"}
+        }
+        MRO{
+            one{"MRO (1973–2017)"}
+            other{"MRO (1973–2017)"}
         }
         MRU{
-            one{"موريشيسي ډالر"}
-            other{"موريشيسي ډالرې"}
+            one{"MRU"}
+            other{"MRU"}
+        }
+        MUR{
+            one{"MUR"}
+            other{"MUR"}
+        }
+        MVR{
+            one{"MVR"}
+            other{"MVR"}
         }
         MWK{
-            one{"ملاوي کواچا"}
-            other{"ملاوي کواچاز"}
+            one{"MWK"}
+            other{"MWK"}
         }
         MXN{
-            one{"ميکسيکن پيسو"}
-            other{"ميکسيکن پيسوز"}
+            one{"MXN"}
+            other{"MXN"}
         }
         MYR{
-            one{"ملايشي رنګټ"}
-            other{"ملايشي رنګټې"}
+            one{"MYR"}
+            other{"MYR"}
         }
         MZN{
-            one{"موزمبيقي ميټيکل"}
-            other{"موزمبيقي ميټيکلز"}
+            one{"MZN"}
+            other{"MZN"}
         }
         NAD{
-            one{"بيميبيايي ډالر"}
-            other{"نيميبيايي ډالرې"}
+            one{"NAD"}
+            other{"NAD"}
         }
         NGN{
-            one{"نايجيري نايرا"}
-            other{"نايجيري نايراز"}
+            one{"NGN"}
+            other{"NGN"}
         }
         NIO{
-            one{"نيکاراګون کورډوبا"}
-            other{"نيکاراګون کورډوباز"}
+            one{"NIO"}
+            other{"NIO"}
         }
         NOK{
-            one{"نارويجين کرون"}
-            other{"نارويجين کرونر"}
+            one{"NOK"}
+            other{"NOK"}
+        }
+        NPR{
+            one{"نيپالي روپيه"}
+            other{"نيپالي روپۍ"}
         }
         NZD{
-            one{"نيوزي لينډي ډالر"}
-            other{"نيوزي لينډي ډالرې"}
+            one{"NZD"}
+            other{"NZD"}
         }
         OMR{
-            one{"عماني ريال"}
-            other{"عماني ريالونه"}
+            one{"OMR"}
+            other{"OMR"}
         }
         PAB{
-            one{"پانامۍ بالبوا"}
-            other{"پانامۍ بالبوې"}
+            one{"PAB"}
+            other{"PAB"}
         }
         PEN{
-            one{"پيروين سول"}
-            other{"پيروين سولز"}
+            one{"PEN"}
+            other{"PEN"}
+        }
+        PGK{
+            one{"PGK"}
+            other{"PGK"}
         }
         PHP{
-            one{"فلپاينۍ پیسو"}
-            other{"فلپاينۍ پیسوز"}
+            one{"PHP"}
+            other{"PHP"}
         }
         PKR{
             one{"پاکستانۍ کلداره"}
             other{"پاکستانۍ کلدارې"}
         }
         PLN{
-            one{"پولينډي زلوټي"}
-            other{"پولينډي زلوټيز"}
+            one{"PLN"}
+            other{"PLN"}
+        }
+        PYG{
+            one{"PYG"}
+            other{"PYG"}
         }
         QAR{
-            one{"قطري ريال"}
-            other{"قطري ریالونه"}
+            one{"QAR"}
+            other{"QAR"}
         }
         RON{
-            one{"روماني ليو"}
-            other{"روماني لي"}
+            one{"RON"}
+            other{"RON"}
         }
         RSD{
-            one{"سربيايي دينار"}
-            other{"سربيايي دينارې"}
+            one{"RSD"}
+            other{"RSD"}
         }
         RUB{
-            one{"روسي روبل"}
-            other{"روسي روبلز"}
+            one{"RUB"}
+            other{"RUB"}
         }
         RWF{
-            one{"روانډي فرانک"}
-            other{"روانډي فرانکس"}
+            one{"RWF"}
+            other{"RWF"}
         }
         SAR{
-            one{"سعودي ريال"}
-            other{"سعودي ريالونه"}
+            one{"SAR"}
+            other{"SAR"}
         }
         SBD{
-            one{"سولومن ټاپوګانو ډالر"}
-            other{"سولومن ټاپوګانو ډالرې"}
+            one{"SBD"}
+            other{"SBD"}
+        }
+        SCR{
+            one{"SCR"}
+            other{"SCR"}
         }
         SDG{
-            one{"سوډاني پونډ"}
-            other{"سوډاني پونډونه"}
+            one{"SDG"}
+            other{"SDG"}
         }
         SEK{
-            one{"سويډني کرونا"}
-            other{"سويډني کرونر"}
+            one{"SEK"}
+            other{"SEK"}
         }
         SGD{
-            one{"سنګاپور ډالر"}
-            other{"سنګاپور ډالرې"}
+            one{"SGD"}
+            other{"SGD"}
         }
         SHP{
-            one{"سينټ هيلينا پونډ"}
-            other{"سينټ هيلينا پونډونه"}
-        }
-        SLE{
-            one{"سيرا ليوني ليون"}
-            other{"سيرا ليوني ليونونه"}
+            one{"SHP"}
+            other{"SHP"}
         }
         SLL{
-            one{"سيرا ليوني ليون - 1964-2022"}
-            other{"سيرا ليوني ليونونه - 1964-2022"}
+            one{"SLL"}
+            other{"SLL"}
         }
         SOS{
-            one{"سومالي شيلنګ"}
-            other{"سومالي شيلنګز"}
+            one{"SOS"}
+            other{"SOS"}
         }
         SRD{
-            one{"سورينيمي ډالر"}
-            other{"سورينيمي ډالرې"}
+            one{"SRD"}
+            other{"SRD"}
+        }
+        SSP{
+            one{"SSP"}
+            other{"SSP"}
+        }
+        STD{
+            one{"STD"}
+            other{"STD"}
         }
         STN{
-            one{"ساو ټوم او پرينسپي ډوبرا"}
-            other{"ساو ټوم او پرينسپي ډوبراس"}
+            one{"STN"}
+            other{"STN"}
+        }
+        SYP{
+            one{"SYP"}
+            other{"SYP"}
         }
         SZL{
-            one{"سوازي ليلانګيني"}
-            other{"سوازي ايمالانګيني"}
+            one{"SZL"}
+            other{"SZL"}
+        }
+        THB{
+            one{"THB"}
+            other{"THB"}
         }
         TJS{
-            one{"تاجکستاني سوموني"}
-            other{"تاجکستاني سومونيونه"}
+            one{"TJS"}
+            other{"TJS"}
+        }
+        TMT{
+            one{"TMT"}
+            other{"TMT"}
         }
         TND{
-            one{"تيونسې دينار"}
-            other{"تونسي دينار"}
+            one{"TND"}
+            other{"TND"}
+        }
+        TOP{
+            one{"TOP"}
+            other{"TOP"}
+        }
+        TRY{
+            one{"TRY"}
+            other{"TRY"}
         }
         TTD{
-            one{"ټرينيډاډ او ټوباګو ډالر"}
-            other{"ټرينيډاډ او ټوباګو ډالرې"}
+            one{"TTD"}
+            other{"TTD"}
         }
         TWD{
-            one{"نيو تائيواني ډالر"}
-            other{"نيو تائيواني ډالرې"}
+            one{"TWD"}
+            other{"TWD"}
         }
         TZS{
-            one{"تنزاني شيلنګ"}
-            other{"تنزاني شيلنګز"}
+            one{"TZS"}
+            other{"TZS"}
         }
         UAH{
-            one{"اوکرايني هريونيا"}
-            other{"اوکرايني هريونياز"}
+            one{"UAH"}
+            other{"UAH"}
         }
         UGX{
-            one{"يوګانډي شيلنګ"}
-            other{"يوګانډي شيلنګز"}
+            one{"UGX"}
+            other{"UGX"}
         }
         USD{
-            one{"امريکايي ډالر"}
-            other{"امريکايي ډالرې"}
+            one{"USD"}
+            other{"USD"}
         }
         UYU{
-            one{"يوراګوي پسو"}
-            other{"يوراګوي پسوز"}
+            one{"UYU"}
+            other{"UYU"}
+        }
+        UZS{
+            one{"UZS"}
+            other{"UZS"}
+        }
+        VEF{
+            one{"VEF (2008–2018)"}
+            other{"VEF (2008–2018)"}
         }
         VES{
-            one{"وينزويلي بوليوار"}
-            other{"وينزويلي بوليوارز"}
+            one{"VES"}
+            other{"VES"}
+        }
+        VND{
+            one{"VND"}
+            other{"VND"}
         }
         VUV{
-            one{"ونواتو واتو"}
-            other{"ونواتو واتوس"}
+            one{"VUV"}
+            other{"VUV"}
+        }
+        WST{
+            one{"WST"}
+            other{"WST"}
         }
         XAF{
-            one{"مرکزي افريقايي CFA فرانک"}
-            other{"مرکزي افريقايي CFA فرانکس"}
+            one{"XAF"}
+            other{"XAF"}
         }
         XCD{
-            one{"ختيځ کربين ډالر"}
-            other{"ختيځ کربين ډالرې"}
-        }
-        XCG{
-            one{"د کارابین ګیلډر"}
-            other{"د کارابین ګیلډران"}
+            one{"XCD"}
+            other{"XCD"}
         }
         XOF{
-            one{"ختيځ افريقايي CFA فرانک"}
-            other{"ختيځ افريقايي CFA فرانکس"}
+            one{"XOF"}
+            other{"XOF"}
         }
         XPF{
-            one{"CFP فرانک"}
-            other{"CFP فرانکس"}
+            one{"XPF"}
+            other{"XPF"}
         }
         XXX{
             one{"(د نامعلومه مروجه پېسو واحد)"}
             other{"(نامعلومه مروجه پېسې)"}
         }
         YER{
-            one{"يمني ريال"}
-            other{"يمني ريالونه"}
+            one{"YER"}
+            other{"YER"}
+        }
+        ZAR{
+            one{"ZAR"}
+            other{"ZAR"}
         }
         ZMW{
-            one{"زيمبي کواچا"}
-            other{"زيمبي کواچاز"}
-        }
-        ZWG{
-            one{"د زمبابوې سره زر"}
-            other{"د زمبابوې سره زر"}
+            one{"ZMW"}
+            other{"ZMW"}
         }
     }
+    Version{"2.1.43.94"}
 }

@@ -1,15 +1,11 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 keyTypeData:table(nofallback){
     bcpTypeAlias{
         ca{
             islamicc{"islamic-civil"}
         }
         tz:alias{"/ICUDATA/timezoneTypes/bcpTypeAlias/tz"}
-    }
-    ianaMap{
-        timezone:alias{"/ICUDATA/timezoneTypes/ianaMap/timezone"}
     }
     keyInfo{
         deprecated{
@@ -18,7 +14,6 @@ keyTypeData:table(nofallback){
         }
         valueType{
             ca{"incremental"}
-            dx{"multiple"}
             h0{"single"}
             kr{"multiple"}
             vt{"multiple"}
@@ -40,7 +35,6 @@ keyTypeData:table(nofallback){
         colstrength{"ks"}
         currency{"cu"}
         d0{""}
-        dx{""}
         em{""}
         fw{""}
         h0{""}
@@ -52,7 +46,6 @@ keyTypeData:table(nofallback){
         lw{""}
         m0{""}
         measure{"ms"}
-        mu{""}
         numbers{"nu"}
         rg{""}
         s0{""}
@@ -73,14 +66,10 @@ keyTypeData:table(nofallback){
     typeInfo{
         deprecated{
             co{
-                big5han{"true"}
                 direct{"true"}
-                gb2312{"true"}
-                reformed{"true"}
             }
-            hc{
-                c12{"true"}
-                c24{"true"}
+            tz{
+                camtr{"true"}
             }
         }
     }
@@ -399,7 +388,6 @@ keyTypeData:table(nofallback){
             shp{""}
             sit{""}
             skk{""}
-            sle{""}
             sll{""}
             sos{""}
             srd{""}
@@ -437,7 +425,6 @@ keyTypeData:table(nofallback){
             uyw{""}
             uzs{""}
             veb{""}
-            ved{""}
             vef{""}
             ves{""}
             vnd{""}
@@ -452,7 +439,6 @@ keyTypeData:table(nofallback){
             xbc{""}
             xbd{""}
             xcd{""}
-            xcg{""}
             xdr{""}
             xeu{""}
             xfo{""}
@@ -479,7 +465,6 @@ keyTypeData:table(nofallback){
             zrn{""}
             zrz{""}
             zwd{""}
-            zwg{""}
             zwl{""}
             zwr{""}
         }
@@ -494,7 +479,6 @@ keyTypeData:table(nofallback){
             halfwidth{"hwidth"}
             hex{""}
             lower{""}
-            morse{""}
             name{"charname"}
             nfc{""}
             nfd{""}
@@ -507,9 +491,6 @@ keyTypeData:table(nofallback){
             title{""}
             upper{""}
             zawgyi{""}
-        }
-        dx{
-            SCRIPT_CODE{""}
         }
         em{
             default{""}
@@ -529,8 +510,6 @@ keyTypeData:table(nofallback){
             hybrid{""}
         }
         hours{
-            c12{""}
-            c24{""}
             h11{""}
             h12{""}
             h23{""}
@@ -588,27 +567,17 @@ keyTypeData:table(nofallback){
             breakall{""}
             keepall{""}
             normal{""}
-            phrase{""}
         }
         m0{
-            aethiopi{""}
             alaloc{""}
-            beta-metsehaf{"betamets"}
             bgn{""}
             buckwalt{""}
             c{"c11"}
             css{""}
             din{""}
-            es3842{""}
-            ewts{""}
             gost{""}
-            gurage{""}
-            gutgarts{""}
-            iast{""}
-            ies-jes{"iesjes"}
             iso{""}
             java{""}
-            lambdin{""}
             mcst{""}
             mns{""}
             names{"prprname"}
@@ -616,11 +585,8 @@ keyTypeData:table(nofallback){
             perl{""}
             plain{""}
             satts{""}
-            sera{""}
-            tekie-alibekit{"tekieali"}
             ungegn{""}
             unicode{""}
-            xaleget{""}
             xml{""}
             xml10{""}
         }
@@ -628,11 +594,6 @@ keyTypeData:table(nofallback){
             imperial{"uksystem"}
             metric{""}
             ussystem{""}
-        }
-        mu{
-            celsius{""}
-            fahrenhe{""}
-            kelvin{""}
         }
         numbers{
             adlm{""}
@@ -649,18 +610,15 @@ keyTypeData:table(nofallback){
             cham{""}
             cyrl{""}
             deva{""}
-            diak{""}
             ethi{""}
             finance{""}
             fullwide{""}
-            gara{""}
             geor{""}
             gong{""}
             gonm{""}
             grek{""}
             greklow{""}
             gujr{""}
-            gukh{""}
             guru{""}
             hanidays{""}
             hanidec{""}
@@ -670,16 +628,12 @@ keyTypeData:table(nofallback){
             hantfin{""}
             hebr{""}
             hmng{""}
-            hmnp{""}
             java{""}
             jpan{""}
             jpanfin{""}
-            jpanyear{""}
             kali{""}
-            kawi{""}
             khmr{""}
             knda{""}
-            krai{""}
             lana{""}
             lanatham{""}
             laoo{""}
@@ -697,30 +651,23 @@ keyTypeData:table(nofallback){
             mroo{""}
             mtei{""}
             mymr{""}
-            mymrepka{""}
-            mymrpao{""}
             mymrshan{""}
             mymrtlng{""}
-            nagm{""}
             native{""}
             newa{""}
             nkoo{""}
             olck{""}
-            onao{""}
             orya{""}
             osma{""}
-            outlined{""}
             rohg{""}
             roman{""}
             romanlow{""}
             saur{""}
-            segment{""}
             shrd{""}
             sind{""}
             sinh{""}
             sora{""}
             sund{""}
-            sunu{""}
             takr{""}
             talu{""}
             taml{""}
@@ -729,12 +676,9 @@ keyTypeData:table(nofallback){
             thai{""}
             tibt{""}
             tirh{""}
-            tnsa{""}
-            tols{""}
             traditional{"traditio"}
             vaii{""}
             wara{""}
-            wcho{""}
         }
         rg{
             RG_KEY_VALUE{""}
@@ -743,7 +687,6 @@ keyTypeData:table(nofallback){
             accents{""}
             ascii{""}
             hex{""}
-            morse{""}
             numericPinyin{"npinyin"}
             publishing{"publish"}
             zawgyi{""}

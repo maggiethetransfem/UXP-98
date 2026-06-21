@@ -1,10 +1,9 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 rw{
+    Version{"2.1.44.88"}
     zoneStrings{
-        "meta:GMT"{
-            ls{"Greenwich Mean Time"}
-        }
+        gmtFormat{"GMT{0}"}
+        hourFormat{"+HH:mm;-HH:mm"}
     }
 }

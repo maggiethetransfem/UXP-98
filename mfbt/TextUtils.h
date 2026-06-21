@@ -63,7 +63,7 @@ inline constexpr bool IsAscii(char32_t aChar) { return aChar < 0x80; }
  * |aChar| is ASCII, i.e. in the range [0, 0x80).
  */
 template <typename Char>
-constexpr bool IsAsciiNullTerminated(const Char* aChar) {
+inline bool IsAsciiNullTerminated(const Char* aChar) {
   while (Char c = *aChar++) {
     if (!IsAscii(c)) {
       return false;
@@ -80,9 +80,16 @@ constexpr bool IsAsciiNullTerminated(const Char* aChar) {
  */
 template <typename Char>
 constexpr bool IsAsciiWhitespace(Char aChar) {
-  using UnsignedChar = typename detail::MakeUnsignedChar<Char>::Type;
-  auto uc = static_cast<UnsignedChar>(aChar);
-  return uc == 0x9 || uc == 0xA || uc == 0xC || uc == 0xD || uc == 0x20;
+  return static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) ==
+             0x9 ||
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) ==
+             0xA ||
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) ==
+             0xC ||
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) ==
+             0xD ||
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) ==
+             0x20;
 }
 
 /**
@@ -95,9 +102,10 @@ template<typename Char>
 constexpr bool
 IsAsciiLowercaseAlpha(Char aChar)
 {
-  using UnsignedChar = typename detail::MakeUnsignedChar<Char>::Type;
-  auto uc = static_cast<UnsignedChar>(aChar);
-  return 'a' <= uc && uc <= 'z';
+  return 'a' <=
+             static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) &&
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) <=
+             'z';
 }
 
 /**
@@ -110,9 +118,10 @@ template<typename Char>
 constexpr bool
 IsAsciiUppercaseAlpha(Char aChar)
 {
-  using UnsignedChar = typename detail::MakeUnsignedChar<Char>::Type;
-  auto uc = static_cast<UnsignedChar>(aChar);
-  return 'A' <= uc && uc <= 'Z';
+  return 'A' <=
+             static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) &&
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) <=
+             'Z';
 }
 
 /**
@@ -138,9 +147,10 @@ template<typename Char>
 constexpr bool
 IsAsciiDigit(Char aChar)
 {
-  using UnsignedChar = typename detail::MakeUnsignedChar<Char>::Type;
-  auto uc = static_cast<UnsignedChar>(aChar);
-  return '0' <= uc && uc <= '9';
+  return '0' <=
+             static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) &&
+         static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) <=
+             '9';
 }
 
 /**
@@ -150,10 +160,17 @@ IsAsciiDigit(Char aChar)
  */
 template <typename Char>
 constexpr bool IsAsciiHexDigit(Char aChar) {
-  using UnsignedChar = typename detail::MakeUnsignedChar<Char>::Type;
-  auto uc = static_cast<UnsignedChar>(aChar);
-  return ('0' <= uc && uc <= '9') || ('a' <= uc && uc <= 'f') ||
-         ('A' <= uc && uc <= 'F');
+  return IsAsciiDigit(aChar) ||
+         ('a' <=
+              static_cast<typename detail::MakeUnsignedChar<Char>::Type>(
+                  aChar) &&
+          static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) <=
+              'f') ||
+         ('A' <=
+              static_cast<typename detail::MakeUnsignedChar<Char>::Type>(
+                  aChar) &&
+          static_cast<typename detail::MakeUnsignedChar<Char>::Type>(aChar) <=
+              'F');
 }
 
 /**

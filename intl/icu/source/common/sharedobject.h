@@ -38,8 +38,8 @@ public:
 
     virtual ~UnifiedCacheBase();
 private:
-    UnifiedCacheBase(const UnifiedCacheBase &) = delete;
-    UnifiedCacheBase &operator=(const UnifiedCacheBase &) = delete;
+    UnifiedCacheBase(const UnifiedCacheBase &);
+    UnifiedCacheBase &operator=(const UnifiedCacheBase &);
 };
 
 /**
@@ -51,28 +51,28 @@ private:
  * Either stack-allocate, use LocalPointer, or use addRef()/removeRef().
  * Sharing requires reference-counting.
  */
-class U_COMMON_API_CLASS SharedObject : public UObject {
+class U_COMMON_API SharedObject : public UObject {
 public:
     /** Initializes totalRefCount, softRefCount to 0. */
-    U_COMMON_API SharedObject() :
+    SharedObject() :
             softRefCount(0),
             hardRefCount(0),
-            cachePtr(nullptr) {}
+            cachePtr(NULL) {}
 
     /** Initializes totalRefCount, softRefCount to 0. */
-    U_COMMON_API SharedObject(const SharedObject &other) :
+    SharedObject(const SharedObject &other) :
             UObject(other),
             softRefCount(0),
             hardRefCount(0),
-            cachePtr(nullptr) {}
+            cachePtr(NULL) {}
 
-    U_COMMON_API virtual ~SharedObject();
+    virtual ~SharedObject();
 
     /**
      * Increments the number of hard references to this object. Thread-safe.
      * Not for use from within the Unified Cache implementation.
      */
-    U_COMMON_API void addRef() const;
+    void addRef() const;
 
     /**
      * Decrements the number of hard references to this object, and
@@ -81,32 +81,32 @@ public:
      * 
      * Not for use from within the UnifiedCache implementation.
      */
-    U_COMMON_API void removeRef() const;
+    void removeRef() const;
 
     /**
      * Returns the number of hard references for this object.
      * Uses a memory barrier.
      */
-    U_COMMON_API int32_t getRefCount() const;
+    int32_t getRefCount() const;
 
     /**
-     * If noHardReferences() == true then this object has no hard references.
+     * If noHardReferences() == TRUE then this object has no hard references.
      * Must be called only from within the internals of UnifiedCache.
      */
-    U_COMMON_API inline UBool noHardReferences() const { return getRefCount() == 0; }
+    inline UBool noHardReferences() const { return getRefCount() == 0; }
 
     /**
-     * If hasHardReferences() == true then this object has hard references.
+     * If hasHardReferences() == TRUE then this object has hard references.
      * Must be called only from within the internals of UnifiedCache.
      */
-    U_COMMON_API inline UBool hasHardReferences() const { return getRefCount() != 0; }
+    inline UBool hasHardReferences() const { return getRefCount() != 0; }
 
     /**
      * Deletes this object if it has no references.
      * Available for non-cached SharedObjects only. Ownership of cached objects
      * is with the UnifiedCache, which is solely responsible for eviction and deletion.
      */
-    U_COMMON_API void deleteIfZeroRefCount() const;
+    void deleteIfZeroRefCount() const;
 
         
     /**
@@ -116,7 +116,7 @@ public:
      * If there are multiple owners, then ptr is replaced with a 
      * copy-constructed clone,
      * and that is returned.
-     * Returns nullptr if cloning failed.
+     * Returns NULL if cloning failed.
      *
      * T must be a subclass of SharedObject.
      */
@@ -125,7 +125,7 @@ public:
         const T *p = ptr;
         if(p->getRefCount() <= 1) { return const_cast<T *>(p); }
         T *p2 = new T(*p);
-        if(p2 == nullptr) { return nullptr; }
+        if(p2 == NULL) { return NULL; }
         p->removeRef();
         ptr = p2;
         p2->addRef();
@@ -135,7 +135,7 @@ public:
     /**
      * Makes dest an owner of the object pointed to by src while adjusting
      * reference counts and deleting the previous object dest pointed to
-     * if necessary. Before this call is made, dest must either be nullptr or
+     * if necessary. Before this call is made, dest must either be NULL or
      * be included in the reference count of the object it points to. 
      *
      * T must be a subclass of SharedObject.
@@ -143,20 +143,20 @@ public:
     template<typename T>
     static void copyPtr(const T *src, const T *&dest) {
         if(src != dest) {
-            if(dest != nullptr) { dest->removeRef(); }
+            if(dest != NULL) { dest->removeRef(); }
             dest = src;
-            if(src != nullptr) { src->addRef(); }
+            if(src != NULL) { src->addRef(); }
         }
     }
 
     /**
-     * Equivalent to copyPtr(nullptr, dest).
+     * Equivalent to copyPtr(NULL, dest).
      */
     template<typename T>
     static void clearPtr(const T *&ptr) {
-        if (ptr != nullptr) {
+        if (ptr != NULL) {
             ptr->removeRef();
-            ptr = nullptr;
+            ptr = NULL;
         }
     }
 

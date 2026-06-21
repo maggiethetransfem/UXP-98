@@ -11,11 +11,12 @@
 #include "charstr.h"
 #include "number_decimfmtprops.h"
 
-U_NAMESPACE_BEGIN
-namespace number::impl {
+U_NAMESPACE_BEGIN namespace number {
+namespace impl {
 
-// Exported as U_I18N_API_CLASS for tests
-class U_I18N_API_CLASS CurrencySymbols : public UMemory {
+
+// Exported as U_I18N_API for tests
+class U_I18N_API CurrencySymbols : public UMemory {
   public:
     CurrencySymbols() = default; // default constructor: leaves class in valid but undefined state
 
@@ -23,26 +24,18 @@ class U_I18N_API_CLASS CurrencySymbols : public UMemory {
     CurrencySymbols(CurrencyUnit currency, const Locale& locale, UErrorCode& status);
 
     /** Creates an instance in which some symbols might be pre-populated. */
-    U_I18N_API CurrencySymbols(CurrencyUnit currency,
-                               const Locale& locale,
-                               const DecimalFormatSymbols& symbols,
-                               UErrorCode& status);
+    CurrencySymbols(CurrencyUnit currency, const Locale& locale, const DecimalFormatSymbols& symbols,
+                    UErrorCode& status);
 
     const char16_t* getIsoCode() const;
 
     UnicodeString getNarrowCurrencySymbol(UErrorCode& status) const;
-
-    UnicodeString getFormalCurrencySymbol(UErrorCode& status) const;
-
-    UnicodeString getVariantCurrencySymbol(UErrorCode& status) const;
 
     UnicodeString getCurrencySymbol(UErrorCode& status) const;
 
     UnicodeString getIntlCurrencySymbol(UErrorCode& status) const;
 
     UnicodeString getPluralName(StandardPlural::Form plural, UErrorCode& status) const;
-
-    bool hasEmptyCurrencySymbol() const;
 
   protected:
     // Required fields:
@@ -63,7 +56,9 @@ class U_I18N_API_CLASS CurrencySymbols : public UMemory {
 CurrencyUnit
 resolveCurrency(const DecimalFormatProperties& properties, const Locale& locale, UErrorCode& status);
 
-} // namespace number::impl
+
+} // namespace impl
+} // namespace numparse
 U_NAMESPACE_END
 
 #endif //__SOURCE_NUMBER_CURRENCYSYMBOLS_H__

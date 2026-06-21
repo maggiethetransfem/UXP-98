@@ -1,31 +1,14 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 om{
     Currencies{
-        BMD{
-            "BMD",
-            "Doolaara Beermudaa",
-        }
         BRL{
             "R$",
             "Brazilian Real",
         }
-        BZD{
-            "BZD",
-            "Doolaara Beliizee",
-        }
-        CAD{
-            "CA$",
-            "Doolaara Kanaadaa",
-        }
         CNY{
             "CN¥",
             "Chinese Yuan Renminbi",
-        }
-        CRC{
-            "CRC",
-            "Koloonii Kostaa Rikaa",
         }
         ETB{
             "Br",
@@ -53,29 +36,12 @@ om{
         }
         USD{
             "US$",
-            "Doolaara Ameerikaa",
+            "US Dollar",
         }
     }
-    CurrencyPlurals{
-        BMD{
-            one{"Doolaara Beermudaa"}
-            other{"Doolaarota Beermudaa"}
-        }
-        BZD{
-            one{"Doolaara Beliizee"}
-            other{"Doolaarota Beliizee"}
-        }
-        CAD{
-            one{"Doolaara Kanaadaa"}
-            other{"Doolaarota Kanaadaa"}
-        }
-        CRC{
-            one{"Koloonii Kostaa Rikaa"}
-            other{"Koloonota Kostaa Rikaa"}
-        }
-        USD{
-            one{"Doolaara Ameerikaa"}
-            other{"Doolarota Ameerikaa"}
-        }
+    CurrencyUnitPatterns{
+        one{"{0} {1}"}
+        other{"{0} {1}"}
     }
+    Version{"2.1.43.94"}
 }

@@ -1,16 +1,11 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 es_VE{
     %%Parent{"es_419"}
     NumberElements{
         latn{
             patterns{
-                accountingFormat%alphaNextToNumber{"¤ #,##0.00;¤-#,##0.00"}
-                accountingFormat%noCurrency{"#,##0.00"}
                 currencyFormat{"¤#,##0.00;¤-#,##0.00"}
-                currencyFormat%alphaNextToNumber{"¤ #,##0.00;¤-#,##0.00"}
-                currencyFormat%noCurrency{"#,##0.00"}
             }
             symbols{
                 decimal{","}
@@ -18,18 +13,48 @@ es_VE{
             }
         }
     }
+    Version{"2.1.41.45"}
     calendar{
         gregorian{
             AmPmMarkers{
-                "a. m.",
-                "p. m.",
+                "a. m.",
+                "p. m.",
             }
             AmPmMarkersAbbr{
-                "a. m.",
-                "p. m.",
+                "a. m.",
+                "p. m.",
+            }
+            DateTimePatterns{
+                "h:mm:ss a zzzz",
+                "h:mm:ss a z",
+                "h:mm:ss a",
+                "h:mm a",
+                "EEEE, d 'de' MMMM 'de' y",
+                "d 'de' MMMM 'de' y",
+                "d MMM y",
+                "d/M/yy",
+                "{1} {0}",
+                "{1}, {0}",
+                "{1}, {0}",
+                "{1} {0}",
+                "{1} {0}",
+            }
+            availableFormats{
+                yMMMd{"d MMM y"}
             }
             dayNames{
                 format{
+                    short{
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa",
+                    }
+                }
+                stand-alone{
                     short{
                         "Do",
                         "Lu",
@@ -44,22 +69,38 @@ es_VE{
             dayPeriod{
                 stand-alone{
                     abbreviated{
-                        am{"a. m."}
-                        pm{"p. m."}
+                        am{"a. m."}
+                        pm{"p. m."}
                     }
                     narrow{
-                        am{"a. m."}
+                        am{"a. m."}
                         noon{"m."}
-                        pm{"p. m."}
+                        pm{"p. m."}
                     }
                     wide{
-                        am{"a. m."}
-                        pm{"p. m."}
+                        am{"a. m."}
+                        pm{"p. m."}
                     }
                 }
             }
             monthNames{
                 format{
+                    abbreviated{
+                        "ene.",
+                        "feb.",
+                        "mar.",
+                        "abr.",
+                        "may.",
+                        "jun.",
+                        "jul.",
+                        "ago.",
+                        "sept.",
+                        "oct.",
+                        "nov.",
+                        "dic.",
+                    }
+                }
+                stand-alone{
                     abbreviated{
                         "ene.",
                         "feb.",

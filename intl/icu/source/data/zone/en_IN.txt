@@ -1,12 +1,9 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
-// License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// License & terms of use: http://www.unicode.org/copyright.html#License
 en_IN{
     %%Parent{"en_001"}
+    Version{"2.1.44.18"}
     zoneStrings{
-        "meta:Gulf"{
-            ss{"GST"}
-        }
         "meta:India"{
             ss{"IST"}
         }

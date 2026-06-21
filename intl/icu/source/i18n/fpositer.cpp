@@ -22,16 +22,16 @@ U_NAMESPACE_BEGIN
 
 FieldPositionIterator::~FieldPositionIterator() {
   delete data;
-  data = nullptr;
+  data = NULL;
   pos = -1;
 }
 
 FieldPositionIterator::FieldPositionIterator()
-    : data(nullptr), pos(-1) {
+    : data(NULL), pos(-1) {
 }
 
 FieldPositionIterator::FieldPositionIterator(const FieldPositionIterator &rhs)
-  : UObject(rhs), data(nullptr), pos(rhs.pos) {
+  : UObject(rhs), data(NULL), pos(rhs.pos) {
 
   if (rhs.data) {
     UErrorCode status = U_ZERO_ERROR;
@@ -39,23 +39,23 @@ FieldPositionIterator::FieldPositionIterator(const FieldPositionIterator &rhs)
     data->assign(*rhs.data, status);
     if (status != U_ZERO_ERROR) {
       delete data;
-      data = nullptr;
+      data = NULL;
       pos = -1;
     }
   }
 }
 
-bool FieldPositionIterator::operator==(const FieldPositionIterator &rhs) const {
+UBool FieldPositionIterator::operator==(const FieldPositionIterator &rhs) const {
   if (&rhs == this) {
-    return true;
+    return TRUE;
   }
   if (pos != rhs.pos) {
-    return false;
+    return FALSE;
   }
   if (!data) {
-    return rhs.data == nullptr;
+    return rhs.data == NULL;
   }
-  return rhs.data ? data->operator==(*rhs.data) : false;
+  return rhs.data ? data->operator==(*rhs.data) : FALSE;
 }
 
 void FieldPositionIterator::setData(UVector32 *adopt, UErrorCode& status) {
@@ -64,11 +64,11 @@ void FieldPositionIterator::setData(UVector32 *adopt, UErrorCode& status) {
     if (adopt) {
       if (adopt->size() == 0) {
         delete adopt;
-        adopt = nullptr;
-      } else if ((adopt->size() % 4) != 0) {
+        adopt = NULL;
+      } else if ((adopt->size() % 3) != 0) {
         status = U_ILLEGAL_ARGUMENT_ERROR;
       } else {
-        for (int i = 2; i < adopt->size(); i += 4) {
+        for (int i = 1; i < adopt->size(); i += 3) {
           if (adopt->elementAti(i) >= adopt->elementAti(i+1)) {
             status = U_ILLEGAL_ARGUMENT_ERROR;
             break;
@@ -87,16 +87,14 @@ void FieldPositionIterator::setData(UVector32 *adopt, UErrorCode& status) {
 
   delete data;
   data = adopt;
-  pos = adopt == nullptr ? -1 : 0;
+  pos = adopt == NULL ? -1 : 0;
 }
 
 UBool FieldPositionIterator::next(FieldPosition& fp) {
   if (pos == -1) {
-    return false;
+    return FALSE;
   }
 
-  // Ignore the first element of the tetrad: used for field category
-  pos++;
   fp.setField(data->elementAti(pos++));
   fp.setBeginIndex(data->elementAti(pos++));
   fp.setEndIndex(data->elementAti(pos++));
@@ -105,7 +103,7 @@ UBool FieldPositionIterator::next(FieldPosition& fp) {
     pos = -1;
   }
 
-  return true;
+  return TRUE;
 }
 
 U_NAMESPACE_END

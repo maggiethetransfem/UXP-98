@@ -24,7 +24,6 @@
 #include "cmemory.h"
 #include "cstring.h"
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -46,7 +45,6 @@ uprint(const UChar *s,
     const UChar *mySourceEnd;
     char *myTarget;
     int32_t arraySize;
-    UErrorCode bufferStatus;
 
     if(s == 0) return;
 
@@ -55,7 +53,6 @@ uprint(const UChar *s,
     mySourceEnd  = mySource + sourceLen;
     myTarget     = buf;
     arraySize    = BUF_SIZE;
-    bufferStatus = U_ZERO_ERROR;
 
     /* open a default converter */
     converter = ucnv_open(0, status);
@@ -66,12 +63,12 @@ uprint(const UChar *s,
     /* perform the conversion */
     do {
         /* reset the error code */
-        bufferStatus = U_ZERO_ERROR;
+        *status = U_ZERO_ERROR;
 
         /* perform the conversion */
         ucnv_fromUnicode(converter, &myTarget,  myTarget + arraySize,
             &mySource, mySourceEnd, NULL,
-            true, &bufferStatus);
+            TRUE, status);
 
         /* Write the converted data to the FILE* */
         fwrite(buf, sizeof(char), myTarget - buf, f);
@@ -80,10 +77,7 @@ uprint(const UChar *s,
         myTarget     = buf;
         arraySize    = BUF_SIZE;
     }
-    while(bufferStatus == U_BUFFER_OVERFLOW_ERROR);
-    if (U_FAILURE(bufferStatus)) {
-        *status = bufferStatus;
-    }
+    while(*status == U_BUFFER_OVERFLOW_ERROR); 
 
 finish:
 
@@ -162,7 +156,6 @@ U_CFUNC int u_wmsg(FILE *fp, const char *tag, ... )
         uprint(msg,msgLen, fp, &err);
     }
 #else
-    (void)gNoFormatting;  // suppress -Wunused-variable
     va_start(ap, tag);
 
     resultLength = u_vformatMessage(uloc_getDefault(), msg, msgLen, result, resultLength, ap, &err);

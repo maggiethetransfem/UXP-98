@@ -3405,7 +3405,7 @@ SpotLightSoftware::GetColor(uint32_t aLightColor, const Point3D &aVectorToLight)
     uint8_t colorC[4];
   };
 
-  Float dot = std::clamp(-aVectorToLight.DotProduct(mVectorFromFocusPointToLight), 0.0f, 1.0f);
+  Float dot = std::min(std::max(-aVectorToLight.DotProduct(mVectorFromFocusPointToLight), 0.0f), 1.0f);
   if (!mPowCache.HasPowerTable()) {
     dot *= (dot >= mLimitingConeCos);
     color = aLightColor;
@@ -3660,7 +3660,7 @@ SpecularLightingSoftware::LightPixel(const Point3D &aNormal,
 {
   Point3D vectorToEye(0, 0, 1);
   Point3D halfwayVector = Normalized(aVectorToLight + vectorToEye);
-  Float dotNH = std::clamp(aNormal.DotProduct(halfwayVector), 0.0f, 1.0f);
+  Float dotNH = std::min(std::max(aNormal.DotProduct(halfwayVector), 0.0f), 1.0f);
   uint16_t dotNHi = uint16_t(dotNH * (1 << PowCache::sInputIntPrecisionBits));
   // The exponent for specular is in [1,128] range, so we don't need to check and
   // optimize for the "default power table" scenario here.

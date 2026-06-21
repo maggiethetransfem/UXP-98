@@ -445,6 +445,7 @@ def get_vc_paths(base):
 
 
 @depends(host)
+@imports('os')
 @imports('platform')
 def vc_compiler_path(host):
     if host.kernel != 'WINNT':
@@ -462,6 +463,21 @@ def vc_compiler_path(host):
     }.get(host.cpu)
     if vc_target is None:
         return
+
+    vs_path = os.environ.get('VSPATH')
+    if vs_path:
+        vc_bin = os.path.join(vs_path, 'VC', 'bin')
+        host_target = {
+            ('x64', 'x64'): ('amd64',),
+            ('x64', 'x86'): ('amd64_x86', 'amd64'),
+            ('x86', 'x86'): ('',),
+            ('x86', 'x64'): ('x86_amd64',),
+            ('x64', 'arm'): ('amd64_arm', 'amd64'),
+            ('x86', 'arm'): ('x86_arm',),
+        }.get((vc_host, vc_target))
+        if host_target:
+            return tuple(os.path.join(vc_bin, p) if p else vc_bin
+                         for p in host_target)
 
     base_key = r'HKEY_LOCAL_MACHINE\SOFTWARE'
     data = get_vc_paths(base_key)

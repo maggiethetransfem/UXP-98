@@ -31,19 +31,7 @@ U_NAMESPACE_BEGIN
  * Handles normalized UTF-8 text inline, with length or NUL-terminated.
  * Unnormalized text is handled by a subclass.
  */
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4251)
-#pragma warning(disable:4275)
-#endif
-
 class U_I18N_API UTF8CollationIterator : public CollationIterator {
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
 public:
     UTF8CollationIterator(const CollationData *d, UBool numeric,
                           const uint8_t *s, int32_t p, int32_t len)
@@ -52,13 +40,13 @@ public:
 
     virtual ~UTF8CollationIterator();
 
-    virtual void resetToOffset(int32_t newOffset) override;
+    virtual void resetToOffset(int32_t newOffset);
 
-    virtual int32_t getOffset() const override;
+    virtual int32_t getOffset() const;
 
-    virtual UChar32 nextCodePoint(UErrorCode &errorCode) override;
+    virtual UChar32 nextCodePoint(UErrorCode &errorCode);
 
-    virtual UChar32 previousCodePoint(UErrorCode &errorCode) override;
+    virtual UChar32 previousCodePoint(UErrorCode &errorCode);
 
 protected:
     /**
@@ -66,20 +54,20 @@ protected:
      * together with a bogus code point. The caller will ignore that code point.
      *
      * Special values may be returned for surrogate code points, which are also illegal in UTF-8,
-     * but the caller will treat them like U+FFFD because forbidSurrogateCodePoints() returns true.
+     * but the caller will treat them like U+FFFD because forbidSurrogateCodePoints() returns TRUE.
      *
      * Valid lead surrogates are returned from inside a normalized text segment,
      * where handleGetTrailSurrogate() will return the matching trail surrogate.
      */
-    virtual uint32_t handleNextCE32(UChar32 &c, UErrorCode &errorCode) override;
+    virtual uint32_t handleNextCE32(UChar32 &c, UErrorCode &errorCode);
 
-    virtual UBool foundNULTerminator() override;
+    virtual UBool foundNULTerminator();
 
-    virtual UBool forbidSurrogateCodePoints() const override;
+    virtual UBool forbidSurrogateCodePoints() const;
 
-    virtual void forwardNumCodePoints(int32_t num, UErrorCode &errorCode) override;
+    virtual void forwardNumCodePoints(int32_t num, UErrorCode &errorCode);
 
-    virtual void backwardNumCodePoints(int32_t num, UErrorCode &errorCode) override;
+    virtual void backwardNumCodePoints(int32_t num, UErrorCode &errorCode);
 
     const uint8_t *u8;
     int32_t pos;
@@ -99,24 +87,24 @@ public:
 
     virtual ~FCDUTF8CollationIterator();
 
-    virtual void resetToOffset(int32_t newOffset) override;
+    virtual void resetToOffset(int32_t newOffset);
 
-    virtual int32_t getOffset() const override;
+    virtual int32_t getOffset() const;
 
-    virtual UChar32 nextCodePoint(UErrorCode &errorCode) override;
+    virtual UChar32 nextCodePoint(UErrorCode &errorCode);
 
-    virtual UChar32 previousCodePoint(UErrorCode &errorCode) override;
+    virtual UChar32 previousCodePoint(UErrorCode &errorCode);
 
 protected:
-    virtual uint32_t handleNextCE32(UChar32 &c, UErrorCode &errorCode) override;
+    virtual uint32_t handleNextCE32(UChar32 &c, UErrorCode &errorCode);
 
-    virtual char16_t handleGetTrailSurrogate() override;
+    virtual UChar handleGetTrailSurrogate();
 
-    virtual UBool foundNULTerminator() override;
+    virtual UBool foundNULTerminator();
 
-    virtual void forwardNumCodePoints(int32_t num, UErrorCode &errorCode) override;
+    virtual void forwardNumCodePoints(int32_t num, UErrorCode &errorCode);
 
-    virtual void backwardNumCodePoints(int32_t num, UErrorCode &errorCode) override;
+    virtual void backwardNumCodePoints(int32_t num, UErrorCode &errorCode);
 
 private:
     UBool nextHasLccc() const;
@@ -129,7 +117,7 @@ private:
 
     /**
      * Extends the FCD text segment forward or normalizes around pos.
-     * @return true if success
+     * @return TRUE if success
      */
     UBool nextSegment(UErrorCode &errorCode);
 
@@ -140,7 +128,7 @@ private:
 
     /**
      * Extends the FCD text segment backward or normalizes around pos.
-     * @return true if success
+     * @return TRUE if success
      */
     UBool previousSegment(UErrorCode &errorCode);
 

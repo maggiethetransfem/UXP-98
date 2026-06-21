@@ -30,12 +30,19 @@ extern "C" {
 #include <stddef.h>   // NOLINT
 #include <windows.h>  // NOLINT
 typedef HANDLE pthread_t;
+#ifdef MOZ_WIN9X_KERNELEX
+typedef CRITICAL_SECTION pthread_mutex_t;
+typedef struct {
+  HANDLE event;
+} pthread_cond_t;
+#else
 typedef SRWLOCK pthread_mutex_t;
 
 #if _WIN32_WINNT < 0x0600
 #error _WIN32_WINNT must target Windows Vista / Server 2008 or newer.
 #endif
 typedef CONDITION_VARIABLE pthread_cond_t;
+#endif
 
 #ifndef WINAPI_FAMILY_PARTITION
 #define WINAPI_PARTITION_DESKTOP 1
@@ -88,51 +95,91 @@ static INLINE int pthread_join(pthread_t thread, void **value_ptr) {
 static INLINE int pthread_mutex_init(pthread_mutex_t *const mutex,
                                      void *mutexattr) {
   (void)mutexattr;
+#ifdef MOZ_WIN9X_KERNELEX
+  InitializeCriticalSection(mutex);
+#else
   InitializeSRWLock(mutex);
+#endif
   return 0;
 }
 
 static INLINE int pthread_mutex_lock(pthread_mutex_t *const mutex) {
+#ifdef MOZ_WIN9X_KERNELEX
+  EnterCriticalSection(mutex);
+#else
   AcquireSRWLockExclusive(mutex);
+#endif
   return 0;
 }
 
 static INLINE int pthread_mutex_unlock(pthread_mutex_t *const mutex) {
+#ifdef MOZ_WIN9X_KERNELEX
+  LeaveCriticalSection(mutex);
+#else
   ReleaseSRWLockExclusive(mutex);
+#endif
   return 0;
 }
 
 static INLINE int pthread_mutex_destroy(pthread_mutex_t *const mutex) {
+#ifdef MOZ_WIN9X_KERNELEX
+  DeleteCriticalSection(mutex);
+#else
   (void)mutex;
+#endif
   return 0;
 }
 
 // Condition
 static INLINE int pthread_cond_destroy(pthread_cond_t *const condition) {
+#ifdef MOZ_WIN9X_KERNELEX
+  return CloseHandle(condition->event) == 0;
+#else
   (void)condition;
   return 0;
+#endif
 }
 
 static INLINE int pthread_cond_init(pthread_cond_t *const condition,
                                     void *cond_attr) {
   (void)cond_attr;
+#ifdef MOZ_WIN9X_KERNELEX
+  condition->event = CreateEvent(NULL, FALSE, FALSE, NULL);
+  return condition->event == NULL;
+#else
   InitializeConditionVariable(condition);
   return 0;
+#endif
 }
 
 static INLINE int pthread_cond_signal(pthread_cond_t *const condition) {
+#ifdef MOZ_WIN9X_KERNELEX
+  return SetEvent(condition->event) == 0;
+#else
   WakeConditionVariable(condition);
   return 0;
+#endif
 }
 
 static INLINE int pthread_cond_broadcast(pthread_cond_t *const condition) {
+#ifdef MOZ_WIN9X_KERNELEX
+  return SetEvent(condition->event) == 0;
+#else
   WakeAllConditionVariable(condition);
   return 0;
+#endif
 }
 
 static INLINE int pthread_cond_wait(pthread_cond_t *const condition,
                                     pthread_mutex_t *const mutex) {
+#ifdef MOZ_WIN9X_KERNELEX
+  int ok;
+  LeaveCriticalSection(mutex);
+  ok = WaitForSingleObject(condition->event, INFINITE) == WAIT_OBJECT_0;
+  EnterCriticalSection(mutex);
+#else
   const int ok = SleepConditionVariableSRW(condition, mutex, INFINITE, 0);
+#endif
   return !ok;
 }
 #else                 // _WIN32

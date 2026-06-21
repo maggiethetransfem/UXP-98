@@ -92,7 +92,8 @@ TLSServerSocket::CreateClientTransport(PRFileDesc* aClientFD,
   SSL_AuthCertificateHook(aClientFD, AuthCertificateHook, nullptr);
   // Once the TLS handshake has completed, the server consumer is notified and
   // has access to various TLS state details.
-  trans->mFDDetachCallback = [aliveRef = RefPtr{info}](PRFileDesc* fd) {
+  RefPtr<TLSServerConnectionInfo> aliveRef = info;
+  trans->mFDDetachCallback = [aliveRef](PRFileDesc* fd) {
     SSL_HandshakeCallback(fd, nullptr, nullptr);
   };
   SSL_HandshakeCallback(aClientFD, TLSServerConnectionInfo::HandshakeCallback,

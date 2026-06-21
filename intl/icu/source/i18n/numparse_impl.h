@@ -18,21 +18,26 @@
 #include "unicode/localpointer.h"
 #include "numparse_validators.h"
 #include "number_multiplier.h"
-#include "string_segment.h"
 
 U_NAMESPACE_BEGIN
 
-namespace numparse::impl {
+// Export an explicit template instantiation of the MaybeStackArray that is used as a data member of NumberParserImpl.
+// When building DLLs for Windows this is required even though no direct access to the MaybeStackArray leaks out of the i18n library.
+// (See numparse_compositions.h, numparse_affixes.h, datefmt.h, and others for similar examples.)
+#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN
+template class U_I18N_API MaybeStackArray<const numparse::impl::NumberParseMatcher*, 10>;
+#endif
 
-// Exported as U_I18N_API_CLASS for tests
-class U_I18N_API_CLASS NumberParserImpl : public MutableMatcherCollection, public UMemory {
+namespace numparse {
+namespace impl {
+
+// Exported as U_I18N_API for tests
+class U_I18N_API NumberParserImpl : public MutableMatcherCollection, public UMemory {
   public:
     virtual ~NumberParserImpl();
 
-    U_I18N_API static NumberParserImpl *createSimpleParser(const Locale& locale,
-                                                           const UnicodeString& patternString,
-                                                           parse_flags_t parseFlags,
-                                                           UErrorCode& status);
+    static NumberParserImpl* createSimpleParser(const Locale& locale, const UnicodeString& patternString,
+                                                parse_flags_t parseFlags, UErrorCode& status);
 
     static NumberParserImpl* createParserFromProperties(
             const number::impl::DecimalFormatProperties& properties, const DecimalFormatSymbols& symbols,
@@ -49,13 +54,12 @@ class U_I18N_API_CLASS NumberParserImpl : public MutableMatcherCollection, publi
 
     parse_flags_t getParseFlags() const;
 
-    U_I18N_API void parse(const UnicodeString& input, bool greedy, ParsedNumber& result,
-                          UErrorCode& status) const;
+    void parse(const UnicodeString& input, bool greedy, ParsedNumber& result, UErrorCode& status) const;
 
     void parse(const UnicodeString& input, int32_t start, bool greedy, ParsedNumber& result,
                UErrorCode& status) const;
 
-    U_I18N_API UnicodeString toString() const;
+    UnicodeString toString() const;
 
   private:
     parse_flags_t fParseFlags;
@@ -75,7 +79,6 @@ class U_I18N_API_CLASS NumberParserImpl : public MutableMatcherCollection, publi
         PercentMatcher percent;
         PermilleMatcher permille;
         PlusSignMatcher plusSign;
-        ApproximatelySignMatcher approximatelySign;
         DecimalMatcher decimal;
         ScientificMatcher scientific;
         CombinedCurrencyMatcher currency;
@@ -92,14 +95,14 @@ class U_I18N_API_CLASS NumberParserImpl : public MutableMatcherCollection, publi
 
     explicit NumberParserImpl(parse_flags_t parseFlags);
 
-    void parseGreedy(StringSegment& segment, ParsedNumber& result, UErrorCode& status) const;
+    void parseGreedyRecursive(StringSegment& segment, ParsedNumber& result, UErrorCode& status) const;
 
-    void parseLongestRecursive(
-        StringSegment& segment, ParsedNumber& result, int32_t recursionLevels, UErrorCode& status) const;
+    void parseLongestRecursive(StringSegment& segment, ParsedNumber& result, UErrorCode& status) const;
 };
 
-} // namespace numparse::impl
 
+} // namespace impl
+} // namespace numparse
 U_NAMESPACE_END
 
 #endif //__NUMPARSE_IMPL_H__

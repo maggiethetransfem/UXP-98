@@ -17,16 +17,15 @@
  */
 
 #include "unicode/utypes.h"
-
-#if U_SHOW_CPLUSPLUS_API
-
 #include "unicode/unistr.h"
 
 U_NAMESPACE_BEGIN
 
 // Forward declaration:
-namespace number::impl {
+namespace number {
+namespace impl {
 class SimpleModifier;
+}
 }
 
 /**
@@ -57,13 +56,13 @@ class SimpleModifier;
  * @see UMessagePatternApostropheMode
  * @stable ICU 57
  */
-class U_COMMON_API SimpleFormatter final : public UMemory {
+class U_COMMON_API SimpleFormatter U_FINAL : public UMemory {
 public:
     /**
      * Default constructor.
      * @stable ICU 57
      */
-    SimpleFormatter() : compiledPattern(static_cast<char16_t>(0)) {}
+    SimpleFormatter() : compiledPattern((char16_t)0) {}
 
     /**
      * Constructs a formatter from the pattern string.
@@ -123,7 +122,7 @@ public:
      * @param errorCode ICU error code in/out parameter.
      *                  Must fulfill U_SUCCESS before the function call.
      *                  Set to U_ILLEGAL_ARGUMENT_ERROR for bad argument syntax.
-     * @return true if U_SUCCESS(errorCode).
+     * @return TRUE if U_SUCCESS(errorCode).
      * @stable ICU 57
      */
     UBool applyPattern(const UnicodeString &pattern, UErrorCode &errorCode) {
@@ -142,7 +141,7 @@ public:
      *                  Must fulfill U_SUCCESS before the function call.
      *                  Set to U_ILLEGAL_ARGUMENT_ERROR for bad argument syntax and
      *                  too few or too many arguments.
-     * @return true if U_SUCCESS(errorCode).
+     * @return TRUE if U_SUCCESS(errorCode).
      * @stable ICU 57
      */
     UBool applyPatternMinMaxArguments(const UnicodeString &pattern,
@@ -215,13 +214,13 @@ public:
      *
      * @param values The argument values.
      *               An argument value must not be the same object as appendTo.
-     *               Can be nullptr if valuesLength==getArgumentLimit()==0.
+     *               Can be NULL if valuesLength==getArgumentLimit()==0.
      * @param valuesLength The length of the values array.
      *                     Must be at least getArgumentLimit().
      * @param appendTo Gets the formatted pattern and values appended.
      * @param offsets offsets[i] receives the offset of where
      *                values[i] replaced pattern argument {i}.
-     *                Can be shorter or longer than values. Can be nullptr if offsetsLength==0.
+     *                Can be shorter or longer than values. Can be NULL if offsetsLength==0.
      *                If there is no {i} in the pattern, then offsets[i] is set to -1.
      * @param offsetsLength The length of the offsets array.
      * @param errorCode ICU error code in/out parameter.
@@ -241,13 +240,13 @@ public:
      *
      * @param values The argument values.
      *               An argument value may be the same object as result.
-     *               Can be nullptr if valuesLength==getArgumentLimit()==0.
+     *               Can be NULL if valuesLength==getArgumentLimit()==0.
      * @param valuesLength The length of the values array.
      *                     Must be at least getArgumentLimit().
      * @param result Gets its contents replaced by the formatted pattern and values.
      * @param offsets offsets[i] receives the offset of where
      *                values[i] replaced pattern argument {i}.
-     *                Can be shorter or longer than values. Can be nullptr if offsetsLength==0.
+     *                Can be shorter or longer than values. Can be NULL if offsetsLength==0.
      *                If there is no {i} in the pattern, then offsets[i] is set to -1.
      * @param offsetsLength The length of the offsets array.
      * @param errorCode ICU error code in/out parameter.
@@ -266,37 +265,8 @@ public:
      * @stable ICU 57
      */
     UnicodeString getTextWithNoArguments() const {
-        return getTextWithNoArguments(
-            compiledPattern.getBuffer(),
-            compiledPattern.length(),
-            nullptr,
-            0);
+        return getTextWithNoArguments(compiledPattern.getBuffer(), compiledPattern.length());
     }
-
-#ifndef U_HIDE_INTERNAL_API
-    /**
-     * Returns the pattern text with none of the arguments.
-     * Like formatting with all-empty string values.
-     *
-     * TODO(ICU-20406): Replace this with an Iterator interface.
-     *
-     * @param offsets offsets[i] receives the offset of where {i} was located
-     *                before it was replaced by an empty string.
-     *                For example, "a{0}b{1}" produces offset 1 for i=0 and 2 for i=1.
-     *                Can be nullptr if offsetsLength==0.
-     *                If there is no {i} in the pattern, then offsets[i] is set to -1.
-     * @param offsetsLength The length of the offsets array.
-     *
-     * @internal
-     */
-    UnicodeString getTextWithNoArguments(int32_t *offsets, int32_t offsetsLength) const {
-        return getTextWithNoArguments(
-            compiledPattern.getBuffer(),
-            compiledPattern.length(),
-            offsets,
-            offsetsLength);
-    }
-#endif // U_HIDE_INTERNAL_API
 
 private:
     /**
@@ -315,11 +285,7 @@ private:
         return compiledPatternLength == 0 ? 0 : compiledPattern[0];
     }
 
-    static UnicodeString getTextWithNoArguments(
-        const char16_t *compiledPattern,
-        int32_t compiledPatternLength,
-        int32_t *offsets,
-        int32_t offsetsLength);
+    static UnicodeString getTextWithNoArguments(const char16_t *compiledPattern, int32_t compiledPatternLength);
 
     static UnicodeString &format(
             const char16_t *compiledPattern, int32_t compiledPatternLength,
@@ -333,7 +299,5 @@ private:
 };
 
 U_NAMESPACE_END
-
-#endif /* U_SHOW_CPLUSPLUS_API */
 
 #endif  // __SIMPLEFORMATTER_H__

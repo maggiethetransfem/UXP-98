@@ -6,6 +6,7 @@
 #ifndef mozilla_dom_performancemark_h___
 #define mozilla_dom_performancemark_h___
 
+#include "mozilla/ErrorResult.h"
 #include "mozilla/dom/PerformanceEntry.h"
 
 namespace mozilla {

@@ -15,6 +15,34 @@ namespace mozilla {
 inline bool
 IsWindowsVersionOrLater(uint32_t aVersion)
 {
+#ifdef MOZ_WIN9X_KERNELEX
+  OSVERSIONINFOEX info;
+  ZeroMemory(&info, sizeof(OSVERSIONINFOEX));
+  info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+#pragma warning(push)
+#pragma warning(disable:4996)
+  if (!GetVersionEx((LPOSVERSIONINFO)&info)) {
+    OSVERSIONINFO fallbackInfo;
+    ZeroMemory(&fallbackInfo, sizeof(OSVERSIONINFO));
+    fallbackInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    if (!GetVersionEx(&fallbackInfo)) {
+      return false;
+    }
+
+    info.dwMajorVersion = fallbackInfo.dwMajorVersion;
+    info.dwMinorVersion = fallbackInfo.dwMinorVersion;
+    info.dwBuildNumber = fallbackInfo.dwBuildNumber;
+    info.dwPlatformId = fallbackInfo.dwPlatformId;
+  }
+#pragma warning(pop)
+
+  uint32_t currentVersion =
+    (info.dwMajorVersion << 24) |
+    ((info.dwMinorVersion & 0xFF) << 16) |
+    ((info.wServicePackMajor & 0xFF) << 8) |
+    (info.wServicePackMinor & 0xFF);
+  return currentVersion >= aVersion;
+#else
   static uint32_t minVersion = 0;
   static uint32_t maxVersion = UINT32_MAX;
 
@@ -50,11 +78,25 @@ IsWindowsVersionOrLater(uint32_t aVersion)
 
   maxVersion = aVersion;
   return false;
+#endif
 }
 
 inline bool
 IsWindowsBuildOrLater(uint32_t aBuild)
 {
+#ifdef MOZ_WIN9X_KERNELEX
+  OSVERSIONINFO info;
+  ZeroMemory(&info, sizeof(OSVERSIONINFO));
+  info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+#pragma warning(push)
+#pragma warning(disable:4996)
+  if (!GetVersionEx(&info)) {
+    return false;
+  }
+#pragma warning(pop)
+
+  return (info.dwBuildNumber & 0xFFFF) >= aBuild;
+#else
   static uint32_t minBuild = 0;
   static uint32_t maxBuild = UINT32_MAX;
 
@@ -81,6 +123,7 @@ IsWindowsBuildOrLater(uint32_t aBuild)
 
   maxBuild = aBuild;
   return false;
+#endif
 }
 
 MOZ_ALWAYS_INLINE bool

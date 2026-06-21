@@ -28,19 +28,7 @@ class BreakIterator;
 // uses of break iterator within a particular class. Then objects of that
 // class may then freely share break iterators among themselves. However,
 // these shared break iterators must never be exposed outside of that class.
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4251)
-#pragma warning(disable:4275)
-#endif
-
 class U_I18N_API SharedBreakIterator : public SharedObject {
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
 public:
     SharedBreakIterator(BreakIterator *biToAdopt);
     virtual ~SharedBreakIterator();
@@ -50,8 +38,8 @@ public:
     BreakIterator &operator*() const { return *ptr; }
 private:
     BreakIterator *ptr;
-    SharedBreakIterator(const SharedBreakIterator &) = delete;
-    SharedBreakIterator &operator=(const SharedBreakIterator &) = delete;
+    SharedBreakIterator(const SharedBreakIterator &);
+    SharedBreakIterator &operator=(const SharedBreakIterator &);
 };
 
 U_NAMESPACE_END

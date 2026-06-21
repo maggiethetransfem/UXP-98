@@ -24,8 +24,6 @@
 #include "collationsettings.h"
 #include "uhash.h"
 #include "umutex.h"
-#include "unifiedcache.h"
- 
 
 struct UDataMemory;
 struct UResourceBundle;
@@ -46,23 +44,21 @@ class UnicodeSet;
  * The fields are public for convenience.
  *
  * It is shared, reference-counted, and auto-deleted; see SharedObject.
- *
- * U_I18N_API because genuca & genrb use it.
  */
-struct U_I18N_API_CLASS CollationTailoring : public SharedObject {
-    U_I18N_API CollationTailoring(const CollationSettings *baseSettings);
-    U_I18N_API virtual ~CollationTailoring();
+struct U_I18N_API CollationTailoring : public SharedObject {
+    CollationTailoring(const CollationSettings *baseSettings);
+    virtual ~CollationTailoring();
 
     /**
-     * Returns true if the constructor could not initialize properly.
+     * Returns TRUE if the constructor could not initialize properly.
      */
-    U_I18N_API UBool isBogus() { return settings == nullptr; }
+    UBool isBogus() { return settings == NULL; }
 
-    U_I18N_API UBool ensureOwnedData(UErrorCode &errorCode);
+    UBool ensureOwnedData(UErrorCode &errorCode);
 
-    U_I18N_API static void makeBaseVersion(const UVersionInfo ucaVersion, UVersionInfo version);
-    U_I18N_API void setVersion(const UVersionInfo baseVersion, const UVersionInfo rulesVersion);
-    U_I18N_API int32_t getUCAVersion() const;
+    static void makeBaseVersion(const UVersionInfo ucaVersion, UVersionInfo version);
+    void setVersion(const UVersionInfo baseVersion, const UVersionInfo rulesVersion);
+    int32_t getUCAVersion() const;
 
     // data for sorting etc.
     const CollationData *data;  // == base data or ownedData
@@ -93,27 +89,22 @@ private:
      * No copy constructor: A CollationTailoring cannot be copied.
      * It is immutable, and the data trie cannot be copied either.
      */
-    CollationTailoring(const CollationTailoring &other) = delete;
+    CollationTailoring(const CollationTailoring &other);
 };
 
-// U_I18N_API because gencolusb uses it.
-struct U_I18N_API_CLASS CollationCacheEntry : public SharedObject {
-    U_I18N_API CollationCacheEntry(const Locale &loc, const CollationTailoring *t)
+struct CollationCacheEntry : public SharedObject {
+    CollationCacheEntry(const Locale &loc, const CollationTailoring *t)
             : validLocale(loc), tailoring(t) {
-        if(t != nullptr) {
+        if(t != NULL) {
             t->addRef();
         }
     }
-    U_I18N_API ~CollationCacheEntry();
+    ~CollationCacheEntry();
 
     Locale validLocale;
     const CollationTailoring *tailoring;
 };
 
-template<> U_I18N_API
-const CollationCacheEntry *
-LocaleCacheKey<CollationCacheEntry>::createObject(const void *creationContext,
-                                                  UErrorCode &errorCode) const;
 U_NAMESPACE_END
 
 #endif  // !UCONFIG_NO_COLLATION

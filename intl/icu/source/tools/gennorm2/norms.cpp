@@ -42,7 +42,7 @@ void BuilderReorderingBuffer::append(UChar32 c, uint8_t cc) {
     }
     fArray[i]=(c<<8)|cc;
     ++fLength;
-    fDidReorder=true;
+    fDidReorder=TRUE;
 }
 
 void BuilderReorderingBuffer::toString(UnicodeString &dest) const {
@@ -86,8 +86,8 @@ Norms::~Norms() {
 }
 
 Norm *Norms::allocNorm() {
-    Norm* p = static_cast<Norm*>(utm_alloc(normMem));
-    norms = static_cast<Norm*>(utm_getStart(normMem)); // in case it got reallocated
+    Norm *p=(Norm *)utm_alloc(normMem);
+    norms=(Norm *)utm_getStart(normMem);  // in case it got reallocated
     return p;
 }
 
@@ -119,7 +119,7 @@ Norm *Norms::createNorm(UChar32 c) {
         /* allocate Norm */
         Norm *p=allocNorm();
         IcuToolErrorCode errorCode("gennorm2/createNorm()");
-        umutablecptrie_set(normTrie, c, static_cast<uint32_t>(p - norms), errorCode);
+        umutablecptrie_set(normTrie, c, (uint32_t)(p - norms), errorCode);
         return p;
     }
 }
@@ -146,11 +146,11 @@ UBool Norms::combinesWithCCBetween(const Norm &norm, uint8_t lowCC, int32_t high
         for(int32_t i=0; i<length; ++i) {
             uint8_t trailCC=getCC(pairs[i].trail);
             if(lowCC<trailCC && trailCC<highCC) {
-                return true;
+                return TRUE;
             }
         }
     }
-    return false;
+    return FALSE;
 }
 
 void Norms::enumRanges(Enumerator &e) {
@@ -173,7 +173,7 @@ void CompositionBuilder::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
         fprintf(stderr,
                 "gennorm2 error: same round-trip mapping for "
                 "more than 1 code point U+%04lX..U+%04lX\n",
-                static_cast<long>(start), static_cast<long>(end));
+                (long)start, (long)end);
         exit(U_INVALID_FORMAT_ERROR);
     }
     if(norm.cc!=0) {
@@ -181,7 +181,7 @@ void CompositionBuilder::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                 "gennorm2 error: "
                 "U+%04lX has a round-trip mapping and ccc!=0, "
                 "not possible in Unicode normalization\n",
-                static_cast<long>(start));
+                (long)start);
         exit(U_INVALID_FORMAT_ERROR);
     }
     // setRoundTripMapping() ensured that there are exactly two code points.
@@ -193,11 +193,11 @@ void CompositionBuilder::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                 "gennorm2 error: "
                 "U+%04lX's round-trip mapping's starter U+%04lX has ccc!=0, "
                 "not possible in Unicode normalization\n",
-                static_cast<long>(start), static_cast<long>(lead));
+                (long)start, (long)lead);
         exit(U_INVALID_FORMAT_ERROR);
     }
     // Flag for trailing character.
-    norms.createNorm(trail)->combinesBack=true;
+    norms.createNorm(trail)->combinesBack=TRUE;
     // Insert (trail, composite) pair into compositions list for the lead character.
     IcuToolErrorCode errorCode("gennorm2/addComposition()");
     Norm *leadNorm=norms.createNorm(lead);
@@ -215,7 +215,7 @@ void CompositionBuilder::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                 fprintf(stderr,
                         "gennorm2 error: same round-trip mapping for "
                         "more than 1 code point (e.g., U+%04lX) to U+%04lX + U+%04lX\n",
-                        static_cast<long>(start), static_cast<long>(lead), static_cast<long>(trail));
+                        (long)start, (long)lead, (long)trail);
                 exit(U_INVALID_FORMAT_ERROR);
             }
             if(trail<pairs[i].trail) {
@@ -231,7 +231,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
     if(!norm.hasMapping()) { return; }
     const UnicodeString &m=*norm.mapping;
     UnicodeString *decomposed=nullptr;
-    const char16_t *s=toUCharPtr(m.getBuffer());
+    const UChar *s=toUCharPtr(m.getBuffer());
     int32_t length=m.length();
     int32_t prev, i=0;
     UChar32 c;
@@ -241,18 +241,10 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
         if(start<=c && c<=end) {
             fprintf(stderr,
                     "gennorm2 error: U+%04lX maps to itself directly or indirectly\n",
-                    static_cast<long>(c));
+                    (long)c);
             exit(U_INVALID_FORMAT_ERROR);
         }
         const Norm &cNorm=norms.getNormRef(c);
-        if(norm.mappingType==Norm::ROUND_TRIP && prev==0 &&
-                !norm.combinesBack && cNorm.combinesBack) {
-            // If a two-way mapping starts with an NFC_QC=Maybe character,
-            // then mark the composite as NFC_QC=Maybe as well,
-            // so that we trigger decomposition and recomposition.
-            norm.combinesBack=true;
-            didDecompose|=true;
-        }
         if(cNorm.hasMapping()) {
             if(norm.mappingType==Norm::ROUND_TRIP) {
                 if(prev==0) {
@@ -262,7 +254,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                                 "U+%04lX's round-trip mapping's starter "
                                 "U+%04lX one-way-decomposes, "
                                 "not possible in Unicode normalization\n",
-                                static_cast<long>(start), static_cast<long>(c));
+                                (long)start, (long)c);
                         exit(U_INVALID_FORMAT_ERROR);
                     }
                     uint8_t myTrailCC=norms.getCC(m.char32At(i));
@@ -275,8 +267,8 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                                 "U+%04lX decomposes and the "
                                 "inner/earlier tccc=%hu > outer/following tccc=%hu, "
                                 "not possible in Unicode normalization\n",
-                                static_cast<long>(start), static_cast<long>(c),
-                                static_cast<short>(cTrailCC), static_cast<short>(myTrailCC));
+                                (long)start, (long)c,
+                                (short)cTrailCC, (short)myTrailCC);
                         exit(U_INVALID_FORMAT_ERROR);
                     }
                 } else {
@@ -285,7 +277,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                             "U+%04lX's round-trip mapping's non-starter "
                             "U+%04lX decomposes, "
                             "not possible in Unicode normalization\n",
-                            static_cast<long>(start), static_cast<long>(c));
+                            (long)start, (long)c);
                     exit(U_INVALID_FORMAT_ERROR);
                 }
             }
@@ -294,7 +286,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
             }
             decomposed->append(*cNorm.mapping);
         } else if(Hangul::isHangul(c)) {
-            char16_t buffer[3];
+            UChar buffer[3];
             int32_t hangulLength=Hangul::decompose(c, buffer);
             if(norm.mappingType==Norm::ROUND_TRIP && prev!=0) {
                 fprintf(stderr,
@@ -302,7 +294,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
                         "U+%04lX's round-trip mapping's non-starter "
                         "U+%04lX decomposes, "
                         "not possible in Unicode normalization\n",
-                        static_cast<long>(start), static_cast<long>(c));
+                        (long)start, (long)c);
                 exit(U_INVALID_FORMAT_ERROR);
             }
             if(decomposed==nullptr) {
@@ -323,7 +315,7 @@ void Decomposer::rangeHandler(UChar32 start, UChar32 end, Norm &norm) {
         norm.mapping=decomposed;
         // Not  norm.setMappingCP();  because the original mapping
         // is most likely to be encodable as a delta.
-        didDecompose|=true;
+        didDecompose|=TRUE;
     }
 }
 

@@ -1,10 +1,10 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/
+// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
 timezoneTypes:table(nofallback){
     bcpTypeAlias{
         tz{
-            aqams{"aqmcm"}
+            aqams{"nzakl"}
             aukns{"auhba"}
             caffs{"cawnp"}
             camtr{"cator"}
@@ -15,13 +15,8 @@ timezoneTypes:table(nofallback){
             cnckg{"cnsha"}
             cnhrb{"cnsha"}
             cnkhg{"cnurc"}
-            cst6cdt{"uschi"}
-            est5edt{"usnyc"}
             gaza{"gazastrp"}
-            mncoq{"mnuln"}
-            mst7mdt{"usden"}
             mxstis{"mxtij"}
-            pst8pdt{"uslax"}
             uaozh{"uaiev"}
             uauzh{"uaiev"}
             umjon{"ushnl"}
@@ -80,9 +75,8 @@ timezoneTypes:table(nofallback){
             "America:Thunder_Bay"{"America/Toronto"}
             "America:Virgin"{"America/St_Thomas"}
             "America:Yellowknife"{"America/Edmonton"}
-            "Antarctica:South_Pole"{"Antarctica/McMurdo"}
+            "Antarctica:South_Pole"{"Pacific/Auckland"}
             "Asia:Ashkhabad"{"Asia/Ashgabat"}
-            "Asia:Choibalsan"{"Asia/Ulaanbaatar"}
             "Asia:Chongqing"{"Asia/Shanghai"}
             "Asia:Chungking"{"Asia/Shanghai"}
             "Asia:Dacca"{"Asia/Dhaka"}
@@ -162,15 +156,10 @@ timezoneTypes:table(nofallback){
             "US:Pacific"{"America/Los_Angeles"}
             "US:Pacific-New"{"America/Los_Angeles"}
             "US:Samoa"{"Pacific/Pago_Pago"}
-            CET{"Europe/Brussels"}
-            CST6CDT{"America/Chicago"}
             Cuba{"America/Havana"}
-            EET{"Europe/Athens"}
-            EST{"America/Panama"}
-            EST5EDT{"America/New_York"}
+            EST{"Etc/GMT+5"}
             Egypt{"Africa/Cairo"}
             Eire{"Europe/Dublin"}
-            Factory{"Etc/Unknown"}
             GB{"Europe/London"}
             GB-Eire{"Europe/London"}
             GMT{"Etc/GMT"}
@@ -178,7 +167,7 @@ timezoneTypes:table(nofallback){
             GMT-0{"Etc/GMT"}
             GMT0{"Etc/GMT"}
             Greenwich{"Etc/GMT"}
-            HST{"Pacific/Honolulu"}
+            HST{"Etc/GMT+10"}
             Hongkong{"Asia/Hong_Kong"}
             Iceland{"Atlantic/Reykjavik"}
             Iran{"Asia/Tehran"}
@@ -187,14 +176,11 @@ timezoneTypes:table(nofallback){
             Japan{"Asia/Tokyo"}
             Kwajalein{"Pacific/Kwajalein"}
             Libya{"Africa/Tripoli"}
-            MET{"Europe/Brussels"}
-            MST{"America/Phoenix"}
-            MST7MDT{"America/Denver"}
+            MST{"Etc/GMT+7"}
             NZ{"Pacific/Auckland"}
             NZ-CHAT{"Pacific/Chatham"}
             Navajo{"America/Denver"}
             PRC{"Asia/Shanghai"}
-            PST8PDT{"America/Los_Angeles"}
             Poland{"Europe/Warsaw"}
             Portugal{"Europe/Lisbon"}
             ROC{"Asia/Taipei"}
@@ -205,7 +191,6 @@ timezoneTypes:table(nofallback){
             UTC{"Etc/UTC"}
             Universal{"Etc/UTC"}
             W-SU{"Europe/Moscow"}
-            WET{"Europe/Lisbon"}
             Zulu{"Etc/UTC"}
         }
     }
@@ -300,7 +285,6 @@ timezoneTypes:table(nofallback){
             "America:Coral_Harbour"{"cayzs"}
             "America:Cordoba"{"arcor"}
             "America:Costa_Rica"{"crsjo"}
-            "America:Coyhaique"{"clcxq"}
             "America:Creston"{"cacfq"}
             "America:Cuiaba"{"brcgb"}
             "America:Curacao"{"ancur"}
@@ -437,6 +421,7 @@ timezoneTypes:table(nofallback){
             "Asia:Brunei"{"bnbwn"}
             "Asia:Calcutta"{"inccu"}
             "Asia:Chita"{"ruchita"}
+            "Asia:Choibalsan"{"mncoq"}
             "Asia:Colombo"{"lkcmb"}
             "Asia:Damascus"{"sydam"}
             "Asia:Dhaka"{"bddac"}
@@ -658,6 +643,10 @@ timezoneTypes:table(nofallback){
             "Pacific:Truk"{"fmtkk"}
             "Pacific:Wake"{"umawk"}
             "Pacific:Wallis"{"wfmau"}
+            CST6CDT{"cst6cdt"}
+            EST5EDT{"est5edt"}
+            MST7MDT{"mst7mdt"}
+            PST8PDT{"pst8pdt"}
         }
     }
 }

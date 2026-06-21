@@ -11,7 +11,15 @@
 
 U_NAMESPACE_BEGIN
 
-namespace numparse::impl {
+// Export an explicit template instantiation of the MaybeStackArray that is used as a data member of ArraySeriesMatcher.
+// When building DLLs for Windows this is required even though no direct access to the MaybeStackArray leaks out of the i18n library.
+// (See digitlst.h, pluralaffix.h, datefmt.h, and others for similar examples.)
+#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN
+template class U_I18N_API MaybeStackArray<const numparse::impl::NumberParseMatcher*, 3>;
+#endif
+
+namespace numparse {
+namespace impl {
 
 /**
  * Base class for AnyMatcher and SeriesMatcher.
@@ -83,19 +91,19 @@ class U_I18N_API SeriesMatcher : public CompositionMatcher {
  *
  * The object adopts the array, but NOT the matchers contained inside the array.
  */
-// Exported as U_I18N_API_CLASS for tests
-class U_I18N_API_CLASS ArraySeriesMatcher : public SeriesMatcher {
+// Exported as U_I18N_API for tests
+class U_I18N_API ArraySeriesMatcher : public SeriesMatcher {
   public:
-    U_I18N_API ArraySeriesMatcher();  // WARNING: Leaves the object in an unusable state
+    ArraySeriesMatcher();  // WARNING: Leaves the object in an unusable state
 
     typedef MaybeStackArray<const NumberParseMatcher*, 3> MatcherArray;
 
     /** The array is std::move'd */
-    U_I18N_API ArraySeriesMatcher(MatcherArray& matchers, int32_t matchersLen);
+    ArraySeriesMatcher(MatcherArray& matchers, int32_t matchersLen);
 
     UnicodeString toString() const override;
 
-    U_I18N_API int32_t length() const override;
+    int32_t length() const override;
 
   protected:
     const NumberParseMatcher* const* begin() const override;
@@ -107,8 +115,9 @@ class U_I18N_API_CLASS ArraySeriesMatcher : public SeriesMatcher {
     int32_t fMatchersLen;
 };
 
-} // namespace numparse::impl
 
+} // namespace impl
+} // namespace numparse
 U_NAMESPACE_END
 
 #endif //__SOURCE_NUMPARSE_COMPOSITIONS__

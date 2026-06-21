@@ -227,6 +227,24 @@ ns_strrpbrk(const char* string, const char* strCharSet)
 
   return found;
 }
+
+#ifdef MOZ_WIN9X_KERNELEX
+static bool
+IsWindowsApiSetLibrary(const char* aDependentLib)
+{
+  static const char kApiSetPrefix[] = "api-ms-win-";
+  for (size_t i = 0; i < sizeof(kApiSetPrefix) - 1; ++i) {
+    char c = aDependentLib[i];
+    if (c >= 'A' && c <= 'Z') {
+      c += 'a' - 'A';
+    }
+    if (c != kApiSetPrefix[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+#endif
 #endif
 
 static GetFrozenFunctionsFunc
@@ -319,6 +337,11 @@ XPCOMGlueLoad(const char* aXPCOMFile)
     }
 
     strcpy(cursor, buffer);
+#if defined(XP_WIN) && defined(MOZ_WIN9X_KERNELEX)
+    if (IsWindowsApiSetLibrary(buffer)) {
+      continue;
+    }
+#endif
     if (!ReadDependentCB(xpcomDir, do_preload)) {
       XPCOMGlueUnload();
       return nullptr;
