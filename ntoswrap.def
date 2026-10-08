@@ -1,0 +1,43 @@
+LIBRARY ntoswrap.sys
+
+EXPORTS
+    ; --- Data exports (POBJECT_TYPE cells, NULL on Win7) ---
+    ExCompositionObjectType         DATA
+    ExRawInputManagerObjectType     DATA
+    ExTimerObjectType               DATA
+
+    ; --- Function exports ---
+    ExQueryFastCacheDevLicense
+    ExShareAddressSpaceWithDevice
+    ExUnsubscribeWnfStateChange
+    MmMapViewInSessionSpaceEx
+    MmMapViewInSystemSpaceEx
+    MmPrefetchVirtualAddresses
+    ObDuplicateObject
+    ObReferenceObjectSafe
+    ObWaitForMultipleObjects
+    ObWaitForSingleObject
+    PoLatencySensitivityHint
+    PoNotifyVSyncChange
+    PoSetUserPresent
+    PoUserShutdownCancelled
+    PsChargeProcessWakeCounter
+    PsGetProcessCommonJob
+    PsIsProtectedProcessLight
+    PsReleaseProcessWakeCounter
+    PsUpdateComponentPower
+    RtlAvlInsertNodeEx
+    RtlAvlRemoveNode
+    RtlCapabilityCheck
+    RtlCheckTokenMembership
+    RtlIsMultiSessionSku
+    RtlQueryPackageClaims
+    SeIsParentOfChildAppContainer
+    ZwAssociateWaitCompletionPacket
+    ZwCreateWaitCompletionPacket
+    ZwSetInformationVirtualMemory
+    ZwUnlockVirtualMemory
+    _finite
+    iswdigit
+    sqrt
+    sqrtf
